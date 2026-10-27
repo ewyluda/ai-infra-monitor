@@ -20,6 +20,7 @@
    "expense_ratio": 0.69,
    "inception": "2025-07-24",
    "color": "#2a78d6",
+   "purity": 3,
    "risk": "Broad mandate creates overlap with both industrial and semiconductor sleeves; free-float weighting can concentrate winners.",
    "top_holdings_as_of": "2026-08-25",
    "top_holdings": [
@@ -946,7 +947,10 @@
    "first_close": 23.15,
    "last_close": 24.03,
    "performance_pct": 3.8,
-   "performance_label": "YTD"
+   "performance_label": "YTD",
+   "common_return_pct": -19.4975,
+   "annualized_vol_pct": 38.8677,
+   "max_drawdown_pct": -30.8887
   },
   {
    "ticker": "GRID",
@@ -960,6 +964,7 @@
    "expense_ratio": 0.56,
    "inception": "2009-11-16",
    "color": "#eb6834",
+   "purity": 2,
    "risk": "A global industrial portfolio, not an AI-pure-play; project cycles, rates, regulation and currency can dominate AI demand.",
    "top_holdings_as_of": "2026-08-21",
    "top_holdings": [
@@ -1886,7 +1891,10 @@
    "first_close": 155.82,
    "last_close": 162.68,
    "performance_pct": 4.4,
-   "performance_label": "YTD"
+   "performance_label": "YTD",
+   "common_return_pct": -12.3444,
+   "annualized_vol_pct": 26.2585,
+   "max_drawdown_pct": -18.5786
   },
   {
    "ticker": "LYTE",
@@ -1900,6 +1908,7 @@
    "expense_ratio": 0.65,
    "inception": "2026-08-06",
    "color": "#1baf7a",
+   "purity": 5,
    "risk": "Only weeks of trading history; concentrated exposure to rapid product cycles, export controls and customer capex timing.",
    "top_holdings_as_of": "2026-08-25",
    "top_holdings": [
@@ -2199,7 +2208,10 @@
    "first_close": 25.34,
    "last_close": 18.18,
    "performance_pct": -28.26,
-   "performance_label": "Since inception"
+   "performance_label": "Since inception",
+   "common_return_pct": -28.2557,
+   "annualized_vol_pct": 73.2371,
+   "max_drawdown_pct": -36.9603
   },
   {
    "ticker": "DRAM",
@@ -2213,6 +2225,7 @@
    "expense_ratio": 0.65,
    "inception": "2026-04-02",
    "color": "#eda100",
+   "purity": 5,
    "risk": "Extreme cycle and pricing sensitivity; a small global supplier set creates geographic, policy and single-industry concentration.",
    "top_holdings_as_of": "2026-08-25",
    "top_holdings": [
@@ -2866,7 +2879,10 @@
    "first_close": 27.76,
    "last_close": 47.06,
    "performance_pct": 69.52,
-   "performance_label": "Since inception"
+   "performance_label": "Since inception",
+   "common_return_pct": -8.5148,
+   "annualized_vol_pct": 86.1815,
+   "max_drawdown_pct": -44.4376
   },
   {
    "ticker": "NCLD",
@@ -2880,6 +2896,7 @@
    "expense_ratio": 0.65,
    "inception": "2026-08-06",
    "color": "#e87ba4",
+   "purity": 5,
    "risk": "Exposure aggregates direct shares and swaps; CRWV 25.60% = 5.66% shares + 19.94% swaps. Holdings date follows the issuer display (September 3; file Date September 4). Only weeks of trading history; leverage, customer concentration, financing needs and buildout execution can overwhelm demand growth.",
    "top_holdings_as_of": "2026-09-03",
    "top_holdings": [
@@ -3190,7 +3207,10 @@
    "first_close": 22.3795,
    "last_close": 15.38,
    "performance_pct": -31.28,
-   "performance_label": "Since inception"
+   "performance_label": "Since inception",
+   "common_return_pct": -31.2764,
+   "annualized_vol_pct": 77.9665,
+   "max_drawdown_pct": -43.037
   },
   {
    "ticker": "DTCR",
@@ -3204,6 +3224,7 @@
    "expense_ratio": 0.5,
    "inception": "2020-10-27",
    "color": "#008300",
+   "purity": 3,
    "risk": "Real-estate and tower weights make rates, financing and tenancy as important as AI; less direct compute upside than pure plays.",
    "top_holdings_as_of": "2026-08-21",
    "top_holdings": [
@@ -4130,7 +4151,109 @@
    "first_close": 21.95,
    "last_close": 25.43,
    "performance_pct": 15.85,
-   "performance_label": "YTD"
+   "performance_label": "YTD",
+   "common_return_pct": -9.1137,
+   "annualized_vol_pct": 26.5687,
+   "max_drawdown_pct": -23.1362
   }
- ]
+ ],
+ "analytics": {
+  "common_start": "2026-08-06",
+  "common_sessions": 55,
+  "below_start_since": "2026-10-14",
+  "holdings_distinct": true,
+  "moves_together": true,
+  "pairs": [
+   {
+    "a": "AIPO",
+    "b": "GRID",
+    "shared_weight_pct": 22.76,
+    "return_correlation": 0.9262
+   },
+   {
+    "a": "AIPO",
+    "b": "LYTE",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.8294
+   },
+   {
+    "a": "AIPO",
+    "b": "DRAM",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.7086
+   },
+   {
+    "a": "AIPO",
+    "b": "NCLD",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.817
+   },
+   {
+    "a": "AIPO",
+    "b": "DTCR",
+    "shared_weight_pct": 5.62,
+    "return_correlation": 0.7843
+   },
+   {
+    "a": "GRID",
+    "b": "LYTE",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.7753
+   },
+   {
+    "a": "GRID",
+    "b": "DRAM",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.6798
+   },
+   {
+    "a": "GRID",
+    "b": "NCLD",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.6932
+   },
+   {
+    "a": "GRID",
+    "b": "DTCR",
+    "shared_weight_pct": 2.0,
+    "return_correlation": 0.7616
+   },
+   {
+    "a": "LYTE",
+    "b": "DRAM",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.7546
+   },
+   {
+    "a": "LYTE",
+    "b": "NCLD",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.7755
+   },
+   {
+    "a": "LYTE",
+    "b": "DTCR",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.708
+   },
+   {
+    "a": "DRAM",
+    "b": "NCLD",
+    "shared_weight_pct": 0,
+    "return_correlation": 0.7017
+   },
+   {
+    "a": "DRAM",
+    "b": "DTCR",
+    "shared_weight_pct": 2.12,
+    "return_correlation": 0.7031
+   },
+   {
+    "a": "NCLD",
+    "b": "DTCR",
+    "shared_weight_pct": 4.17,
+    "return_correlation": 0.7588
+   }
+  ]
+ }
 }
