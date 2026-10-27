@@ -73,8 +73,9 @@ Operational backlog for the public hub. Add items as they surface; check them of
     $63B SPV (10/26), a financing of Anthropic's existing Broadcom lease, not a new commitment.
     SpaceX's ~$40B Apollo GPU finance lease (10/26 8-K). Not added, still talks: a second
     Anthropic–Nscale deal, OpenAI's UAE-led round, Broadcom financing for OpenAI chips.
-  - **Decide:** the 6/9 Broadcom–Apollo–Blackstone $35B tranche for Anthropic predates the sweep and
-    has no row. Backfill it as a financing row like 10/26, or leave lease financings out.
+  - **Done 2026-10-27, owner chose backfill:** the 6/9 Broadcom–Apollo–Blackstone $35B tranche for
+    Anthropic is a financing row like 10/26 (the joint release, plus Broadcom's 10-Q: $29B maximum
+    backstop on 5-year leases). Neither release says whether the 10/26 $63B includes it.
   - **MacroGauge to source or drop:** the AKAM edge's extra $1.8B (D11). Akamai's 9/24 release
     states $11.6B committed plus up to $9B more, with no $1.8B; the hub's $11.6B stands.
   - **At the Q3 re-pulls:** GLXY net debt (F1) and contracted revenue on both sites (D7; hub >$15B,
