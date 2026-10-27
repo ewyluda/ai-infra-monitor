@@ -22,7 +22,7 @@ company disclosures.**
 | [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Hyperscaler capex by quarter, contracted backlog, and the AI-lab compute commitments behind it, each tied to the filing or call. | [JSON](site/data/ai-demand-monitor.json) |
 | [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Six listed routes into the physical buildout, from power and grid to photonics, memory and neocloud compute, with issuer-sourced holdings look-through. | [JSON](site/data/ai-infrastructure-etfs.json) |
 
-<img alt="Neocloud Capacity Tracker: megawatts by company and status, EV per megawatt, and the campus map" src="docs/img/neocloud-capacity-tracker.png">
+<img alt="Neocloud Capacity Tracker: headline finding, capacity and enterprise-value tiles, and the view tabs" src="docs/img/neocloud-capacity-tracker.png">
 
 <img alt="Neocloud Financing Ledger: the maturity wall by year and instrument type" src="docs/img/neocloud-financing-ledger.png">
 
