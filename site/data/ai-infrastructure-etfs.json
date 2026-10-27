@@ -949,8 +949,8 @@
    "performance_pct": 3.8,
    "performance_label": "YTD",
    "common_return_pct": -19.4975,
-   "max_drawdown_pct": -30.8887,
-   "common_vol_pct": 35.031
+   "common_vol_pct": 35.031,
+   "common_drawdown_pct": -22.8819
   },
   {
    "ticker": "GRID",
@@ -1893,8 +1893,8 @@
    "performance_pct": 4.4,
    "performance_label": "YTD",
    "common_return_pct": -12.3444,
-   "max_drawdown_pct": -18.5786,
-   "common_vol_pct": 23.1435
+   "common_vol_pct": 23.1435,
+   "common_drawdown_pct": -14.0169
   },
   {
    "ticker": "LYTE",
@@ -2210,8 +2210,8 @@
    "performance_pct": -28.26,
    "performance_label": "Since inception",
    "common_return_pct": -28.2557,
-   "max_drawdown_pct": -36.9603,
-   "common_vol_pct": 73.2371
+   "common_vol_pct": 73.2371,
+   "common_drawdown_pct": -36.9603
   },
   {
    "ticker": "DRAM",
@@ -2881,8 +2881,8 @@
    "performance_pct": 69.52,
    "performance_label": "Since inception",
    "common_return_pct": -8.5148,
-   "max_drawdown_pct": -44.4376,
-   "common_vol_pct": 58.6684
+   "common_vol_pct": 58.6684,
+   "common_drawdown_pct": -28.1987
   },
   {
    "ticker": "NCLD",
@@ -3209,8 +3209,8 @@
    "performance_pct": -31.28,
    "performance_label": "Since inception",
    "common_return_pct": -31.2764,
-   "max_drawdown_pct": -43.037,
-   "common_vol_pct": 77.9665
+   "common_vol_pct": 77.9665,
+   "common_drawdown_pct": -43.037
   },
   {
    "ticker": "DTCR",
@@ -4153,8 +4153,8 @@
    "performance_pct": 15.85,
    "performance_label": "YTD",
    "common_return_pct": -9.1137,
-   "max_drawdown_pct": -23.1362,
-   "common_vol_pct": 24.397
+   "common_vol_pct": 24.397,
+   "common_drawdown_pct": -14.9335
   }
  ],
  "analytics": {
@@ -4259,6 +4259,7 @@
   "headlines": {
    "readthrough": "Different holdings, one trade.",
    "holdings": "Five names hold 68–82% of each single-bottleneck fund.",
+   "torque": "Purity raises torque—and fragility.",
    "compare": "The purest funds are the youngest."
   }
  }
