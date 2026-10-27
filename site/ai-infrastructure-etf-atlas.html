@@ -103,7 +103,6 @@
   .stack-trend svg{flex:1;min-width:0;height:28px;overflow:visible}
   .stack-trend polyline{fill:none;stroke:var(--fund-color);stroke-width:1.6;vector-effect:non-scaling-stroke}
   .stack-trend line{stroke:#dee3e9;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
-  .stack-trend b{font:600 12px var(--mono)}.stack-trend .positive{color:var(--positive)}.stack-trend .negative{color:var(--negative)}
   .stack-note{margin:10px 0 0;color:var(--muted);font-size:11px}.stack-note:empty{display:none}
   .fund-card{scroll-margin-top:42px}
 
@@ -406,7 +405,7 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   document.getElementById('fundGrid').innerHTML = funds.map(f => `<article class="fund-card" id="fund-${f.ticker}" style="--fund-color:${f.color}">
     <div class="fund-card-head"><div class="ticker-line"><h3>${f.ticker}</h3><span class="structure">${f.structure}</span></div><p class="fund-name">${esc(f.name)}</p><div class="fund-sleeve">${esc(f.sleeve)}</div></div>
     <div class="fund-body"><p class="mandate">${esc(f.mandate)}</p><div class="fund-metrics">
-      <div class="fund-metric"><span>${f.performance_label}</span><strong class="${f.performance_pct >= 0 ? 'positive':'negative'}">${fmtPct(f.performance_pct)}</strong></div>
+      <div class="fund-metric"><span>Launched</span><strong>${fmtDate(f.inception)}</strong></div>
       <div class="fund-metric"><span>Last close</span><strong>${fmtMoney(f.last_close)}</strong></div>
       <div class="fund-metric"><span>Expense</span><strong>${f.expense_ratio.toFixed(2)}%</strong></div>
     </div><p class="holding-label">Top 3 of ${f.top_holdings.length} shown · ${fmtDate(f.top_holdings_as_of)}</p><ul class="holding-list">${f.top_holdings.slice(0,3).map(holdingRow).join('')}</ul><a class="view-holdings" href="#holdings" data-holdings-ticker="${f.ticker}">View ${f.top_holdings.length < 20 ? 'full portfolio' : 'top 20'} ↓</a>
@@ -484,7 +483,7 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   document.getElementById('torque').innerHTML = `<p class="torque-key">Volatility (bar) · max drawdown, since ${fmtShortDate(commonStart)}</p>` + torqueGroup('Single-bottleneck', funds.filter(f => f.purity === 5)) + torqueGroup('Broad baskets', funds.filter(f => f.purity < 5));
   const sparkValues = funds.flatMap(f => views.common.series[f.ticker].map(p => p.value)), sparkLo = Math.min(0, ...sparkValues), sparkHi = Math.max(0, ...sparkValues);
   const sparkY = v => (27 - (v - sparkLo) / (sparkHi - sparkLo) * 26).toFixed(1);
-  funds.forEach(f => { const pts = views.common.series[f.ticker]; document.getElementById(`trend-${f.ticker}`).innerHTML = `<svg viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="100" y1="${sparkY(0)}" y2="${sparkY(0)}"/><polyline points="${pts.map((p,i) => `${(i / (pts.length - 1) * 100).toFixed(1)},${sparkY(p.value)}`).join(' ')}"/></svg><b class="${f.common_return_pct >= 0 ? 'positive' : 'negative'}">${fmtPct(f.common_return_pct)}</b>`; });
+  funds.forEach(f => { const pts = views.common.series[f.ticker]; document.getElementById(`trend-${f.ticker}`).innerHTML = `<svg viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="100" y1="${sparkY(0)}" y2="${sparkY(0)}"/><polyline points="${pts.map((p,i) => `${(i / (pts.length - 1) * 100).toFixed(1)},${sparkY(p.value)}`).join(' ')}"/></svg>`; });
   document.getElementById('stackNote').textContent = `Lines share one scale: price change since ${fmtDate(commonStart)}, the first close all six share. Each node links to its fund card.`;
 
   function chartBounds(){
