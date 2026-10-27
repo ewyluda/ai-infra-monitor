@@ -10,26 +10,33 @@ Operational backlog for the public hub. Add items as they surface; check them of
   in MacroGauge's config. Verify each against the cited filing before editing. Comparison done
   2026-10-26: notebook capacity curated 2026-10-25, MacroGauge 2026-10-21, field change dates from
   git history on both sides. *Added 2026-10-26.*
-  - **Carry (the notebook cites later evidence):**
-    - IREN backlog $16.5B → **$19.4B**: FY26 10-K (6/30) RPO $5.1B + lease TCV $11.4B, plus
-      $2.8B of July contracts. MacroGauge's own note says its 16.5 is "prior TCV basis, not
-      restated FY26".
-    - BTDR backlog $4.7B → **$7.6B**: adds the ~$2.9B AI-cloud contract backlog from the Sept ops
-      update (10/19) to the $4.7B Tydal lease. MacroGauge's backlog text already names the $2.9B
-      but `bk` leaves it out, so decide whether AI-cloud contract revenue counts as backlog. Also
-      from 10/19: A102 ready-for-service slipped Nov '26 → Q1 '27; move that tranche.
-    - CORZ operational 437 → **~485 MW** (construction −48): Dalton Ph II +48 MW billing per a
-      company post on 10/13, not yet in a filing. Confirm in the Q3 10-Q (due 11/5) first;
-      MacroGauge's note still expects Dalton Ph II end-2026 to early 2027.
-    - NBIS: the AIB 50 MW 12-year colocation deal (binding, 9/30) and the $3.5B Citi term loan
-      (10/22) are not in MacroGauge's row. Add them to the note and sites; re-pull net debt at Q3.
+  - **Done 2026-10-27 in MacroGauge
+    [PR #141](https://github.com/ewyluda/macrogauge/pull/141)** (reaches the sites at the first
+    daily publish after merge):
+    - IREN backlog $16.5B → **$19.4B**, checked against the FY26 10-K ($5.1B RPO + $11.4B lease
+      contracts at 6/30, plus $2.8B of July contracts).
+    - Net-debt convention written into MacroGauge's curation rules and the /capacity method note:
+      all consolidated debt (project notes included) less unrestricted cash; restricted cash and
+      operating leases never count; post-quarter financings stay re-pull notes. Applied to every
+      row it changes: HUT 0.0 → 7.4, APLD 2.7 → 3.4, BTDR 1.3 → 1.4, RIOT 0.29 → 0.37,
+      KEEL 0.26 → 0.31; WYFI and MARA basis text only.
+  - **Already in MacroGauge before this pass (wave 1, 2026-10-26):** BTDR's ~$2.9B AI-cloud
+    backlog stays out of `bk` by its GPU-cloud rule (so the notebook's $7.6B is a method
+    difference); BTDR A102 is dated Q1 2027; NBIS's AIB 50 MW site is in.
+  - **Still open, gated on Q3 filings:**
+    - CORZ operational 437 → **~485 MW** (Dalton Ph II +48 MW per a 10/13 company post): confirm
+      in the Q3 10-Q (11/5).
+    - NBIS: the $3.5B Citi term loan (10/22) and a net-debt re-pull at Q3 (reported 10/27).
+    - GLXY at its Q3 re-pull (10/27): add the Helios II notes under the new convention.
+  - **Still open, decisions:** finance leases for landlord and operator rows. Neoclouds count
+    them, but IREN ($0.24B), DOCN (~$0.41B) and APLD ($0.05B) leave them out; settle it at the
+    Q3 re-pulls.
   - **Keep MacroGauge's figure (method difference, or MacroGauge is newer):**
     - CRWV net debt 46.55 vs **29.8**: the notebook includes $16.3B of operating leases;
       MacroGauge excludes them on purpose (its basis fix). CRWV plan 2,240 vs **1,500**: the
       notebook adds India 240 MW and splits construction / planned differently; MacroGauge holds
       the total at the 4.2 GW contracted and lists India as secured.
-    - CIFR (1.57 vs **4.6**), APLD (3.11 vs **2.7**), BTDR (1.46 vs **1.3**) net debt: same filing,
-      different restricted-cash netting. Settle the convention once (see below).
+    - CIFR, APLD and BTDR net debt now follow the written convention (restricted cash not netted).
     - MARA plan 600 vs **100**: the notebook counts Long Ridge (up to 600 MW), still awaiting
       FERC; MacroGauge excludes it until the deal closes.
     - ORCL, KEEL, DOCN, RIOT, AKAM, WULF plan, IREN capacity and net debt, NBIS plan, BTBT and
@@ -38,10 +45,12 @@ Operational backlog for the public hub. Add items as they surface; check them of
     - SPCX: MacroGauge's XAI row covers the same capacity and was refreshed from SpaceX's Q3
       results. Drop the notebook's SPCX row.
   - **Check before deciding:** WYFI / BTBT plan (200 vs 120; both trace to the 9/14 deck, so check
-    gross vs critical-IT) and GLXY backlog ($18B vs $13.5B; MacroGauge says the Q2 release did not
-    restate it, so find the notebook's source).
-  - **Write the net-debt convention down** (operating leases, restricted cash, pro forma for
-    post-quarter deals) in MacroGauge's methodology, and apply it to every row.
+    gross vs critical-IT; Q3 11/12) and GLXY backlog ($18B vs $13.5B; MacroGauge says the Q2
+    release did not restate it, so find the notebook's source; Q3 10/27).
+  - **After PR #141 publishes:** flip the notebook financing ledger's per-issuer basis to match
+    (`nd_cash_includes_restricted` off for APLD, BTDR, WYFI, KEEL, RIOT, MARA; HUT onto
+    consolidated debt incl. the River Bend and Beacon Point notes), re-sync, and re-export the hub.
+    Until then the ledger's reconciliation shows those issuers as "disagree".
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
     MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
