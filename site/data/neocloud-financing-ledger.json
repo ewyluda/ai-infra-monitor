@@ -214,7 +214,7 @@
    "total_debt_face_m": 6721.6,
    "fmp_total_debt_m": 6483.4,
    "reconciliation_note": "Filing Note 9 principal: 2,350.0 + 2,150.0 + 1,590.0 + 450.0 + 82.39 + 99.215 = 6,721.6 (ties to the filing's remaining-principal schedule total of $6,721,605k). Balance-sheet carrying debt = 6,721.6 - 345.0 deferred financing costs = 6,376.6 (current 112.6 + long-term 6,263.9), which matches FMP short+long-term debt exactly. FMP totalDebt 6,483.4 = 6,376.6 + 106.8 'capital leases'; the filing shows finance lease liabilities of only 45.9 (43.5 current + 2.5 long-term), so FMP's lease add-on appears to include operating-lease or other items (gap 60.9). Restricted cash 728.0 = 313.4 current + 414.6 in other assets (debt service reserves for the senior secured notes + cash-secured LCs; of which $511.0M sits inside TopCo 2). MAM/Macquarie preferred units ($1,825M face, carrying $2,010.9M) are redeemable NCI (temporary equity), not debt; FMP minorityInterest 2,016.6 ~ that line. Series G preferred $124.9M + Series E-1 $56.4M also temporary equity, excluded.",
-   "nd_convention": "MacroGauge convention: debt less cash and all restricted cash ($3.68B, current $0.31B + non-current $0.41B); the Macquarie TopCo 2 preferred ($1.825B, 12.75% PIK) is excluded.",
+   "nd_convention": "MacroGauge convention (FY27 Q1 10-Q): debt less unrestricted cash; the $0.73B restricted cash (current $0.31B + non-current $0.41B) and the Macquarie TopCo 2 preferred ($1.825B, 12.75% PIK) are excluded.",
    "tracker_compare": "balance",
    "pro_forma_cash": [],
    "post_quarter": [
@@ -244,7 +244,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "filed_ladder": {
     "basis": "10-Q remaining principal payments at August 31, 2026 by fiscal year ending May 31 (FY27 = September 2026 to May 2027); total $6,721.6M. Each fiscal year sits in the wall in the calendar year it ends",
     "source": {
@@ -611,7 +610,7 @@
    "total_debt_face_m": 7735.1,
    "fmp_total_debt_m": 7668.8,
    "reconciliation_note": "10-Q Note 9: principal of loans/notes $7,735.1M + $3.3M SAFE liability (ASC 480, not debt) = $7,738.4M total; less $100.0M unamortized discount/issuance costs = carrying $7,638.4M (current $234.7M + long-term $7,403.7M). FMP totalDebt $7,668.8M exceeds carrying by ~$30.4M, consistent with lease liabilities being folded in (FMP shortTermDebt $239.3M vs filing current debt $234.7M, +$4.6M). FMP cash $7,020.7M = $233.6M unrestricted cash + $6,787.1M restricted cash (project accounts for River Bend/Beacon Point construction and debt-service reserves). Ex-SPV principal = FalconX $200.0M + TZRC $35.1M = $235.1M vs unrestricted cash $233.6M, so the notebook's ~$235M/~$234M read holds; both ex-SPV instruments are limited-recourse (BTC collateral; TZRC membership interest), so parent-level recourse debt at 6/30 is nil. Not included in total_debt_face_m: $371.7M Bitmain miner purchase liability (ABTC-pledged BTC repurchase obligation, listed below as a vendor row) and the $3.3M SAFE.",
-   "nd_convention": "Tracker convention: parent-level recourse debt (FalconX BTC-backed loan, TZRC note) less unrestricted cash; the $7.5B non-recourse SPV notes and $6.79B restricted project cash are excluded",
+   "nd_convention": "MacroGauge convention (Q2 10-Q): all consolidated loans and notes, incl. the River Bend and Beacon Point senior secured notes of wholly owned project subsidiaries, less unrestricted cash; the $6.79B restricted cash (mostly those notes' unspent proceeds), ~$0.57B custodied BTC and the $0.37B miner purchase liability are excluded. Compared at the balance date.",
    "tracker_compare": "balance",
    "pro_forma_cash": [],
    "post_quarter": [
@@ -652,7 +651,9 @@
      "from": 2031,
      "amount_m": 7075.006
     }
-   }
+   },
+   "tracker_to_principal_m": 96.7,
+   "tracker_to_principal_note": "Ledger principal $7,735.1M − carrying $7,638.4M = $96.7M: $100.0M unamortized discount and issuance costs less the $3.3M SAFE liability that the 10-Q's carrying total (MacroGauge's basis) includes (Note 9)."
   },
   {
    "t": "BTDR",
@@ -670,7 +671,7 @@
    "total_debt_face_m": 1902.3,
    "fmp_total_debt_m": 1952.3,
    "reconciliation_note": "Balance-sheet borrowings at 6/30/26 = 1,841.7 (short-term bank 26.0 + current LT bank 0.1 + current related-party 491.0 + LT borrowings 1,182.5 + noncurrent related-party 142.1), i.e. the ~$1.8B the Q2 release cites. FMP totalDebt 1,952.3 = 1,841.7 + operating lease liabilities (13.1 current + 97.5 noncurrent); FMP's 'finance leases 97.5' is the noncurrent OPERATING lease liability - Bitdeer reports no finance leases. FMP shortTermDebt 530.2 = 26.0+0.1+491.0+13.1 current op lease; longTermDebt 1,324.5 = 1,182.5+142.1. Face sum 1,902.3 exceeds carrying by ~60.6: unamortized discounts/issuance costs on the four converts (1,215.0 face vs 1,181.5 carrying = 33.5) and the BIT Bitcoin Loan carried at fair value 117.5 vs principal 144.6 (27.1 embedded derivative asset). Cash 456.8 excludes short-term investments 4.0 and restricted cash 39.5 (33.2 current + 6.2 noncurrent); the release's 'US$496.3M cash, cash equivalents and restricted cash' = 456.8+39.5. Digital assets 34.8 + digital-asset receivables from related party 162.2 (the latter pledged to BIT Group).",
-   "nd_convention": "MacroGauge convention (Q2 6-K): borrowings incl. related-party BIT Group loans less cash and restricted cash ($0.50B); operating leases and BTC excluded. Compared at the balance date.",
+   "nd_convention": "MacroGauge convention (Q2 6-K): borrowings incl. related-party BIT Group loans less unrestricted cash; the $39.5M restricted cash, operating leases and BTC are excluded. Compared at the balance date.",
    "tracker_compare": "balance",
    "pro_forma_cash": [
     {
@@ -740,7 +741,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "tracker_to_principal_m": 60.6,
    "tracker_to_principal_note": "Face $1,902.3M − carrying borrowings $1,841.7M = $60.6M convert costs and the BTC loan's fair-value carrying (6-K)."
   },
@@ -760,7 +760,7 @@
    "total_debt_face_m": 315.3,
    "fmp_total_debt_m": 43.8,
    "reconciliation_note": "Face at 6/30/26: 2031 convert 230.0 + Iceland 18.0 + RBC amended facility 17.339 + Bit Digital DDTL 30.0 + B. Riley note 20.0 = 315.3. Balance sheet carrying: convertible note payable, net 222.6 (noncurrent) + third-party ST debt 28.4 + third-party LT debt 25.5 + related-party ST debt 29.3 = 305.8. FMP totalDebt 43.8 omits the $230M convert entirely (carried in its own line; FMP's 387.5 'otherNonCurrentLiabilities' likely holds it) and its ST 33.6 / LT 10.2 split does not match any 10-Q line (10-Q: ST 57.7 incl. related party; LT 25.5). Treat FMP debt for WYFI as unusable. Restricted cash 4.3 supports a third-party letter of credit. No finance leases at 6/30/26 (the MTL-3 finance lease, 12.9 at 12/31/25, was extinguished by purchasing the building 2026-05-08).",
-   "nd_convention": "MacroGauge convention (Q2): consolidated WYFI debt incl. related-party and SPV rows less cash and restricted cash. Compared at the balance date; pro forma adds the August converts, exchange and repayments.",
+   "nd_convention": "MacroGauge convention (Q2): consolidated WYFI debt incl. related-party and SPV rows less unrestricted cash; the $4.3M restricted cash is excluded. Compared at the balance date; pro forma adds the August converts, exchange and repayments.",
    "tracker_compare": "balance",
    "pro_forma_cash": [
     {
@@ -824,7 +824,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "tracker_to_principal_m": 9.5,
    "tracker_to_principal_note": "Face $315.3M − carrying $305.8M = $9.5M unamortized costs (10-Q)."
   },
@@ -844,7 +843,7 @@
    "total_debt_face_m": 1049.7,
    "fmp_total_debt_m": 1038.4,
    "reconciliation_note": "Filing long-term debt (net) 1,025.8 = 2025 converts 593.6 (588.0 principal + accrued/PIK-style interest recognized in the debt balance) - 16.3 discount + 2026 converts 458.3 - 13.5 discount + building 1.7 + equipment 2.1. Face sum 1,049.7 (588 + 458 + 1.7 + 2.1). FMP totalDebt 1,038.4 = 1,025.8 carrying + 12.5 that FMP labels 'finance leases'; the 10-Q shows finance lease liabilities of only 1.9 (0.3 current + 1.6 noncurrent), so FMP's 12.5 is probably the operating-lease liability - unverified. FMP longTermDebt 1,019.1 and shortTermDebt 6.8 tie exactly to the 10-Q split. Restricted cash 53.4 is LC collateral for Panther Creek / Sharon utility agreements (not a debt covenant - the Macquarie covenant cash was released in Feb-2026). Digital assets 132.4 (2,261 BTC, none restricted) = FMP longTermInvestments 132.2 - this is the 'BTC treasury', excluded from debt and cash here (notebook's $121M figure was a different date/price).",
-   "nd_convention": "MacroGauge convention: debt less cash and the $53M LC collateral (restricted cash); $132M BTC excluded.",
+   "nd_convention": "MacroGauge convention: debt less unrestricted cash; the $53.4M LC collateral (restricted cash) and $132M BTC are excluded.",
    "tracker_compare": "balance",
    "pro_forma_cash": [],
    "post_quarter": [
@@ -862,7 +861,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "tracker_to_principal_m": 23.9,
    "tracker_to_principal_note": "Face $1,049.7M − carrying $1,025.8M = $23.9M (convert discounts net of accrued interest in the 2025 notes' balance)."
   },
@@ -882,7 +880,7 @@
    "total_debt_face_m": 853.7,
    "fmp_total_debt_m": 279.2,
    "reconciliation_note": "Principal at 6/30/2026: 2030 Notes $594.4M + Coinbase $200M facility $200.0M + $50M revolver $34.3M + $20M revolver $20.0M + CPACE note payable $5.0M = $853.7M (matches the 10-K's 12/31/2025 'total outstanding principal' $853.7M, unchanged). Carrying: current debt $254.6M (= 200.0 + 34.3 + 20.0 + 0.3 NP current) + 'Debt, less current portion' $588.4M (= 2030 Notes net $583.7M + NP $4.7M) = $843.0M. FMP totalDebt $279.2M = shortTermDebt $254.6M + longTermDebt $24.6M; the $24.6M equals the non-current operating lease liability, and FMP's otherNonCurrentLiabilities $588.6M is the 2030 convert plus note payable. FMP therefore understates RIOT debt by ~$588M. FMP longTermInvestments $736.2M is not BTC: balance sheet bitcoin is $325.4M unrestricted + $340.7M restricted (5,821 BTC pledged to Coinbase) = $666.0M for 11,380 BTC. No finance leases disclosed (operating leases $10.1M current / $24.6M non-current).",
-   "nd_convention": "MacroGauge convention (Q2 10-Q): all debt less cash and restricted cash ($549M), BTC excluded. Compared at the balance date; the $573M Riot DC Logistics facility is post-quarter with its draw undisclosed.",
+   "nd_convention": "MacroGauge convention (Q2 10-Q): all debt less unrestricted cash; the $77.5M restricted cash and BTC are excluded. Compared at the balance date; the $573M Riot DC Logistics facility is post-quarter with its draw undisclosed.",
    "tracker_compare": "balance",
    "pro_forma_cash": [
     {
@@ -918,7 +916,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "tracker_to_principal_m": 10.7,
    "tracker_to_principal_note": "Principal $853.7M − carrying $843.0M = $10.7M unamortized costs (10-Q)."
   },
@@ -938,7 +935,7 @@
    "total_debt_face_m": 2447.2,
    "fmp_total_debt_m": 2466.0,
    "reconciliation_note": "10-Q Note 13: total principal $2,447.2M (Dec 2026 Notes $48.1M + Sep 2031 Notes $300.0M + Mar 2030 Notes $632.5M + Jun 2031 Notes $291.6M + Aug 2032 Notes $1,025.0M + Line of Credit $150.0M), less $29.5M unamortized OID/issuance costs = carrying $2,417.7M (current $485.4M + long-term $1,932.4M). FMP totalDebt $2,466.0M = carrying $2,417.7M + $48.2M; that $48.2M is all lease liabilities (finance leases $0.2M current + $3.9M non-current = $4.1M, plus operating leases $3.3M + $40.8M = $44.1M), so FMP's 'finance leases 48.2' mostly comprises operating leases. FMP shortTermDebt $485.4M matches the filing's current portion (Dec 2026 Notes + $150M LOC + June 2031 Notes classified current because the holder put becomes exercisable 2027-06-04). FMP netDebt $2,044.7M = $2,466.0M - $421.3M cash. Notebook's 'Q2 principal debt $2.447B' confirmed. BTC: 35,577 total (26,307 held $1,540.6M FV + 9,270 receivable/lent-or-pledged $540.9M net); 4,528 BTC pledged (4,253 for LOC); 4,742 lent. Restricted cash $12.0M supports letters of credit.",
-   "nd_convention": "MacroGauge convention (Q2 10-Q): converts + line of credit less cash and restricted cash ($433M), BTC excluded. Compared at the balance date; pro forma credits the August BTC-backed borrowing proceeds.",
+   "nd_convention": "MacroGauge convention (Q2 10-Q): converts + line of credit less unrestricted cash; the $12M restricted cash and BTC are excluded. Compared at the balance date; pro forma credits the August BTC-backed borrowing proceeds.",
    "tracker_compare": "balance",
    "pro_forma_cash": [
     {
@@ -973,7 +970,6 @@
     }
    ],
    "sources": [],
-   "nd_cash_includes_restricted": true,
    "tracker_to_principal_m": 29.5,
    "tracker_to_principal_note": "Principal $2,447.2M − carrying $2,417.7M = $29.5M unamortized OID and costs (10-Q Note 13)."
   },
@@ -3414,7 +3410,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm"
    },
    "provenance": "filing",
-   "nd_include": false,
+   "nd_include": true,
    "notes": "Issued at par in private offering; fully amortizing, scheduled principal payments semi-annual from 2028-05-15; interest May 15/Nov 15 from 2026-11-15. Obligations solely of Hut 8 DC, not guaranteed by Hut 8 Corp., tenant (Fluidstack USA IV) or lease guarantor (Google LLC financial backstop on rent). Issuance costs $54.0M; unamortized $53.4M; carrying $3.20B; EIR 6.41%; est. FV $3.30B (Level 2). Proceeds fund 245 MW River Bend (St. Francisville, LA) build, ~$184M return of prior parent equity, DSRA, fees. Rated BBB- (S&P, positive outlook) / BBB- (Fitch, stable) per company closing release 2026-04-30 (company_release, hosted at https://finance.yahoo.com/markets/crypto/articles/hut-8-closes-3-25-213000769.html)."
   },
   {
@@ -3443,7 +3439,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm"
    },
    "provenance": "filing",
-   "nd_include": false,
+   "nd_include": true,
    "notes": "Issued at par; fully amortizing, principal payments semi-annual from 2030-05-30; interest May 30/Nov 30 from 2026-11-30. Rated Baa2 (Moody's) per 10-Q MD&A; priced T+165bp, 20bp inside River Bend (company release https://www.hut8.com/news-insights/press-releases/hut-8-closes-usd4-25-billion-of-investment-grade-senior-secured-notes-for-beacon-point-data). Non-recourse to Hut 8; not guaranteed by parent or tenant. Issuance costs $46.4M; unamortized $46.2M; carrying $4.20B; EIR 6.27%; est. FV $4.30B. Funds 352 MW Beacon Point Phase 1 (Nueces County, TX), DSRA, fees; tenant is a high-investment-grade company under triple-net lease."
   },
   {
@@ -4702,99 +4698,99 @@
  ],
  "tracker": {
   "source": "MacroGauge capacity.json",
-  "published_at": "2026-10-26T12:49:10Z",
-  "as_of": "2026-10-21",
-  "quote_as_of": "2026-10-23",
+  "published_at": "2026-10-27T13:21:20Z",
+  "as_of": "2026-10-27",
+  "quote_as_of": "2026-10-26",
   "rows": {
    "CRWV": {
-    "px": 54.235,
-    "cap": 29.91,
+    "px": 55.19,
+    "cap": 30.44,
     "nd": 29.8,
     "ndflag": "Q2'26 10-Q: recourse+non-recourse debt $35.1B + finance leases $0.22B − cash+securities $5.5B ≈ $29.8B ex-restricted. NOTE basis fix: the prior 32.1 'incl ~$9.8B finance leases' actually captured OPERATING leases (now $16.3B, excluded here) — finance leases are only ~$0.2B. Post-Q2 (re-pull at Q3): $4.2B 2.875% 2033 converts settled 9/22/26 (net $4,137.0M less $566.2M capped calls → nd +~$0.6B); $2.6B DDTL 5.5 closed 8/7/26 (drawable to Dec 2026); 35M-share ATM program from 9/17/26"
    },
    "NBIS": {
-    "px": 158.74,
-    "cap": 38.1,
+    "px": 153.27,
+    "cap": 36.78,
     "nd": 0.5,
     "ndflag": "Q2'26 6-K: converts $8.55B − cash $8.04B ≈ $0.5B (excl. $1.06B restricted). Post-Q: $775M GPU-backed facility (Jul) + $5.75B converts closed 8/24 ($3.45B 0.50% 2030 + $2.3B 4.50% 2034; $800M of 2029/2031 notes exchanged for ~15.8M shares) — re-pull after Q3"
    },
    "APLD": {
-    "px": 18.25,
-    "cap": 5.52,
-    "nd": 2.7,
-    "ndflag": "FY27 Q1 (8/31/26): debt $6.4B − cash+restricted $3.7B ≈ $2.7B; Q1 capex $2.07B; PF3/DF1/DF2 still to be financed (Macquarie pref + project debt)"
+    "px": 17.83,
+    "cap": 5.39,
+    "nd": 3.4,
+    "ndflag": "FY27 Q1 10-Q (8/31/26): debt $6.38B ($0.11B current + $6.26B long-term) − unrestricted cash $2.95B ≈ $3.4B; excludes $0.73B restricted cash ($0.31B current + $0.41B in other assets) and $0.05B finance leases; Q1 capex $2.07B; PF3/DF1/DF2 still to be financed (Macquarie pref + project debt)"
    },
    "CORZ": {
-    "px": 13.1,
-    "cap": 4.21,
+    "px": 13.51,
+    "cap": 4.34,
     "nd": 2.5,
     "ndflag": "Q2'26 PR: total debt $4.30B − cash $1.77B ≈ $2.5B (derived)"
    },
    "GLXY": {
-    "px": 14.68,
-    "cap": 4.87,
+    "px": 15.68,
+    "cap": 5.2,
     "nd": 3.9,
     "ndflag": "pre-notes basis; $3.5B senior secured notes due 2031 (Galaxy Helios DC II) closed 2026-07-28 to fund Phase II — nd rises materially; re-pull from Q3 10-Q"
    },
    "WULF": {
-    "px": 11.32,
-    "cap": 5.65,
+    "px": 11.98,
+    "cap": 5.98,
     "nd": 2.6,
-    "ndflag": "Q2'26 PR: total debt $5.21B − unrestricted cash $2.62B ≈ $2.6B. Abernathy ~$530M sale: initial $250M received Jul 2026 (Q2 call), $150M due by 12/31/26, ~$130M by 4/30/27 · ~$3.5B Justified/Hawesville leveraged loan still unpriced as of 10/17/26 (MS-led) — nd rises when it prices · 8-K 10/05/26: intends to upsize the senior secured revolver and raise additional senior secured debt. The $500M delayed-draw bridge was repaid and terminated 4/16/26 (Q2 10-Q); $250M Morgan Stanley revolver added 5/7/26"
+    "ndflag": "Q2'26 PR: total debt $5.21B − unrestricted cash $2.62B ≈ $2.6B. Abernathy ~$530M sale: initial $250M received Jul 2026 (Q2 call), $150M due by 12/31/26, ~$130M by 4/30/27 · ~$3.5B Justified/Hawesville leveraged loan still unpriced as of 10/17/26 (MS-led) — nd rises when it prices · 8-K 10/05/26: intends to upsize the senior secured revolver and raise additional senior secured debt. The $500M delayed-draw bridge was repaid and terminated 4/16/26 (Q2 10-Q); $250M Morgan Stanley revolver added 5/7/26, upsized to ~$400M commitments (+~$150M uncommitted accordion; $150M LC sublimit removed) by Amendment No. 1 on 10/23/26 (8-K) — drawn amount n/d; post-balance-sheet, re-pull nd from the Q3 10-Q (11/06)"
    },
    "HUT": {
-    "px": 61.23,
-    "cap": 7.55,
-    "nd": 0.0,
-    "ndflag": "corporate only (Q2'26 10-Q): recourse debt ~$0.24B (FalconX $200M + TZRC $35M + other) − unrestricted cash $0.23B ≈ $0.0B, before ~$0.57B custodied BTC; $7.5B non-recourse project notes (River Bend $3.25B + Beacon Ph1 $4.25B, Baa2) excluded. New $1.07B 4-yr senior secured parent revolver closed 9/24/26, undrawn at close (8-K 9/28)"
+    "px": 62.97,
+    "cap": 7.76,
+    "nd": 7.4,
+    "ndflag": "Q2'26 10-Q (6/30/26): loans and notes $7.64B carrying ($0.23B current + $7.40B non-current; principal $7.74B), incl. the River Bend ($3.25B, issued 4/30/26) and Beacon Point Ph1 ($4.25B, issued 6/9/26) senior secured notes of wholly owned project subsidiaries (Baa2) − cash $0.23B ≈ $7.4B. Excludes $6.79B restricted cash (mostly those notes' unspent proceeds in construction and debt-service accounts), ~$0.57B custodied BTC and the $0.37B miner purchase liability; corporate recourse debt alone ≈ $0.0B. New $1.07B 4-yr senior secured parent revolver closed 9/24/26, undrawn at close (8-K 9/28)"
    },
    "CIFR": {
-    "px": 7.94,
-    "cap": 3.3,
+    "px": 7.71,
+    "cap": 3.2,
     "nd": 4.6,
     "ndflag": "computed Q2'26 10-Q: LT debt carrying value $5.45B − unrestricted cash $0.83B ≈ $4.6B (Stingray $810M bond added). Alternatives: face debt $6.02B − unrestricted cash ≈ $5.2B; netting the $3.73B restricted cash (mostly undrawn bond proceeds for construction) too ≈ $1.5B. Company states no single net-debt figure · 10/16/26: issued $850M 0.00% converts due 11/2032 (+$150M 13-day option), ~$89.7M capped calls, exchanged ~$165.9M of 2030 converts for ~40.7M shares → roughly net-debt-neutral at issuance (face debt +~$0.68B, cash +~$0.76B before fees); recompute at Q3 10-Q"
    },
    "IREN": {
-    "px": 24.905,
-    "cap": 10.08,
+    "px": 25.43,
+    "cap": 10.29,
     "nd": 1.7,
     "ndflag": "FY26 10-K (6/30/26): debt $7.59B ($0.17B current + $7.42B non-current; principal $7.71B) − cash $5.90B ≈ $1.70B; excludes $1.72B restricted cash and $0.24B finance leases. At 6/30 only $413M of the $1.5B DDTL and $525M of the $2.1B USPP notes were funded; the 8/25 $2.4B Blue Owl/PIMCO GPU financing is post-period — nd rises as these draw"
    },
    "KEEL": {
-    "px": 2.17,
-    "cap": 1.31,
-    "nd": 0.26,
-    "ndflag": "computed Q2'26 10-Q: convertible notes $1,025.8M (2025 converts $593.6M + $458M 2026 converts) − cash $715.5M − restricted $53.4M ≈ $0.26B — NOT net cash (prior flag missed the 2025 converts)"
+    "px": 2.18,
+    "cap": 1.32,
+    "nd": 0.31,
+    "ndflag": "computed Q2'26 10-Q: convertible notes $1,025.8M (2025 converts $593.6M + $458M 2026 converts) − cash $715.5M ≈ $0.31B (excludes $53.4M restricted cash) — NOT net cash (prior flag missed the 2025 converts)"
    },
    "RIOT": {
-    "px": 12.53,
-    "cap": 4.7,
-    "nd": 0.29,
-    "ndflag": "computed Q2'26 10-Q: debt $843.0M − cash+restricted $548.9M ≈ $0.29B ex-BTC (~$666M BTC held). $200M Coinbase loan fully prepaid 9/21/26 (8-K); $573M Morgan Stanley interim facility for the Rockdale build matures late 2026 (10-Q: 10/15; 8-K: 12/31) — expect a Q4 refinancing"
+    "px": 12.59,
+    "cap": 4.72,
+    "nd": 0.37,
+    "ndflag": "computed Q2'26 10-Q: debt $843.0M ($254.6M current + $588.4M long-term) − unrestricted cash $471.4M ≈ $0.37B ex-BTC (excludes $77.5M restricted cash; ~$666M BTC held). $200M Coinbase loan fully prepaid 9/21/26 (8-K); $573M Morgan Stanley interim facility for the Rockdale build matures late 2026 (10-Q: 10/15; 8-K: 12/31) — expect a Q4 refinancing"
    },
    "BTDR": {
-    "px": 6.96,
-    "cap": 1.58,
-    "nd": 1.3,
-    "ndflag": "computed Q2'26 6-K: borrowings $1.8B − cash+restricted $0.50B ≈ $1.3B ex-BTC (~$1.1B incl. ~$197M digital assets); asset-backed loans from BIT Group $423.3M at 9/29/26"
+    "px": 7.085,
+    "cap": 1.61,
+    "nd": 1.4,
+    "ndflag": "computed Q2'26 6-K: borrowings $1.84B (incl. $633.1M from a related party) − cash $0.46B ≈ $1.4B ex-BTC (excludes $39.5M restricted cash; ~$1.2B net of ~$197M digital assets); asset-backed loans from BIT Group $423.3M at 9/29/26"
    },
    "WYFI": {
-    "px": 9.98,
-    "cap": 0.39,
+    "px": 9.52,
+    "cap": 0.37,
     "nd": 0.25,
-    "ndflag": "computed Q2'26: debt $305.8M − cash+restricted $60.4M ≈ $0.25B; pro forma ≈ $0.18B after $310M 2032 converts (closed 8/21/26) and $198.15M 2031 notes exchanged for ~$118.5M cash + 6.3M shares (8-K)"
+    "ndflag": "computed Q2'26: debt $305.8M − cash $56.1M ≈ $0.25B (excludes $4.3M restricted cash); pro forma ≈ $0.18B after $310M 2032 converts (closed 8/21/26) and $198.15M 2031 notes exchanged for ~$118.5M cash + 6.3M shares (8-K)"
    },
    "BTBT": {
-    "px": 0.8448,
+    "px": 0.8389,
     "cap": 0.3,
     "nd": 0.35,
     "ndflag": "computed consolidated (incl. WhiteFiber) Q2'26 — cosmetic: row is not additive"
    },
    "MARA": {
-    "px": 7.02,
-    "cap": 2.71,
+    "px": 6.84,
+    "cap": 2.64,
     "nd": 2.0,
-    "ndflag": "computed Q2'26 10-Q: converts $2.27B (down from $3.25B at YE25) + $150M credit line − cash $0.43B ≈ $2.0B ex-BTC; +$600M new BTC-backed credit facilities post-qtr (Coinbase + Two Prime, 7.56% wtd avg). Prior 3.1 was the YE25 basis"
+    "ndflag": "computed Q2'26 10-Q: converts $2.27B (down from $3.25B at YE25) + $150M credit line − cash $0.42B ≈ $2.0B ex-BTC (excludes $12M restricted cash); +$600M new BTC-backed credit facilities post-qtr (Coinbase + Two Prime, 7.56% wtd avg). Prior 3.1 was the YE25 basis"
    }
   }
  }

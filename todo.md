@@ -12,7 +12,7 @@ Operational backlog for the public hub. Add items as they surface; check them of
   git history on both sides. *Added 2026-10-26.*
   - **Done 2026-10-27 in MacroGauge
     [PR #141](https://github.com/ewyluda/macrogauge/pull/141)** (merged and published on
-    MacroGauge 2026-10-27 09:21 ET by a manual run; reaches the hub at its next export):
+    MacroGauge 2026-10-27 09:21 ET by a manual run; on the hub since the 2026-10-27 export):
     - IREN backlog $16.5B → **$19.4B**, checked against the FY26 10-K ($5.1B RPO + $11.4B lease
       contracts at 6/30, plus $2.8B of July contracts).
     - Net-debt convention written into MacroGauge's curation rules and the /capacity method note:
@@ -48,14 +48,10 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - **Check before deciding:** WYFI / BTBT plan (200 vs 120; both trace to the 9/14 deck, so check
     gross vs critical-IT; Q3 11/12) and GLXY backlog ($18B vs $13.5B; MacroGauge says the Q2
     release did not restate it, so find the notebook's source; Q3 10/27).
-  - **Unblocked now (PR #141 is published):** flip the notebook financing ledger's
-    per-issuer basis to match (`nd_cash_includes_restricted` off for APLD, BTDR, WYFI, KEEL,
-    RIOT, MARA; HUT onto consolidated debt incl. the River Bend and Beacon Point notes), re-sync,
-    and re-export the hub. The next export is blocked until this lands: it reads the new
-    `capacity.json`, so `check_financing.py` fails on the stale tracker snapshot, and a re-sync
-    without the flips shows APLD (+$0.70B) and HUT (+$7.40B) as "disagree".
-    BTDR, KEEL and RIOT move $53–76M, inside the tolerance, so a missed flip there goes unflagged
-    (overlap audit F4).
+  - **Done 2026-10-27, notebook `321cf7c` and the hub export:** the financing ledger follows the
+    convention. `nd_cash_includes_restricted` is off for APLD, BTDR, WYFI, KEEL, RIOT and MARA;
+    HUT counts the River Bend and Beacon Point notes, with a $96.7M carrying-to-principal bridge.
+    Reconciliation on the 10-27 publish: 13 match, GLXY disagrees (F1), BTBT structural.
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
     MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
@@ -69,10 +65,12 @@ Operational backlog for the public hub. Add items as they surface; check them of
     (merged after the 09:21 run; MacroGauge publishes it 2026-10-28, the hub at the export after
     that): NBIS 0.50% 2030 converts $3.0B → **$3.45B** in `issuer_bonds.json` (F2; the $450M
     option was exercised, 8/24 6-K). WULF `bk` 32 → **27** per the Q2 investor deck (D6).
-  - **Done 2026-10-27 in the notebook, not yet exported:** lab register restated from Anthropic's
-    S-1 (D1–D5; also Nscale $44.6B, Lambda $34.9B of $41.3B, AMD >$20B spend note); the Broadcom
-    $125.2B is the 2026 lease alone, $161.2B all leases. IREN July contracts noted (D8), Meta–Nebius
-    sized at the $12B dedicated (D10), Volta at 121 IT MW (D12). Exports with the ledger flip.
+  - **Done 2026-10-27, notebook `353bcc1` and the hub export:** lab register restated from
+    Anthropic's S-1 (D1–D5; also Nscale $44.6B, Lambda $34.9B of $41.3B, AMD >$20B spend note); the
+    Broadcom $125.2B is the 2026 lease alone, $161.2B all leases. IREN July contracts noted (D8),
+    Meta–Nebius sized at the $12B dedicated (D10), Volta at 121 IT MW (D12).
+  - **Next export (after MacroGauge's 2026-10-28 publish):** picks up PR #142's WULF backlog 27 on
+    the capacity page. Re-sync the notebook ledger and demand monitor to that publish first.
   - **MacroGauge to source or drop:** the AKAM edge's extra $1.8B (D11). Akamai's 9/24 release
     states $11.6B committed plus up to $9B more, with no $1.8B; the hub's $11.6B stands.
   - **At the Q3 re-pulls:** GLXY net debt (F1) and contracted revenue on both sites (D7; hub >$15B,

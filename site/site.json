@@ -7,7 +7,7 @@
    "file": "neocloud-capacity-tracker.html",
    "title": "AI Capacity Tracker",
    "data": "data/capacity.json",
-   "as_of": "2026-10-21",
+   "as_of": "2026-10-27",
    "market_data": "FMP (via MacroGauge)"
   },
   {
