@@ -471,7 +471,7 @@
    "total_debt_face_m": 3415.8,
    "fmp_total_debt_m": 3262.8,
    "reconciliation_note": "Filing Note 16 notes-payable principal schedule: 445.0 (2026 exch) + 402.5 (2029 exch) + 1,300.0 (2031 exch) + 1,268.257 (Helios I term loan, shown as 2028) = 3,415.757. Balance-sheet Notes payable carrying 3,262.758 (436.985 current + 2,825.773 non-current) = FMP totalDebt exactly; the 153.0 gap to face is $34.7M unamortized exchangeable-note issuance costs plus ~$118.3M (derived) unamortized term-loan costs/discount. FMP's 437.0 'shortTermDebt' is the current 2026 exchangeable notes, NOT the trading loans. EXCLUDED from FMP total debt and from total_debt_face_m but genuinely borrowed money: Loans payable $286.7M (fiat borrowings for trading/lending, callable on demand, collateralized; MD&A balance-sheet summary shows $427.4M for the same line — unexplained difference, possibly margin loans grouped in). Crypto-denominated liabilities also excluded: Digital assets borrowed $1,486.9M current + $27.6M non-current and Collateral payable $1,933.1M (customer/counterparty collateral). FMP 'ST investments' 658.0 = balance-sheet current 'Investments' $657.95M (venture/treasury positions at fair value), not cash equivalents, so cash_m uses unrestricted cash only. No restricted cash or finance lease lines are presented; operating lease liabilities $14.1M. Digital assets subject to lock-ups $31.9M.",
-   "nd_convention": "Tracker convention: notes payable (exchangeables + Helios I term loan) less cash; trading-book fiat loans payable ($287M), digital assets borrowed and collateral payable are outside both FMP total debt and nd. The tracker flags its own basis as unreconciled; the Helios II $3.507B notes (7/28) land in restricted project accounts, so no pro-forma cash credit is taken",
+   "nd_convention": "Tracker convention: notes payable (exchangeables + Helios I term loan) less cash; trading-book fiat loans payable ($287M), digital assets borrowed and collateral payable are outside both FMP total debt and net debt. The tracker flags its own basis as unreconciled; the Helios II $3.507B notes (7/28) land in restricted project accounts, so no pro-forma cash credit is taken",
    "tracker_compare": "balance",
    "pro_forma_cash": [],
    "post_quarter": [
@@ -830,7 +830,7 @@
    "total_debt_face_m": 485.3,
    "fmp_total_debt_m": 430.3,
    "reconciliation_note": "BTBT-level instruments: 4.00% converts due 2030 150.0 + Galaxy LsETH-collateralized borrowing 50.0 = 200.0 face. Consolidated WYFI instruments (see WYFI entry; marked below): 4.50% converts due 2031 230.0 + Iceland 18.0 + RBC amended 17.339 + B. Riley 20.0 = 285.3. Total consolidated face 485.3. The $30M WYFI DDTL owed to Bit Digital Capital is intercompany and eliminates (BTBT term-debt table shows Galaxy 50 in place of WYFI's DDTL 30). Balance-sheet carrying: convertible notes, net 336.2 (150 + 230 - 43.8 discount/costs, of which 30.2 is the bifurcated 2030 conversion derivative) + ST debt 78.4 + LT debt 25.5 = 440.1. FMP totalDebt 430.3 (ST 83.9 / LT 346.4) is ~9.8 below the filing's 440.1 and its ST/LT split does not tie to any 10-Q line - FMP appears to include the 2030 notes' derivative liability (24.0) differently; treat as approximate. Cash 83.6 (of which WYFI's 56.1); restricted 4.3 is WYFI's LC collateral. Digital assets 120.1 plus 105.6 'digital asset collateral receivable' (LsETH pledged to Galaxy). No finance leases at 6/30/26.",
-   "nd_convention": "Parent-level only (4.00% 2030 convert + Galaxy LsETH loan); WYFI's instruments are listed under WYFI. The tracker's nd consolidates WYFI, so the figures differ by construction",
+   "nd_convention": "Parent-level only (4.00% 2030 convert + Galaxy LsETH loan); WYFI's instruments are listed under WYFI. The tracker's net debt consolidates WYFI, so the figures differ by construction",
    "tracker_compare": "balance",
    "pro_forma_cash": [],
    "post_quarter": [
@@ -1030,7 +1030,7 @@
    },
    "provenance": "filing",
    "nd_include": false,
-   "notes": "8.7-year weighted term from the June 30 balance (maturity shown as the weighted end-date); excluded from the tracker's nd convention for NBIS 8.7-year weighted remaining term at 6/30."
+   "notes": "8.7-year weighted term from the June 30 balance (maturity shown as the weighted end-date); excluded from the tracker's net-debt convention for NBIS 8.7-year weighted remaining term at 6/30."
   },
   {
    "t": "NBIS",
@@ -1660,7 +1660,7 @@
    },
    "provenance": "filing",
    "nd_include": true,
-   "notes": "Included because the capacity tracker's CRWV nd is lease-inclusive ($46.552B); the after-rent valuation uses the $30.233B financial bridge instead"
+   "notes": "Included because the capacity tracker's CRWV net debt is lease-inclusive ($46.552B); the after-rent valuation uses the $30.233B financial bridge instead"
   },
   {
    "t": "CRWV",
