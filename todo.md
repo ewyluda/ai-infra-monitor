@@ -61,6 +61,19 @@ Operational backlog for the public hub. Add items as they surface; check them of
   demand monitor and ETF atlas against any MacroGauge page that publishes the same figures (issuer
   debt, hyperscaler capex, ETF holdings), and list each conflict. *Added 2026-10-26.*
 
+- [ ] **Replace the README screenshots with GIFs that scroll and interact with each page.** The six
+  static PNGs in `docs/img/` (landing page plus five dashboards) show only the top of each page.
+  Record a short GIF per page that scrolls through its best content and exercises its features
+  (view tabs, hovers and tooltips, filters, toggles), then swap each `<img>` in `README.md` and keep
+  the alt text accurate. Script the capture so it can be rerun after redesigns, and keep each GIF
+  small enough to load quickly on GitHub. *Added 2026-10-27.*
+
+- [ ] **Later: make a 90-second showcase video of the hub.** Model it on the Solution for Sandra
+  gala video (`Code & Projects/Solution for sandra/video/` in Google Drive): a storyboard table of
+  timed scenes and captions, a scripted browser capture (`capture.mjs`), original generated music
+  (`music.py`), and a `build.sh` that encodes 1920×1080, 30 fps H.264 + AAC. Captions carry the
+  message, no voice, scene cuts on the beat. Do this after the README GIFs. *Added 2026-10-27.*
+
 ## Done
 
 - [x] **Capacity page source of truth is MacroGauge.** The hub export reads MacroGauge's published
