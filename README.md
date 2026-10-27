@@ -17,12 +17,12 @@ company disclosures.**
 
 | Dashboard | Side of the trade | What it tracks | Data |
 | --- | --- | --- | --- |
-| [Neocloud Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Sellable AI critical-IT megawatts across GPU clouds and ex-miners: operating, under construction and planned, with tenants, sites and energization timelines. | [JSON](site/data/neocloud-capacity.json) |
+| [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them. Same data as [MacroGauge's capacity page](https://macrogauge-cloudten.vercel.app/capacity). | [JSON](site/data/capacity.json) |
 | [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings. | [JSON](site/data/neocloud-financing-ledger.json) |
 | [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Hyperscaler capex by quarter, contracted backlog, and the AI-lab compute commitments behind it, each tied to the filing or call. | [JSON](site/data/ai-demand-monitor.json) |
 | [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Six listed routes into the physical buildout, from power and grid to photonics, memory and neocloud compute, with issuer-sourced holdings look-through. | [JSON](site/data/ai-infrastructure-etfs.json) |
 
-<img alt="Neocloud Capacity Tracker: headline finding, capacity and enterprise-value tiles, and the view tabs" src="docs/img/neocloud-capacity-tracker.png">
+<img alt="AI Capacity Tracker: headline finding, capacity and enterprise-value tiles, and the view tabs" src="docs/img/neocloud-capacity-tracker.png">
 
 <img alt="Neocloud Financing Ledger: the maturity wall by year and instrument type" src="docs/img/neocloud-financing-ledger.png">
 
@@ -32,8 +32,11 @@ company disclosures.**
 
 ## Data sources
 
-- **Capacity, financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings
-  calls. Each figure carries its source and date in the page and in the JSON.
+- **Capacity:** [MacroGauge](https://macrogauge-cloudten.vercel.app/capacity)'s published capacity
+  dataset, rendered as published, so both sites show the same figures. It is curated from filings,
+  with each figure's source and date in the JSON.
+- **Financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings calls. Each
+  figure carries its source and date in the page and in the JSON.
 - **ETF holdings:** each issuer's published holdings file.
 - **Market prices:** equity quotes and market caps from [Financial Modeling Prep](https://site.financialmodelingprep.com/);
   ETF price history from Nasdaq. Every price-derived figure shows its quote date.
@@ -42,8 +45,8 @@ company disclosures.**
 
 ## How it works
 
-The dashboards are maintained in a private research repository, where each one has a single JSON
-source of truth, a refresh script, and a contract check that fails when the page and the data
+The capacity page renders MacroGauge's published capacity dataset. The other dashboards are
+maintained in a private research repository, where each one has a single JSON source of truth, a refresh script, and a contract check that fails when the page and the data
 disagree. A tested export step builds this site from those sources:
 
 1. Copies the published pages and nothing else, and rewrites every link that pointed into the

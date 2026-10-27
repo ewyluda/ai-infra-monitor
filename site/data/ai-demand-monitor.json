@@ -2545,7 +2545,7 @@
   }
  ],
  "capacity_crosscheck": {
-  "source": "data/neocloud-capacity.json",
+  "source": null,
   "capacity_as_of": "2026-10-25",
   "deduped_tickers": [
    "APLD",

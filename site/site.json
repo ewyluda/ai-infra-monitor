@@ -5,10 +5,10 @@
  "pages": [
   {
    "file": "neocloud-capacity-tracker.html",
-   "title": "Neocloud Capacity Tracker",
-   "data": "data/neocloud-capacity.json",
-   "as_of": "2026-10-25",
-   "market_data": "FMP"
+   "title": "AI Capacity Tracker",
+   "data": "data/capacity.json",
+   "as_of": "2026-10-21",
+   "market_data": "FMP (via MacroGauge)"
   },
   {
    "file": "neocloud-financing-ledger.html",
@@ -41,7 +41,7 @@
   "assets/og-image.png",
   "data/ai-demand-monitor.json",
   "data/ai-infrastructure-etfs.json",
-  "data/neocloud-capacity.json",
+  "data/capacity.json",
   "data/neocloud-financing-ledger.json",
   "index.html",
   "neocloud-capacity-tracker.html",

@@ -4502,7 +4502,7 @@
   "BTDR/KEEL/WYFI/BTBT: FMP totalDebt fields are unreliable for these names (includes operating leases for BTDR; omits the WYFI convert; ~10 off for BTBT) - use filing figures above."
  ],
  "tracker": {
-  "source": "data/neocloud-capacity.json",
+  "source": null,
   "as_of": "2026-10-26",
   "quote_as_of": "2026-10-26",
   "rows": {

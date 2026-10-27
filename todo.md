@@ -4,60 +4,66 @@ Operational backlog for the public hub. Add items as they surface; check them of
 
 ## Open
 
-- [ ] **Align the capacity page with MacroGauge's `/capacity`, so the two sites never disagree.**
-  The hub page now uses MacroGauge's layout, but it still renders the private notebook's
-  `neocloud-capacity.json`, which has drifted from MacroGauge's `config/capacity.json` since the
-  one-off port (`macrogauge/scripts/port_neocloud_config.py`). Goal: one dataset, one set of
-  rules, the same numbers on both sites. Snapshot of the gaps on 2026-10-26 (hub capacity curated
-  2026-10-25, priced 2026-10-26; MacroGauge curated 2026-10-21, priced 2026-10-23). *Added 2026-10-26.*
-  1. **Pick one source of truth.** Recommended: MacroGauge's `config/capacity.json` (plus
-     `power_deals.json`), with the hub export reading MacroGauge's published `capacity.json`
-     instead of the notebook's copy, and the notebook tracker synced from it or retired.
-     Whichever side wins, the other stops being hand-edited.
-  2. **Reconcile the 17 of 18 shared companies whose figures conflict**, field by field against
-     the filings. Don't assume either side is current: the notebook carries some later filings
-     (CRWV and ORCL research is dated 2026-10-25). Hub value → MacroGauge value:
-     - Capacity (MW): ORCL con 750 → 5,000, plan 2,150 → 0 · CRWV con 700 → 1,200, plan
-       2,240 → 1,500 · NBIS con 778 → 1,000, plan 2,700 → 3,800 · BTDR con 207 → 349, plan
-       1,298 → 1,143 · IREN con 330 → 530, plan 730 → 530 · KEEL con 350 → 18, plan 224 → 110 ·
-       CORZ op 485 → 437, con 637 → 663, plan 1,540 → 1,400 · WYFI and BTBT op 32 → 50, con
-       23 → 3, plan 200 → 120 · DOCN op 70 → 85, con 65 → 50 · MARA plan 600 → 100 · APLD plan
-       250 → 0 · GLXY plan 830 → 0 · WULF plan 1,450 → 1,320
-     - Net debt ($B): CRWV 46.55 → 29.8 · ORCL 132.07 → 89.0 · CIFR 1.57 → 4.6 · RIOT 0.90 →
-       0.29 · MARA 2.63 → 2.0 · APLD 3.11 → 2.7 · BTDR 1.46 → 1.3 · CORZ 3.0 → 2.5 · DOCN
-       −0.32 → 0.15 · IREN 1.81 → 1.7 · KEEL 0.32 → 0.26 · WULF 2.7 → 2.6 · AKAM 3.02 → 2.95 ·
-       WYFI 0.18 → 0.25 · BTBT 0.28 → 0.35
-     - Backlog ($B): BTDR 7.6 → 4.7 · GLXY 18 → 13.5 · IREN 19.4 → 16.5 · APLD 36.2 → 36 ·
-       CRWV 104.2 → 104 · BTBT 0.921 → 0.933
-     - Only HUT matches on every field.
-  3. **Settle one net-debt convention.** Most of the large gaps are a difference in method, not
-     in the facts. The hub's CRWV and ORCL figures include operating leases; MacroGauge uses
-     funded debt for hyperscalers and finance leases (not operating leases) for neoclouds. Write
-     the rule once and apply it to every row on both sites.
-  4. **Close the coverage gap.** MacroGauge tracks 29 companies; the hub tracks 19. The hub lacks
-     AMZN, GOOGL, MSFT, META, BABA, TCEHY, BIDU, OpenAI/Stargate, xAI, DLR and EQIX. The hub's
-     SPCX (SpaceX: Colossus / xAI) has no MacroGauge row, and MacroGauge's XAI row covers the
-     same capacity: keep one and de-duplicate.
-  5. **Use one rule for withholding EV per MW.** MacroGauge withholds it with an `ev_note` for
-     AKAM (CDN and security business), MARA (no AI MW energized, no AI lease) and EQIX. The hub
-     currently plots AKAM at about $362M per MW and MARA at about $35M per MW. Port `ev_note` and
-     the private-builder rule to the hub.
-  6. **Carry everything MacroGauge shows** once the data is shared: the Filed / Estimate badge
-     (10 MacroGauge rows are estimates), the power-deals table (33 deals, curated 2026-10-17),
-     the NVDA-vs-the-field tile, MacroGauge's headline (hyperscaler share of operating capacity),
-     the full site map (137 mapped sites on MacroGauge vs 51 on the hub) and the tenant list (37
-     vs 38 deals).
-  7. **Fix the leftover wording.** Rename the data role `benchmark` to `hyperscaler` at the
-     source (the hub relabels it for display today), and update ORCL's curator note, which still
-     opens "hyperscaler benchmark — scale calibration only".
-  8. **Match the pricing cadence.** MacroGauge reprices every weekday morning; the hub is priced
-     only when it is exported. Either show MacroGauge's priced date on the hub, or add the
-     scheduled quote refresh from the hub plan's Phase 3.
-  9. **Guard it.** Add a parity check that diffs the hub's `site/data/neocloud-capacity.json`
-     against MacroGauge's published `capacity.json` (companies, MW, net debt, backlog, roles,
-     withheld rules) and fails CI on any difference.
+- [ ] **Carry the notebook's newer capacity figures into MacroGauge's `config/capacity.json`.**
+  The hub's capacity page now renders MacroGauge's published `capacity.json` (source of truth since
+  2026-10-26), so a figure that is newer in the private notebook only reaches either site once it is
+  in MacroGauge's config. Verify each against the cited filing before editing. Comparison done
+  2026-10-26: notebook capacity curated 2026-10-25, MacroGauge 2026-10-21, field change dates from
+  git history on both sides. *Added 2026-10-26.*
+  - **Carry (the notebook cites later evidence):**
+    - IREN backlog $16.5B → **$19.4B**: FY26 10-K (6/30) RPO $5.1B + lease TCV $11.4B, plus
+      $2.8B of July contracts. MacroGauge's own note says its 16.5 is "prior TCV basis, not
+      restated FY26".
+    - BTDR backlog $4.7B → **$7.6B**: adds the ~$2.9B AI-cloud contract backlog from the Sept ops
+      update (10/19) to the $4.7B Tydal lease. MacroGauge's backlog text already names the $2.9B
+      but `bk` leaves it out, so decide whether AI-cloud contract revenue counts as backlog. Also
+      from 10/19: A102 ready-for-service slipped Nov '26 → Q1 '27; move that tranche.
+    - CORZ operational 437 → **~485 MW** (construction −48): Dalton Ph II +48 MW billing per a
+      company post on 10/13, not yet in a filing. Confirm in the Q3 10-Q (due 11/5) first;
+      MacroGauge's note still expects Dalton Ph II end-2026 to early 2027.
+    - NBIS: the AIB 50 MW 12-year colocation deal (binding, 9/30) and the $3.5B Citi term loan
+      (10/22) are not in MacroGauge's row. Add them to the note and sites; re-pull net debt at Q3.
+  - **Keep MacroGauge's figure (method difference, or MacroGauge is newer):**
+    - CRWV net debt 46.55 vs **29.8**: the notebook includes $16.3B of operating leases;
+      MacroGauge excludes them on purpose (its basis fix). CRWV plan 2,240 vs **1,500**: the
+      notebook adds India 240 MW and splits construction / planned differently; MacroGauge holds
+      the total at the 4.2 GW contracted and lists India as secured.
+    - CIFR (1.57 vs **4.6**), APLD (3.11 vs **2.7**), BTDR (1.46 vs **1.3**) net debt: same filing,
+      different restricted-cash netting. Settle the convention once (see below).
+    - MARA plan 600 vs **100**: the notebook counts Long Ridge (up to 600 MW), still awaiting
+      FERC; MacroGauge excludes it until the deal closes.
+    - ORCL, KEEL, DOCN, RIOT, AKAM, WULF plan, IREN capacity and net debt, NBIS plan, BTBT and
+      WYFI operational / construction / net debt, CORZ plan and net debt, APLD plan, GLXY plan:
+      MacroGauge changed these more recently (Aug–Oct, including the critical-IT re-basing).
+    - SPCX: MacroGauge's XAI row covers the same capacity and was refreshed from SpaceX's Q3
+      results. Drop the notebook's SPCX row.
+  - **Check before deciding:** WYFI / BTBT plan (200 vs 120; both trace to the 9/14 deck, so check
+    gross vs critical-IT) and GLXY backlog ($18B vs $13.5B; MacroGauge says the Q2 release did not
+    restate it, so find the notebook's source).
+  - **Write the net-debt convention down** (operating leases, restricted cash, pro forma for
+    post-quarter deals) in MacroGauge's methodology, and apply it to every row.
+  - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
+    MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
-- [ ] **Audit the other three hub pages for overlap with MacroGauge.** Check the financing
-  ledger, demand monitor and ETF atlas against any MacroGauge page that publishes the same
-  figures (issuer debt, hyperscaler capex, ETF holdings), and list each conflict the way the
-  capacity item above does. Nothing has been compared yet. *Added 2026-10-26.*
+- [ ] **Point the financing ledger and demand monitor at MacroGauge's capacity data.** Both hub
+  pages still embed figures from the notebook's capacity file, so they now disagree with the hub's
+  own capacity page. The ledger's net-debt reconciliation and tracker snapshot use notebook net debt
+  and quotes (CRWV $46.6B there vs $29.8B on the capacity page; quotes 10-26 vs MacroGauge's 10-23).
+  The demand monitor's capacity cross-check uses notebook totals (1,335 MW operational, 6,323 MW
+  tenant-contracted, as of 10-25). Have `financing_ledger_refresh.py` and `ai_demand_refresh.py`
+  read MacroGauge's `capacity.json`. *Added 2026-10-26.*
+
+- [ ] **Match the pricing cadence.** MacroGauge reprices every weekday morning; the hub takes
+  MacroGauge's prices at export time. A scheduled export (hub plan, Phase 3 follow-up) keeps the
+  hub within a day. *Added 2026-10-26.*
+
+- [ ] **Audit the other hub pages for overlap with MacroGauge.** Check the financing ledger,
+  demand monitor and ETF atlas against any MacroGauge page that publishes the same figures (issuer
+  debt, hyperscaler capex, ETF holdings), and list each conflict. *Added 2026-10-26.*
+
+## Done
+
+- [x] **Capacity page source of truth is MacroGauge.** The hub export reads MacroGauge's published
+  `capacity.json` and renders it with a port of MacroGauge's `/capacity` page: 29 companies,
+  Filed / Estimate badges, withheld EV per MW with reasons, the NVDA tile, power deals and the full
+  site map. A test fails if the hub's published figures differ from MacroGauge's. *2026-10-26.*
