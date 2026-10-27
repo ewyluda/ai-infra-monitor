@@ -4261,6 +4261,45 @@
     "return_correlation": 0.7588
    }
   ],
+  "shared_securities": {
+   "ETN": [
+    "AIPO",
+    "GRID"
+   ],
+   "PWR": [
+    "AIPO",
+    "GRID"
+   ],
+   "NVDA": [
+    "AIPO",
+    "GRID",
+    "DTCR"
+   ],
+   "AVGO": [
+    "AIPO",
+    "DTCR"
+   ],
+   "AMD": [
+    "AIPO",
+    "DTCR"
+   ],
+   "NVT": [
+    "AIPO",
+    "GRID"
+   ],
+   "HUBB": [
+    "AIPO",
+    "GRID"
+   ],
+   "MU": [
+    "DRAM",
+    "DTCR"
+   ],
+   "APLD": [
+    "NCLD",
+    "DTCR"
+   ]
+  },
   "verdict": "Since Aug 6, all six are lower; the single-bottleneck funds swing 3.0× as much as the broad baskets.",
   "headlines": {
    "readthrough": "Different holdings, one trade.",
