@@ -949,8 +949,8 @@
    "performance_pct": 3.8,
    "performance_label": "YTD",
    "common_return_pct": -19.4975,
-   "annualized_vol_pct": 38.8677,
-   "max_drawdown_pct": -30.8887
+   "max_drawdown_pct": -30.8887,
+   "common_vol_pct": 35.031
   },
   {
    "ticker": "GRID",
@@ -1893,8 +1893,8 @@
    "performance_pct": 4.4,
    "performance_label": "YTD",
    "common_return_pct": -12.3444,
-   "annualized_vol_pct": 26.2585,
-   "max_drawdown_pct": -18.5786
+   "max_drawdown_pct": -18.5786,
+   "common_vol_pct": 23.1435
   },
   {
    "ticker": "LYTE",
@@ -2210,8 +2210,8 @@
    "performance_pct": -28.26,
    "performance_label": "Since inception",
    "common_return_pct": -28.2557,
-   "annualized_vol_pct": 73.2371,
-   "max_drawdown_pct": -36.9603
+   "max_drawdown_pct": -36.9603,
+   "common_vol_pct": 73.2371
   },
   {
    "ticker": "DRAM",
@@ -2881,8 +2881,8 @@
    "performance_pct": 69.52,
    "performance_label": "Since inception",
    "common_return_pct": -8.5148,
-   "annualized_vol_pct": 86.1815,
-   "max_drawdown_pct": -44.4376
+   "max_drawdown_pct": -44.4376,
+   "common_vol_pct": 58.6684
   },
   {
    "ticker": "NCLD",
@@ -3209,8 +3209,8 @@
    "performance_pct": -31.28,
    "performance_label": "Since inception",
    "common_return_pct": -31.2764,
-   "annualized_vol_pct": 77.9665,
-   "max_drawdown_pct": -43.037
+   "max_drawdown_pct": -43.037,
+   "common_vol_pct": 77.9665
   },
   {
    "ticker": "DTCR",
@@ -4153,8 +4153,8 @@
    "performance_pct": 15.85,
    "performance_label": "YTD",
    "common_return_pct": -9.1137,
-   "annualized_vol_pct": 26.5687,
-   "max_drawdown_pct": -23.1362
+   "max_drawdown_pct": -23.1362,
+   "common_vol_pct": 24.397
   }
  ],
  "analytics": {
@@ -4254,6 +4254,7 @@
     "shared_weight_pct": 4.17,
     "return_correlation": 0.7588
    }
-  ]
+  ],
+  "verdict": "Since Aug 6, all six are lower; the single-bottleneck funds swing 3.0× as much as the broad baskets."
  }
 }
