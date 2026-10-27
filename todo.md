@@ -82,15 +82,6 @@ Operational backlog for the public hub. Add items as they surface; check them of
     MacroGauge $13.5B, notebook capacity $18B). The Nebius $3.5B Citi bridge goes into the /rates
     note and NBIS `ndflag` (F3).
 
-- [ ] **Polish the visuals on every page of the site.** Covers the landing page and all five
-  dashboards (capacity tracker, financing ledger, demand monitor, ETF atlas, trade layer index).
-  Keep one cohesive style across pages. Remove no visuals; update or enhance them with elegant,
-  tasteful interactions: hover tooltips, click interactions (select, filter, drill in), smooth
-  transitions, and sortable table headers where sorting makes sense. Use the design skills and
-  plugins that help (`frontend-design`, `ui-ux-pro-max`, `dataviz`, `design:design-critique`,
-  `design:accessibility-review`). Do this before the README GIFs and the showcase video, so they
-  capture the finished pages. *Added 2026-10-27.*
-
 - [ ] **Replace the README screenshots with GIFs that scroll and interact with each page.** The six
   static PNGs in `docs/img/` (landing page plus five dashboards) show only the top of each page.
   Record a short GIF per page that scrolls through its best content and exercises its features
@@ -107,6 +98,15 @@ Operational backlog for the public hub. Add items as they surface; check them of
   *Added 2026-10-27.*
 
 ## Done
+
+- [x] **Polished the visuals on every page.** All six pages share the capacity page's MacroGauge
+  style: sans type and numerals, one heading scale, and one style for controls, table heads and the
+  hover card. New interactions: sortable table headers where rows compare, one tooltip on hover and
+  keyboard focus, long notes clamped with Show more and Expand all (the financing ledger is a third
+  shorter), linked highlights (scatter dot and table row, scoreboard row and chart line, legend and
+  bars, matrix pairs), lab tiles that filter the register, and a maturity-wall year that filters the
+  ledger. Each landing card gains a small preview chart. axe-core finds no violations on any page or
+  tab at desktop or phone width. Ships with the next scheduled export. *2026-10-27.*
 
 - [x] **Matched the pricing cadence.** A scheduled export runs hourly from 09:15 to 22:15 ET and acts
   only when MacroGauge has published something the hub doesn't show yet. It re-syncs the ledger
