@@ -90,6 +90,10 @@
 .aim-trio span { color: var(--aim-muted); }
 .aim-method { color: var(--aim-muted); max-width: 820px; font-size: 14px; }
 .aim-method li { margin-bottom: 6px; }
+.aim-tour-link { margin: -16px 0 24px; font-size: 15px; }
+.aim-tour-link a { color: var(--aim-sky); font-weight: 600; text-decoration: none; }
+.aim-tour-link a:hover { text-decoration: underline; }
+.aim-tour { display: block; width: 100%; max-width: 960px; height: auto; border: 1px solid var(--aim-border); border-radius: 11px; background: #0D1A2B; }
 .aim-note { margin-top: 18px; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--aim-amber) 35%, var(--aim-border)); background: color-mix(in srgb, var(--aim-amber) 6%, transparent); border-radius: 9px; font-size: 13px; color: var(--aim-muted); }
 
 /* Shared kit (assets/aim.js): one tooltip and sortable headers on every dashboard. The tooltip is
