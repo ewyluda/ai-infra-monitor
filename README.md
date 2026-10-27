@@ -15,26 +15,56 @@ company disclosures.**
 
 ## The dashboards
 
-| Dashboard | Side of the trade | What it tracks | Data |
+Four pages, one per side of the trade. Every figure carries its source and as-of date.
+
+| Dashboard | Side of the trade | The question it answers | Data |
 | --- | --- | --- | --- |
-| [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them. Same data as [MacroGauge's capacity page](https://macrogauge-cloudten.vercel.app/capacity). | [JSON](site/data/capacity.json) |
-| [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings. | [JSON](site/data/neocloud-financing-ledger.json) |
-| [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Hyperscaler capex by quarter, contracted backlog, and the AI-lab compute commitments behind it, each tied to the filing or call. | [JSON](site/data/ai-demand-monitor.json) |
-| [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Six listed routes into the physical buildout, from power and grid to photonics, memory and neocloud compute, with issuer-sourced holdings look-through. | [JSON](site/data/ai-infrastructure-etfs.json) |
+| [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts? | [JSON](site/data/capacity.json) |
+| [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | What debt carries the build, and when is it due? | [JSON](site/data/neocloud-financing-ledger.json) |
+| [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Who is paying for the megawatts? | [JSON](site/data/ai-demand-monitor.json) |
+| [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Which fund owns which bottleneck? | [JSON](site/data/ai-infrastructure-etfs.json) |
+
+### AI Capacity Tracker
+
+Neoclouds, ex-miner landlords, hyperscalers and AI labs, with operational, under-construction and
+planned critical-IT megawatts, enterprise value per megawatt, the energization schedule by
+quarter, a campus map, and the power and tenant deals behind each site. It renders
+[MacroGauge's capacity dataset](https://macrogauge-cloudten.vercel.app/capacity) as published, so
+both sites show the same figures.
 
 <img alt="AI Capacity Tracker: headline finding, capacity and enterprise-value tiles, and the view tabs" src="docs/img/neocloud-capacity-tracker.png">
 
-<img alt="Neocloud Financing Ledger: the maturity wall by year and instrument type" src="docs/img/neocloud-financing-ledger.png">
+### Neocloud Financing Ledger
 
-<img alt="AI Demand Monitor: hyperscaler capex by quarter and contracted backlog" src="docs/img/ai-demand-monitor.png">
+One row per debt instrument across the levered AI-infrastructure cohort: what is owed, to whom,
+when, and on what terms. The cohort maturity wall is split by convert moneyness against today's
+price, alongside drawn versus committed facilities and each issuer's net debt, reconciled to the
+capacity tracker with disagreements flagged rather than overwritten.
 
-<img alt="AI Infrastructure ETF Atlas: 2026 performance of six AI infrastructure ETFs and their holdings" src="docs/img/ai-infrastructure-etf-atlas.png">
+<img alt="Neocloud Financing Ledger: the 2030–32 debt wall, split into converts below break-even, converts near break-even and other financial debt" src="docs/img/neocloud-financing-ledger.png">
+
+### AI Demand Monitor
+
+What the five big buyers spend and guide, quarter by quarter, against what the sellers have under
+contract (RPO and backlog) and the register of frontier-lab compute commitments. A cross-check
+sets buyer spend against contracted neocloud megawatts. Sizes supported only by press reports are
+marked as secondary.
+
+<img alt="AI Demand Monitor: headline finding on hyperscaler capex, cohort tiles, and stacked quarterly capex by company" src="docs/img/ai-demand-monitor.png">
+
+### AI Infrastructure ETF Atlas
+
+Six listed routes into the physical buildout, from power delivery and the grid to photonics,
+memory, GPU capacity and data center real estate. Returns are compared from a common start date,
+then each fund is broken down into its sleeves and top holdings from the issuer's own holdings
+file, with holdings overlap set against return correlation.
+
+<img alt="AI Infrastructure ETF Atlas: six ETFs rebased to a common start date, with single-bottleneck funds solid and broad baskets dashed" src="docs/img/ai-infrastructure-etf-atlas.png">
 
 ## Data sources
 
 - **Capacity:** [MacroGauge](https://macrogauge-cloudten.vercel.app/capacity)'s published capacity
-  dataset, rendered as published, so both sites show the same figures. It is curated from filings,
-  with each figure's source and date in the JSON.
+  dataset, curated from filings, with each figure's source and date in the JSON.
 - **Financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings calls. Each
   figure carries its source and date in the page and in the JSON.
 - **ETF holdings:** each issuer's published holdings file.
@@ -46,8 +76,9 @@ company disclosures.**
 ## How it works
 
 The capacity page renders MacroGauge's published capacity dataset. The other dashboards are
-maintained in a private research repository, where each one has a single JSON source of truth, a refresh script, and a contract check that fails when the page and the data
-disagree. A tested export step builds this site from those sources:
+maintained in a private research repository, where each one has a single JSON source of truth, a
+refresh script, and a contract check that fails when the page and the data disagree. A tested
+export step builds this site from those sources:
 
 1. Copies the published pages and nothing else, and rewrites every link that pointed into the
    private repository.
