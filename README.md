@@ -15,7 +15,7 @@ company disclosures.**
 
 ## The dashboards
 
-Four pages, one per side of the trade. Every figure carries its source and as-of date.
+Five pages, one per side of the trade. Every figure carries its source and as-of date.
 
 | Dashboard | Side of the trade | The question it answers | Data |
 | --- | --- | --- | --- |
@@ -23,6 +23,7 @@ Four pages, one per side of the trade. Every figure carries its source and as-of
 | [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | What debt carries the build, and when is it due? | [JSON](site/data/neocloud-financing-ledger.json) |
 | [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Who is paying for the megawatts? | [JSON](site/data/ai-demand-monitor.json) |
 | [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Which fund owns which bottleneck? | [JSON](site/data/ai-infrastructure-etfs.json) |
+| [AI Trade Layer Index](https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html) | Market performance | Which layer of the AI trade has the market rewarded this year? | [JSON](site/data/ai-trade-layer-index.json) |
 
 ### AI Capacity Tracker
 
@@ -61,6 +62,15 @@ file, with holdings overlap set against return correlation.
 
 <img alt="AI Infrastructure ETF Atlas: six ETFs rebased to a common start date, with single-bottleneck funds solid and broad baskets dashed" src="docs/img/ai-infrastructure-etf-atlas.png">
 
+### AI Trade Layer Index
+
+Ten layers of the AI trade, from accelerators and chip equipment to the hyperscalers, neoclouds
+and the data and software layer, each tracked as an equal-weighted and a market-cap-weighted
+index from the 2025 year-end close and charted against SPY and QQQ. A scoreboard ranks the layers
+and opens each one to its constituents.
+
+<img alt="AI Trade Layer Index: year-to-date equal-weighted index of each of the ten layers against SPY and QQQ" src="docs/img/ai-trade-layer-index.png">
+
 ## Data sources
 
 - **Capacity:** [MacroGauge](https://macrogauge-cloudten.vercel.app/capacity)'s published capacity
@@ -68,7 +78,8 @@ file, with holdings overlap set against return correlation.
 - **Financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings calls. Each
   figure carries its source and date in the page and in the JSON.
 - **ETF holdings:** each issuer's published holdings file.
-- **Market prices:** equity quotes and market caps from [Financial Modeling Prep](https://site.financialmodelingprep.com/);
+- **AI trade layers:** the author's grouping of 57 stocks into ten layers.
+- **Market prices:** equity quotes, daily closes and market caps from [Financial Modeling Prep](https://site.financialmodelingprep.com/);
   ETF price history from Nasdaq. Every price-derived figure shows its quote date.
 
 [`site.json`](site/site.json) lists every page with its as-of date and market-data source.
