@@ -45,14 +45,6 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
     MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
-- [ ] **Point the financing ledger and demand monitor at MacroGauge's capacity data.** Both hub
-  pages still embed figures from the notebook's capacity file, so they now disagree with the hub's
-  own capacity page. The ledger's net-debt reconciliation and tracker snapshot use notebook net debt
-  and quotes (CRWV $46.6B there vs $29.8B on the capacity page; quotes 10-26 vs MacroGauge's 10-23).
-  The demand monitor's capacity cross-check uses notebook totals (1,335 MW operational, 6,323 MW
-  tenant-contracted, as of 10-25). Have `financing_ledger_refresh.py` and `ai_demand_refresh.py`
-  read MacroGauge's `capacity.json`. *Added 2026-10-26.*
-
 - [ ] **Match the pricing cadence.** MacroGauge reprices every weekday morning; the hub takes
   MacroGauge's prices at export time. A scheduled export (hub plan, Phase 3 follow-up) keeps the
   hub within a day. *Added 2026-10-26.*
@@ -86,6 +78,12 @@ Operational backlog for the public hub. Add items as they surface; check them of
   *Added 2026-10-27.*
 
 ## Done
+
+- [x] **Financing ledger and demand monitor read MacroGauge's capacity data.** `financing_ledger_refresh.py`
+  and `ai_demand_refresh.py` now read MacroGauge's published `capacity.json`; the ledger's net-debt
+  comparison follows MacroGauge's per-issuer convention with a sourced principal-basis column, and the
+  financing audit's findings are remediated in the notebook and pinned by `tools/check_financing.py`. See
+  `docs/reviews/2026-10-27-financing-ledger-audit.md`. *2026-10-27.*
 
 - [x] **Capacity page source of truth is MacroGauge.** The hub export reads MacroGauge's published
   `capacity.json` and renders it with a port of MacroGauge's `/capacity` page: 29 companies,

@@ -113,6 +113,7 @@ CI runs on every push:
 ```bash
 python3 tools/check_site.py site                                  # relative links resolve, JSON parses
 python3 tools/check_demand.py                                    # embedded parity, financial calculations, source regression checks
+python3 tools/check_financing.py                                 # ledger parity, maturity wall and net-debt calculations, audit regressions
 npx --yes html-validate@11.16.2 --preset standard site/*.html    # HTML validates
 ```
 
