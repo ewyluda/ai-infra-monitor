@@ -11,7 +11,7 @@ company disclosures.**
 [MacroGauge](https://macrogauge-cloudten.vercel.app/datacenter) (data center cost indexes) ·
 [GPU Price Index](https://ewyluda.github.io/gpu-price-index/) (compute rental prices)
 
-<img alt="AI Infra Monitor landing page: one card per dashboard with its headline figures and as-of date" src="docs/img/index.png">
+<img alt="AI Infra Monitor landing page, animated: the pointer moves across the dashboard cards, each with its headline figures, a preview chart and its as-of date, then the page scrolls to the sister sites and how the hub is built" src="docs/img/index.gif">
 
 ## The dashboards
 
@@ -33,7 +33,7 @@ quarter, a campus map, and the power and tenant deals behind each site. It rende
 [MacroGauge's capacity dataset](https://macrogauge-cloudten.vercel.app/capacity) as published, so
 both sites show the same figures.
 
-<img alt="AI Capacity Tracker: headline finding, capacity and enterprise-value tiles, and the view tabs" src="docs/img/neocloud-capacity-tracker.png">
+<img alt="AI Capacity Tracker, animated: the headline and capacity tiles, the valuation-versus-execution scatter, the Capacity tab filtered to neoclouds, the energization timeline and the campus map, then the power-deals table with a cell's note in a tooltip and a sort by megawatts" src="docs/img/neocloud-capacity-tracker.gif">
 
 ### Neocloud Financing Ledger
 
@@ -42,7 +42,7 @@ when, and on what terms. The cohort maturity wall is split by convert moneyness 
 price, alongside drawn versus committed facilities and each issuer's net debt, reconciled to the
 capacity tracker with disagreements flagged rather than overwritten.
 
-<img alt="Neocloud Financing Ledger: the 2030–32 debt wall, split into converts below break-even, converts near break-even and other financial debt" src="docs/img/neocloud-financing-ledger.png">
+<img alt="Neocloud Financing Ledger, animated: the 2030–32 debt wall with a bar's tooltip; clicking 2030 filters the ledger to that maturity, a note expands and the ledger sorts by face value; the filter clears, then the drawn-versus-committed and convert-moneyness tabs, with one convert's tooltip" src="docs/img/neocloud-financing-ledger.gif">
 
 ### AI Demand Monitor
 
@@ -51,7 +51,7 @@ contract (RPO and backlog) and the register of frontier-lab compute commitments.
 sets buyer spend against contracted neocloud megawatts. Sizes supported only by press reports are
 marked as secondary.
 
-<img alt="AI Demand Monitor: headline finding on hyperscaler capex, cohort tiles, and stacked quarterly capex by company" src="docs/img/ai-demand-monitor.png">
+<img alt="AI Demand Monitor, animated: the headline and cohort tiles; hovering Amazon in the legend picks out its bars in the quarterly capex chart; a spend-against-guide tooltip; the quarterly table switches to each company's headline measure; the Anthropic tile filters the lab register, a note expands and the register sorts by size" src="docs/img/ai-demand-monitor.gif">
 
 ### AI Infrastructure ETF Atlas
 
@@ -60,7 +60,7 @@ memory, GPU capacity and data center real estate. Returns are compared from a co
 then each fund is broken down into its sleeves and top holdings from the issuer's own holdings
 file, with holdings overlap set against return correlation.
 
-<img alt="AI Infrastructure ETF Atlas: six ETFs rebased to a common start date, with single-bottleneck funds solid and broad baskets dashed" src="docs/img/ai-infrastructure-etf-atlas.png">
+<img alt="AI Infrastructure ETF Atlas, animated: six ETFs rebased to a common start date with a tooltip listing each fund's change on the hovered date; the chart switches to full-year 2026 and hides DRAM; the holdings-overlap matrix with a pair's tooltip; DRAM's top holdings; the fund comparison sorted by 2026 return" src="docs/img/ai-infrastructure-etf-atlas.gif">
 
 ### AI Trade Layer Index
 
@@ -69,7 +69,7 @@ and the data and software layer, each tracked as an equal-weighted and a market-
 index from the 2025 year-end close and charted against SPY and QQQ. A scoreboard ranks the layers
 and opens each one to its constituents.
 
-<img alt="AI Trade Layer Index: year-to-date equal-weighted index of each of the ten layers against SPY and QQQ" src="docs/img/ai-trade-layer-index.png">
+<img alt="AI Trade Layer Index, animated: ten layer indexes year to date against SPY and QQQ, with a crosshair tooltip listing every series on the hovered date; the chart switches to market-cap weighting and a log scale; Memory &amp; Storage expands into its constituents and the scoreboard re-sorts by equal-weighted return" src="docs/img/ai-trade-layer-index.gif">
 
 ## Data sources
 

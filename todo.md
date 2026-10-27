@@ -68,7 +68,7 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - **Next export (after MacroGauge's 2026-10-28 publish):** the scheduled export should pick up
     PR #142's WULF backlog 27 on the capacity page with no manual step; confirm it did.
   - **Done 2026-10-27, lab register sweep since 10-01:** three rows added, `labs_as_of` moved to
-    2026-10-27 (live at the next scheduled export). Anthropic–EverWind Nova Scotia lease (10/16,
+    2026-10-27 (live since the 10-27 export). Anthropic–EverWind Nova Scotia lease (10/16,
     95 MW first phase; secondary, since only the press names Anthropic). The Broadcom-arranged
     $63B SPV (10/26), a financing of Anthropic's existing Broadcom lease, not a new commitment.
     SpaceX's ~$40B Apollo GPU finance lease (10/26 8-K). Not added, still talks: a second
@@ -82,13 +82,6 @@ Operational backlog for the public hub. Add items as they surface; check them of
     MacroGauge $13.5B, notebook capacity $18B). The Nebius $3.5B Citi bridge goes into the /rates
     note and NBIS `ndflag` (F3).
 
-- [ ] **Replace the README screenshots with GIFs that scroll and interact with each page.** The six
-  static PNGs in `docs/img/` (landing page plus five dashboards) show only the top of each page.
-  Record a short GIF per page that scrolls through its best content and exercises its features
-  (view tabs, hovers and tooltips, filters, toggles), then swap each `<img>` in `README.md` and keep
-  the alt text accurate. Script the capture so it can be rerun after redesigns, and keep each GIF
-  small enough to load quickly on GitHub. *Added 2026-10-27.*
-
 - [ ] **Later: make a 90-second showcase video of the hub.** Model it on the Solution for Sandra
   gala video (`Code & Projects/Solution for sandra/video/` in Google Drive): a storyboard table of
   timed scenes and captions, a scripted browser capture (`capture.mjs`), original generated music
@@ -99,6 +92,13 @@ Operational backlog for the public hub. Add items as they surface; check them of
 
 ## Done
 
+- [x] **Replaced the README screenshots with GIFs that scroll and use each page.** One GIF per page
+  (`docs/img/<page>.gif`, 1.5–2.6 MB, 12–19 s at 1280×800) scrolls through its best content and
+  exercises its features: view tabs, filters and toggles, sortable heads, tooltips and expanding
+  notes. The capture is scripted and reruns with one command against the built `site/` after a
+  redesign; a tour step whose target has gone fails the run instead of recording a broken GIF. The
+  six static PNGs are gone. *2026-10-27.*
+
 - [x] **Polished the visuals on every page.** All six pages share the capacity page's MacroGauge
   style: sans type and numerals, one heading scale, and one style for controls, table heads and the
   hover card. New interactions: sortable table headers where rows compare, one tooltip on hover and
@@ -106,7 +106,8 @@ Operational backlog for the public hub. Add items as they surface; check them of
   shorter), linked highlights (scatter dot and table row, scoreboard row and chart line, legend and
   bars, matrix pairs), lab tiles that filter the register, and a maturity-wall year that filters the
   ledger. Each landing card gains a small preview chart. axe-core finds no violations on any page or
-  tab at desktop or phone width. Ships with the next scheduled export. *2026-10-27.*
+  tab at desktop or phone width. Live since 2026-10-27: the export script was run by hand with
+  `--force` instead of waiting for MacroGauge's next publish. *2026-10-27.*
 
 - [x] **Matched the pricing cadence.** A scheduled export runs hourly from 09:15 to 22:15 ET and acts
   only when MacroGauge has published something the hub doesn't show yet. It re-syncs the ledger
