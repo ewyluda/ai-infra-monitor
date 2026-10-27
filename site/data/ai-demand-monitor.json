@@ -5,7 +5,7 @@
  "contracted_as_of": "2026-10-07",
  "labs_as_of": "2026-10-01",
  "title": "AI Demand Monitor — hyperscaler capex, contracted backlog and AI-lab commitments",
- "note": "Demand side of the AI buildout: what the buyers of capacity disclose. Canonical source for ai-demand-monitor.{md,html}. $B unless noted. Every row carries the date it was disclosed (as_of) and a primary source; sourcing='secondary' marks figures supported only by press accounts. Derived series (q/q, trailing-4Q, run-rate, guide midpoints and revisions, capex-per-contracted-GW) are computed at render time by the HTML, never stored. Research, not P&L. Does not duplicate the neocloud capacity tracker — capacity_crosscheck retains the selected company and tenant rows from the published capacity.json snapshot, with inferred-MW exclusions.",
+ "note": "Demand side of the AI buildout: what the buyers of capacity disclose. Canonical source for ai-demand-monitor.{md,html}. $B unless noted. Every row carries the date it was disclosed (as_of) and a primary source; sourcing='secondary' marks figures supported only by press accounts. Derived series (q/q, trailing-4Q, run-rate, guide midpoints and revisions, capex-per-contracted-GW) are computed at render time by the refresh script and the HTML from the same formulas, never stored. Research, not P&L. Does not duplicate the neocloud capacity tracker — capacity_crosscheck retains the selected company and tenant rows from MacroGauge's published capacity.json snapshot, with inferred-MW exclusions.",
  "sources_note": "Cash capex is FMP statements/cashflow-statement 'investmentsInPropertyPlantAndEquipment' (sign flipped), pulled 2026-10-25. Cross-checks: the five hyperscalers' quarterly figures and closed-year sums against their releases; CRWV against its 10-Q/10-K (H1 2025, 9M 2025, FY2025, H1 2026 cash paid for P&E); NBIS against its shareholder letters and the Q1 2026 financial-statement comparative for Q1 2025. Guide quotes, finance leases, RPO and contracted figures are from the linked releases and filings; guides whose quote comes from the call carry a guide.src and were checked against the FMP earningsTranscript text. Lab-register sizes marked primary link a company, lab or SEC source; secondary rows link the press report (press_src). Perplexity research (2026-10-25/26) located the sources; it is not cited as a source.",
  "basis": {
   "qoq": "capex[q] / capex[q-1] - 1 (within a company's own series)",
@@ -2611,8 +2611,8 @@
   "tenants_undisclosed_mw": 3,
   "method": "Select tenant rows for the 14 listed operator tickers; exclude CRWV tenant overlap, ORCL/SPCX benchmarks, BTBT parent and AKAM context. Include numeric MW unless explicitly marked MW inferred in the source note. Undisclosed and inferred rows remain in this snapshot but add zero to the denominator. Operator op/con/plan totals retain the same ticker selection and are separate from tenant MW. Includes non-hyperscaler tenants. This reproduces the published tracker selection, not an independent certification of each tenant disclosure.",
   "source_published_at": "2026-10-26T12:49:10Z",
-  "source_sha256": "81daf216b0fb4184db3e2ea40a35505176a3ee57dd892e320f4a15135110a5fe",
-  "synced_on": "2026-10-27",
+  "tenants_inferred_mw": 1,
+  "inferred_mw_excluded": 400,
   "companies": [
    {
     "t": "NBIS",
@@ -2900,8 +2900,6 @@
     "included": false,
     "exclusion_reason": "undisclosed"
    }
-  ],
-  "tenants_inferred_mw": 1,
-  "inferred_mw_excluded": 400
+  ]
  }
 }

@@ -4,6 +4,34 @@ Review date: **2026-10-27** (America/New_York). Outcome: **Needs revision**.
 
 This is an audit-only record. No production code, published page, or live dataset was changed for this review or report. Proposed corrections below have **not** been applied. Dollar amounts are USD; tables marked `$M` use millions. Findings describe the captured October 27 page, whose research date was October 25 and stock-price date was October 26. They are not assertions about balances after that snapshot.
 
+## Remediation status (added 2026-10-27, after the audit)
+
+The findings below are unchanged and still describe the reviewed commit. Corrections were made where the page is generated, in the private notebook (canonical JSON, refresh script, dashboard template and tests), and then exported here. Editing the hub copy alone would be overwritten by the next export. [`tools/check_financing.py`](../../tools/check_financing.py) runs in CI and pins each fix as a regression check. It runs the page's own calculation code under Node and fails against the reviewed data.
+
+| Finding | Remediation | Result now |
+| --- | --- | --- |
+| F01 | CIFR cash recorded as unrestricted $831.829M, restricted $3,727.958M, each counted once; narrative rewritten | Net debt on every basis; no net-cash claim |
+| F02 | Filed principal ladders captured for WULF, CIFR, IREN (fiscal June), APLD (fiscal May), HUT; CORZ note schedule | Due on demand or by end-2027 $12.75B (was $12.10B) |
+| F03 | Ladder allocation keeps non-amortizing (bullet) principal at its maturity and deducts it from the filed period holding it; only the remainder is spread | CRWV 2031/2032 converts at $2,587.5M/$4,000M |
+| F04 | Tracker snapshot read from MacroGauge's published `capacity.json`; each issuer's debt rows, cash scope and comparison date follow MacroGauge's stated convention; a sourced "+ to principal" column restates its carrying-value debt | 13 match, BTBT consolidated; GLXY disagrees on MacroGauge's own stale pre-notes basis |
+| F05 | One basis helper used by rows, totals, commitments, moneyness and the wall; later-dated availability reported as undisclosed at the balance date | Pro forma off: 109 rows, $92,548.343M; CRWV $35,550.5M |
+| F06 | A ladder applies only when every row it covers is selected | CRWV + "Magnetar": $189M wall, $0 near-term |
+| F07 | WYFI B. Riley note repaid 8/24, $30M of Bit Digital DDTL repaid 9/23 (proxy, verified); repayments taken from cash | WYFI gross debt pro forma −$50M; net debt unchanged by the repayments |
+| F08 | BTDR asset loan $423.3M at 9/29 pro forma, reduction taken from cash; BTC loan kept at its June valuation with units noted | No BTC-loan dollar value assumed |
+| F09 | RIOT revolver available $0.557M (10-Q, verified); WYFI DDTL at most $20M | Available undrawn $15,390.667M |
+| F10 | BTBT nets ex-WYFI cash $27.499M | BTBT parent net debt $172.5M |
+| F11 | BTDR +$58M ATM, GLXY −$25.4M buybacks, MARA −$100M deposit added to pro-forma cash | — |
+| F12 | `final_maturity` field; `check` errors on any maturity text naming more than one year without it | WYFI Iceland in 2028; BTDR BTC loan in the period ending June 2027 |
+| F13 | IREN Mackenzie recourse "spv, parent payment guarantee" with the 10-K terms | — |
+| F14 | CRWV DDTL 2.0 committed $5.0B, so 2.0 + 2.1 = $8.0B | — |
+| L01 | `first_put` on nine series; puts through next year shown beside the wall and in the near-term tile | $989.1M through 2027 (stored rounding) |
+| L02 | Accretion above stored principal stated in the wall note | $2,302.3M |
+| L03 | `settlement: cash principal` on WULF 2030/2031, shown in moneyness | — |
+| L04–L06 | Conditional revolver availability, the NBIS exchange assumption and the intercompany WYFI DDTL labeled on their rows | — |
+| Lower 1–7 | APLD preferred terms and completion guarantees, MARA funding, WYFI RBC guarantors, GLXY loan scope, RIOT finance leases ($0) updated; moneyness column reads "vs conv" and states the minimum bubble size | — |
+
+**Still open (not resolvable from current disclosures):** the BTDR bitcoin loan's dollar value after September (units only); WULF and CIFR revolver availability conditions; NBIS exchange settlement; the split of CIFR's 2030 amortization between Black Pearl and Stingray (derived from the filed table); fiscal-year ladders sit in the calendar year each fiscal year ends, so APLD's near-term amount is a floor; amortizing rows without schedules (GLXY Helios II, BTDR other loans, WYFI Iceland and RBC) remain floors. GLXY's disagreement needs MacroGauge to re-derive its net debt. Prices now come from MacroGauge's snapshot (October 23), so moneyness inputs moved from the October 26 quotes; the OTM share is unchanged at 84.9%.
+
 ## Scope and snapshot
 
 - Target: [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html). The original request's displayed link text named the demand monitor, but its destination was this financing page.

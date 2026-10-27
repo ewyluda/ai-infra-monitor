@@ -21,5 +21,7 @@ jobs:
           node-version: 22
       - name: Demand data and calculations
         run: python3 tools/check_demand.py
+      - name: Financing data and calculations
+        run: python3 tools/check_financing.py
       - name: HTML validates
         run: npx --yes html-validate@11.16.2 --preset standard site/*.html
