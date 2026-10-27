@@ -182,6 +182,13 @@ th{background:#EEF2F6;color:#526170}
 .rail a:hover,.rail a:focus-visible{background:var(--aim-sky);border-color:var(--aim-sky);color:#fff}
 .takeaway{border-top-color:var(--aim-sky)}
 .skip{color:#fff}
+/* Series toggles and legend (price edition): fund hues stay on borders and swatches, text stays
+   text-safe; "off" is gray plus strikethrough instead of fading the whole item below 4.5:1. */
+.series-button[data-ticker]{color:var(--ink)!important}
+.series-button.off{opacity:1;color:#606c7a!important}
+.legend-item.off{opacity:1}
+.legend-item.off .legend-top,.legend-item.off .legend-return{color:#606c7a;text-decoration:line-through}
+.legend-item.off .legend-swatch{opacity:.36}
 </style>
 </head>
 <body>

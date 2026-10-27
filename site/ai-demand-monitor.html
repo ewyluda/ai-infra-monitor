@@ -272,7 +272,7 @@ function renderCapexTable(){
       h+=`<tr><td title="${esc(c.capex_basis)}" style="white-space:normal;min-width:180px;max-width:260px"><span class="dot" style="background:${COLOR[c.t]}"></span><span class="tk">${c.t}</span> <span style="color:var(--faint)">${esc(c.name)} · FY ${esc(c.fy_end)}</span>${BASIS==="headline"&&c.headline?`<span class="d">${esc(c.headline.label)}</span>`:""}</td>`;
       for(const q of qs){ const r=byQ[q]; if(!r){h+=`<td></td>`;continue;} const v=cellValue(c,r);
         const title=`${r.fiscal} · period end ${r.period_end} · call ${r.call_date} · filed ${r.filing_date}${r.fin_lease_note&&BASIS==="lease_add"?"\n"+r.fin_lease_note:""}\n${r.guide?r.guide.fy+": "+r.guide.text:""}${r.rpo?"\n"+r.rpo.metric+" $"+r.rpo.value+"B":""}`;
-        const d=qoq[q]; h+=`<td title="${esc(title)}"><a href="${esc(r.call_url)}" style="text-decoration:none">${v==null?"":num(v,3)}</a>${BASIS==="capex"&&d!=null?`<span class="d ${d>=0?"up":"dn"}">${pct(d)}</span>`:""}</td>`; }
+        const d=qoq[q]; h+=`<td title="${esc(title)}">${v==null?"":`<a href="${esc(r.call_url)}" style="text-decoration:none">${num(v,3)}</a>`}${BASIS==="capex"&&d!=null?`<span class="d ${d>=0?"up":"dn"}">${pct(d)}</span>`:""}</td>`; }
       h+=`<td>${BASIS==="capex"?fmt(ttm(c)):""}</td><td>${BASIS==="capex"?fmt(runRate(c)):""}</td></tr>`; } }
   $("capexTable").innerHTML=h+"</tbody>";
   $("capexDefs").innerHTML=`<details><summary>What each company's capex and headline measures contain</summary>${D.capex.companies.map(c=>`<div class="quote"><b>${c.t}</b> — ${esc(c.capex_basis)}</div>`).join("")}</details>`;
