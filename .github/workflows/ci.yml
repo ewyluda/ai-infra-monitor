@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  site:
+    name: Links and HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Relative links resolve, data is valid JSON
+        run: python3 tools/check_site.py site
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: HTML validates
+        run: npx --yes html-validate@11.16.2 --preset standard site/*.html

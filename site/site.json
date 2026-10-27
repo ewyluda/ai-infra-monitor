@@ -1,0 +1,51 @@
+{
+ "name": "AI Infra Monitor",
+ "prices": "keep",
+ "as_of": "2026-10-26",
+ "pages": [
+  {
+   "file": "neocloud-capacity-tracker.html",
+   "title": "Neocloud Capacity Tracker",
+   "data": "data/neocloud-capacity.json",
+   "as_of": "2026-10-25",
+   "market_data": "FMP"
+  },
+  {
+   "file": "neocloud-financing-ledger.html",
+   "title": "Neocloud Financing Ledger",
+   "data": "data/neocloud-financing-ledger.json",
+   "as_of": "2026-10-25",
+   "market_data": "FMP (via the capacity tracker)"
+  },
+  {
+   "file": "ai-demand-monitor.html",
+   "title": "AI Demand Monitor",
+   "data": "data/ai-demand-monitor.json",
+   "as_of": "2026-10-26",
+   "market_data": null
+  },
+  {
+   "file": "ai-infrastructure-etf-atlas.html",
+   "title": "AI Infrastructure ETF Atlas",
+   "data": "data/ai-infrastructure-etfs.json",
+   "as_of": "2026-09-03",
+   "market_data": "Nasdaq"
+  }
+ ],
+ "files": [
+  "ai-demand-monitor.html",
+  "ai-infrastructure-etf-atlas.html",
+  "assets/apple-touch-icon.png",
+  "assets/brand.css",
+  "assets/favicon.svg",
+  "assets/og-image.png",
+  "data/ai-demand-monitor.json",
+  "data/ai-infrastructure-etfs.json",
+  "data/neocloud-capacity.json",
+  "data/neocloud-financing-ledger.json",
+  "index.html",
+  "neocloud-capacity-tracker.html",
+  "neocloud-financing-ledger.html",
+  "site.json"
+ ]
+}
