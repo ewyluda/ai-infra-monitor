@@ -390,8 +390,9 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
     <p class="method">
       Weighted MW = operational + half of construction + a quarter of planned. Energized = operational ÷ total.
       <span class="priced-only">Backlog ÷ EV = contracted backlog over enterprise value. </span>Totals are <b>de-duplicated</b>: <span id="dedupeList"></span>
-      are shown on their own rows but left out of the cohort totals and the timeline. Oracle and SpaceX are
-      <b>benchmarks</b> for scale, not peers. Net debt includes finance and operating leases where disclosed; each record states its basis.
+      are shown on their own rows but left out of the cohort totals and the timeline. Oracle (OCI) and SpaceX
+      (Colossus / xAI) are tracked as <b>hyperscalers and AI labs</b>: they self-build for their own clouds and
+      models, so their MW are a scale reference and stay out of the cohort totals. Net debt includes finance and operating leases where disclosed; each record states its basis.
     </p>
     <p class="method">
       Download the dataset: <a href="data/neocloud-capacity.json">neocloud-capacity.json</a>.
@@ -417,7 +418,7 @@ const C = (NEO.companies || []).map(c => {
   const tot = c.op + c.con + c.plan;
   const ev = c.cap == null ? null : c.cap + c.nd;
   const wmw = c.op + 0.5 * c.con + 0.25 * c.plan;
-  const comparable = c.role !== 'benchmark' && !c.capacity_basis;   // benchmark EVs bundle other businesses
+  const comparable = c.role !== 'benchmark' && !c.capacity_basis;   // data role 'benchmark' = hyperscaler / AI lab: conglomerate EV
   return { ...c, tot, ev, wmw,
     ev_per_mw: comparable && ev != null && wmw ? ev * 1000 / wmw : null,
     pct_energized: tot ? Math.round(100 * c.op / tot) : null,
@@ -430,15 +431,15 @@ const live = C.filter(c => !c.dupe);
 const names = new Map(C.map(c => [c.t, c.n]));
 
 const ROLE = { neocloud: 'Neocloud', landlord: 'Powered-shell landlord', operator: 'AI cloud operator',
-  benchmark: 'Benchmark', exploratory: 'Exploring AI hosting' };
+  benchmark: 'Hyperscaler', exploratory: 'Exploring AI hosting' };
 const businessOf = c => c.role === 'benchmark' ? 'benchmark' : (c.role === 'landlord' || c.role === 'exploratory') ? 'landlord' : 'cloud';
 const BUSINESS = {
-  benchmark: { label: 'Benchmarks', detail: 'scale references; consolidated businesses, not peers' },
+  benchmark: { label: 'Hyperscalers and AI labs', detail: 'self-build for their own clouds and models; not in the totals' },
   cloud: { label: 'Neoclouds: GPU clouds and operators', detail: 'rent out GPU compute' },
   landlord: { label: 'Landlords and power developers', detail: 'ex-miners, colocation landlords and sites still seeking AI tenants' },
 };
 const cohortOf = c => c.role === 'benchmark' ? 'benchmark' : 'neocloud';
-const COHORTS = [['all', 'All'], ['neocloud', 'Neoclouds'], ['benchmark', 'Benchmarks']];
+const COHORTS = [['all', 'All'], ['neocloud', 'Neoclouds'], ['benchmark', 'Hyperscalers']];
 const TABS = (PRICED ? ['Valuation × Execution'] : []).concat(['Capacity', 'Demand map', 'Timeline', 'Geo map']);
 const SORTS = [['total', 'Total MW'], ['op', 'Operational MW'], ['con', 'Construction MW'], ['plan', 'Planned MW']]
   .concat(PRICED ? [['ev_per_mw', 'EV per MW'], ['cap', 'Market cap']] : []);
@@ -492,11 +493,11 @@ function renderHeader() {
     (PRICED ? ` · priced <b>${esc(NEO.quote_as_of)}</b> (FMP)` : ' · market prices are not shown in this edition') +
     ` · <a href="#cap-method">How it&apos;s built</a>`;
   $('methodPrices').innerHTML = PRICED
-    ? `Market caps and prices are Financial Modeling Prep quotes as of <b>${esc(NEO.quote_as_of)}</b>. Enterprise value = market cap + net debt (these names are debt-heavy); EV per MW = EV ÷ weighted MW; the benchmarks' consolidated EVs bundle non-AI businesses, so they carry none. Net debt and backlog come from the latest filing, so the valuation figures are approximate: a relative ranking, not a price target.`
+    ? `Market caps and prices are Financial Modeling Prep quotes as of <b>${esc(NEO.quote_as_of)}</b>. Enterprise value = market cap + net debt (these names are debt-heavy); EV per MW = EV ÷ weighted MW; hyperscalers carry none, since a conglomerate EV isn't tied to AI megawatts. Net debt and backlog come from the latest filing, so the valuation figures are approximate: a relative ranking, not a price target.`
     : 'This edition shows filing- and disclosure-sourced data only: market caps, enterprise values and every price-derived ratio are withheld.';
   if (!PRICED) document.querySelectorAll('.priced-only').forEach(e => e.remove());
   const dd = C.filter(c => c.dupe);
-  $('dedupeList').textContent = dd.map(c => `${c.t} (${c.dupe})`).join(', ');
+  $('dedupeList').textContent = dd.map(c => `${c.t} (${c.dupe === 'benchmark' ? 'hyperscaler' : c.dupe})`).join(', ');
 }
 
 /* ---------- toolbar ---------- */
@@ -581,7 +582,7 @@ function dossier(c) {
   const evPerMw = c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(1)}M` : 'n/a';
   const evPerMwNote = c.ev_per_mw != null ? 'EV ÷ weighted MW'
     : !PRICED ? 'not shown in this edition'
-    : c.role === 'benchmark' ? 'consolidated EV bundles non-AI businesses' : undefined;
+    : c.role === 'benchmark' ? 'conglomerate EV, not meaningful per AI MW' : undefined;
   const capNote = c.cap == null ? undefined : c.stale ? `stale — priced ${c.priced_date}` : c.priced_date ? `priced ${c.priced_date}` : undefined;
   const econ = Object.entries(c.econ || {}).sort(([a], [b]) => econOrder(a) - econOrder(b));
   const ledger = ['op', 'con', 'plan'].map(k => `<div class="cap-ledger-cell"><span class="cap-swatch cap-seg-${k}" aria-hidden="true"></span><span class="cap-ledger-label">${SEG_LABEL[k]}</span><strong>${c[k].toLocaleString('en-US')} <small>MW</small></strong></div>`).join('') +
@@ -618,7 +619,7 @@ function renderBars(panel, rs) {
   let rank = 0;
   const evCell = c => c.ev_per_mw != null
     ? (c.stale ? `<span title="Stale quote — last priced ${esc(c.priced_date)}">$${c.ev_per_mw.toFixed(0)}M*</span>` : `$${c.ev_per_mw.toFixed(0)}M`)
-    : `<span class="cap-na" title="${!PRICED ? 'Not shown in this edition' : c.role === 'benchmark' ? 'Consolidated EV — not comparable per AI MW' : 'No EV per MW'}">n/a</span>`;
+    : `<span class="cap-na" title="${!PRICED ? 'Not shown in this edition' : c.role === 'benchmark' ? 'Conglomerate EV — not meaningful per AI MW' : 'No EV per MW'}">n/a</span>`;
   panel.innerHTML = `<div class="cap-legend">
       <span><i class="cap-swatch cap-seg-op" aria-hidden="true"></i> Operational</span>
       <span><i class="cap-swatch cap-seg-con" aria-hidden="true"></i> Under construction</span>
@@ -664,7 +665,7 @@ const LOG_TICKS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
 const medianOf = v => { const s = [...v].sort((a, b) => a - b); return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2; };
 const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
 function withheld(c) {
-  if (c.role === 'benchmark') return 'Benchmark — a consolidated EV bundles non-AI businesses.';
+  if (c.role === 'benchmark') return 'Hyperscaler — a conglomerate EV isn’t tied to AI megawatts.';
   if (c.dupe === 'parent') return 'Parent row — repeats its subsidiary’s MW and EV.';
   return 'No current market quote, so no EV per MW.';
 }
@@ -729,7 +730,7 @@ function renderValuation(panel, rs) {
     <div class="dashboard-panel cap-chart" id="valChart">${svg}</div>
     <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Cheapest per megawatt first, within each business type</caption>
       <thead><tr><th scope="col">Company</th><th scope="col">Type</th><th scope="col" class="num">EV per MW</th><th scope="col" class="num">Energized</th><th scope="col" class="num">Weighted MW</th><th scope="col" class="num">Backlog ÷ EV</th></tr></thead>${table}</table></div>
-    <p class="cap-viz-note">Weighted MW = operational + half of construction + a quarter of planned. Quotes as of ${esc(NEO.quote_as_of)}; net debt and backlog from the latest filing.${excluded.length ? ` Not plotted: ${excluded.map(c => esc(c.t)).join(', ')} — EV per MW is withheld for benchmarks (a consolidated EV isn&apos;t tied to AI megawatts)${excluded.some(c => c.dupe === 'parent') ? ', and parent rows that repeat a subsidiary' : ''}.` : ''}</p>
+    <p class="cap-viz-note">Weighted MW = operational + half of construction + a quarter of planned. Quotes as of ${esc(NEO.quote_as_of)}; net debt and backlog from the latest filing.${excluded.length ? ` Not plotted: ${excluded.map(c => esc(c.t)).join(', ')} — EV per MW is withheld for hyperscalers and AI labs (a conglomerate EV isn&apos;t tied to AI megawatts)${excluded.some(c => c.dupe === 'parent') ? ', and parent rows that repeat a subsidiary' : ''}.` : ''}</p>
   </div>`;
   wireTips($('valChart'), t => { const c = byT.get(t); return c && `<strong>${esc(c.n)}</strong><span>${esc(VGROUP[vgroupOf(c)].short)}</span><dl><dt>EV per MW</dt><dd>${fmtM(c.ev_per_mw)}${c.stale ? ' (stale quote)' : ''}</dd><dt>Energized</dt><dd>${c.pct_energized}%</dd><dt>Weighted MW</dt><dd>${fmtMW(c.wmw)}</dd><dt>Backlog ÷ EV</dt><dd>${c.coverage != null ? c.coverage + '×' : '—'}</dd></dl>`; });
 }
