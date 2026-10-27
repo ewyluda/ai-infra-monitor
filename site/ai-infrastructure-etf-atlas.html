@@ -290,7 +290,7 @@ th{background:#EEF2F6;color:#526170}
       <div class="takeaway-grid">
         <article class="takeaway"><div class="num-label">01 / Core vs satellite</div><h3>Broad sleeves are not neutral.</h3><p>AIPO spans power, construction, cooling and silicon; GRID leans industrial; DTCR leans real estate and towers. Each can anchor a basket, but each imports a different factor exposure.</p></article>
         <article class="takeaway"><div class="num-label">02 / Chokepoint beta</div><h3>Purity raises torque—and fragility.</h3><p>DRAM, LYTE and NCLD target narrower scarcity claims. That can make the thesis legible, while increasing cycle, geography, financing and single-industry risk.</p></article>
-        <article class="takeaway"><div class="num-label">03 / Track-record trap</div><h3>Do not compare unequal histories.</h3><p>LYTE and NCLD have only twelve closes in this dataset; DRAM began in April. Their chart lines are launch-to-date snapshots inside a YTD frame, not equivalent full-year evidence.</p></article>
+        <article class="takeaway"><div class="num-label">03 / Track-record trap</div><h3>Do not compare unequal histories.</h3><p>LYTE and NCLD have only <span id="launchCloses"></span> closes in this dataset; DRAM began in April. Their chart lines are launch-to-date snapshots inside a YTD frame, not equivalent full-year evidence.</p></article>
       </div>
     </section>
 
@@ -343,6 +343,7 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   const esc = value => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
   document.getElementById('chartSubtitle').textContent = `Normalized to each fund’s first available close · through ${fmtDate(data.as_of)}`;
+  document.getElementById('launchCloses').textContent = Math.min(...funds.filter(f => ['LYTE','NCLD'].includes(f.ticker)).map(f => f.history.length));
   document.getElementById('chartMethod').textContent = data.performance_method;
   document.getElementById('footerStamp').textContent = `Market data through ${fmtDate(data.as_of)} · generated ${data.generated_at.slice(0,10)}`;
 
@@ -400,6 +401,8 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   function toDay(iso){ return Date.parse(iso+'T00:00:00Z') / 86400000; }
   const minDay = toDay('2026-01-02');
   const maxDay = toDay(data.as_of);
+  const tradingDays = [...new Set(funds.flatMap(f => f.history.map(p => p.date)))].sort();
+  const months = tradingDays.filter((d,i) => !i || d.slice(0,7) !== tradingDays[i-1].slice(0,7)).map(d => [d, new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(new Date(d+'T00:00:00Z')).toUpperCase()]);
   function series(f){ const base=f.history[0].close; return f.history.map(p => ({date:p.date,day:toDay(p.date),value:(p.close/base-1)*100,close:p.close})); }
   const seriesByTicker = Object.fromEntries(funds.map(f => [f.ticker,series(f)]));
 
@@ -424,7 +427,6 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
     for(let tick=Math.ceil(lo/step)*step;tick<=hi;tick+=step){
       const yy=y(tick);ctx.strokeStyle=tick===0?'#606c7a':'#e3e8ee';ctx.lineWidth=tick===0?1.2:1;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();ctx.fillStyle='#606c7a';ctx.textAlign='right';ctx.fillText(`${tick>0?'+':''}${tick}%`,pad.l-9,yy);
     }
-    const months=[['2026-01-02','JAN'],['2026-02-02','FEB'],['2026-03-02','MAR'],['2026-04-01','APR'],['2026-05-01','MAY'],['2026-06-01','JUN'],['2026-07-01','JUL'],['2026-08-03','AUG']];
     months.forEach(([d,label],i)=>{const xx=x(toDay(d));ctx.strokeStyle='#eef2f6';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,h-pad.b);ctx.stroke();ctx.fillStyle='#606c7a';ctx.textAlign=i===0?'left':'center';ctx.fillText(label,xx,h-18)});
     funds.forEach(f=>{
       if(!active.has(f.ticker))return;const pts=seriesByTicker[f.ticker];ctx.strokeStyle=f.color;ctx.lineWidth=2.4;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();pts.forEach((p,i)=>{const xx=x(p.day),yy=y(p.value);i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();
