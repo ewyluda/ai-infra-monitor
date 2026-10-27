@@ -73,7 +73,16 @@
   .path .arr{color:var(--faint);margin:0 5px}
   footer{margin-top:50px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);padding-top:16px}
   footer code{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:rgba(23,33,43,.05);padding:1px 5px;border-radius:5px}
-  @media (max-width:720px){.wrap{padding:28px 16px 60px}th,td{padding:6px 7px}}
+  .gp-row{display:grid;grid-template-columns:minmax(150px,230px) minmax(0,1fr);gap:6px 18px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+  .gp-row:last-child{border-bottom:0;padding:2px 0 0}
+  .gp-basis{font-size:11px;color:var(--faint);margin-top:2px}
+  .gp-track{position:relative;height:20px;border-radius:5px;background:var(--panel-2);border:1px solid var(--border)}
+  .gp-band{position:absolute;top:0;bottom:0;opacity:.3}.gp-band.pt{opacity:1;margin-left:-1px}
+  .gp-bar{position:absolute;left:0;top:5px;height:8px;border-radius:0 3px 3px 0}
+  .gp-pace{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;background:var(--ink)}
+  .gp-txt{grid-column:2;font-size:12.5px;color:var(--muted)}.gp-txt b{color:var(--ink);font-family:var(--mono);font-weight:600}
+  .gp-axis{position:relative;height:16px;font-family:var(--mono);font-size:10.5px;color:var(--faint)}.gp-axis span{position:absolute;transform:translateX(-50%)}
+  @media (max-width:720px){.wrap{padding:28px 16px 60px}th,td{padding:6px 7px}.gp-row{grid-template-columns:minmax(0,1fr)}.gp-txt{grid-column:1}}
 </style>
 <meta name="description" content="Who is paying for the buildout: hyperscaler capex by quarter, contracted backlog, and the AI-lab compute commitments behind it, each tied to the filing or call." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Demand Monitor · AI Infra Monitor" /><meta property="og:description" content="Who is paying for the buildout: hyperscaler capex by quarter, contracted backlog, and the AI-lab compute commitments behind it, each tied to the filing or call." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style id="aim-theme">/* Shared light restyle for the dark dashboard system: surfaces, ink and type from the
    AI Infra Monitor brand (MacroGauge tokens). Injected after the page's own styles. */
@@ -98,8 +107,8 @@ svg text[fill="#8b97a3"]{fill:#526170}
 <div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html" aria-current="page">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a></nav></div></div>
 <div class="wrap">
   <div class="eyebrow">AI Infra Monitor · demand side</div>
-  <h1>Who is <span class="accent">paying for the megawatts?</span><br/>Hyperscaler capex, contracted backlog, AI-lab commitments</h1>
-  <p class="lede">The <a href="neocloud-capacity-tracker.html">capacity tracker</a> counts sellable AI megawatts on the supply side. This page watches the
+  <h1 id="headline">Hyperscaler capex, contracted backlog, AI-lab commitments</h1>
+  <p class="lede"><b>Who is paying for the megawatts?</b> The <a href="neocloud-capacity-tracker.html">capacity tracker</a> counts sellable AI megawatts on the supply side. This page watches the
     <b>demand that fills them</b>: what the five big buyers spend and guide, what the sellers have under contract, and what the frontier labs have committed to.
     Capex rows as of <b id="capexAsOf">—</b>, contracted rows as of <b id="contractedAsOf">—</b>, lab register through <b id="labsAsOf">—</b>.
     Every figure carries its disclosure date and source; <span class="badge sec">secondary</span> marks a size supported only by press reports. Research, not P&amp;L.</p>
@@ -114,9 +123,18 @@ svg text[fill="#8b97a3"]{fill:#526170}
   <div class="card">
     <div class="legend" id="chartLegend"></div>
     <div class="chart" id="capexChart"></div>
-    <p class="note">Grouped bars: quarterly cash capex, $B, by calendar quarter of the period end (Oracle's Feb/May/Aug/Nov quarters are placed in the calendar quarter they end in). Hover a bar for the quarter's guide text.</p>
+    <p class="note">Stacked bars: quarterly cash capex, $B, by calendar quarter of the period end (Oracle's Feb/May/Aug/Nov quarters are placed in the calendar quarter they end in). Bar height is the five-company total; a faded bar is a quarter not all five have reported yet, so its height is not a cohort total. Hover a segment for the quarter's guide text.</p>
   </div>
 
+  <h3>Spend so far against the full-year guide</h3>
+  <p class="sub">Each company's latest stated full-year guide, against what it has spent so far in that year on the measure it guides on (its headline measure, so Microsoft and Meta include leases and the bars will not match the cash bars above).
+    The tick is where an even quarterly pace would be. The second line is what the rest of the year averages if the company lands on its midpoint — arithmetic on the company's own guide, not a forecast. One $ scale; rows are never added up.</p>
+  <div class="card">
+    <div class="legend"><span class="it"><span class="sw" style="background:var(--muted)"></span>spent to date, $B</span><span class="it"><span class="sw" style="background:var(--muted);opacity:.3"></span>guided full-year range</span><span class="it"><span class="sw" style="width:2px;height:14px;border-radius:0;background:var(--ink)"></span>even quarterly pace</span></div>
+    <div id="guideProgress"></div>
+  </div>
+
+  <h3>Quarter by quarter — cash PP&amp;E and each company's headline measure</h3>
   <div class="card">
     <span class="ctl-lab">Basis</span>
     <div class="seg" id="basisSeg">
@@ -213,6 +231,17 @@ function contractedSeries(){
     return {t:c.t,name:c.name,metric:c.metric,quarters,definition:c.definition||c.note};
   });
 }
+function cohortQuarterTotals(){ const cos=cohort(); return [...new Set(cos.flatMap(c=>c.quarters.map(r=>r.q)))].sort().map(q=>{
+  const v=cos.flatMap(c=>c.quarters.filter(r=>r.q===q&&r.capex!=null).map(r=>r.capex)); return [q,v.reduce((a,b)=>a+b,0),v.length]; }); }
+function cohortYearOnYear(){ const n=cohort().length, full=Object.fromEntries(cohortQuarterTotals().filter(x=>x[2]===n).map(x=>[x[0],x[1]]));
+  const qs=Object.keys(full).sort(); if(!qs.length) return null; const q=qs[qs.length-1], prior=(+q.slice(0,4)-1)+q.slice(4);
+  return prior in full ? {q,total:full[q],prior,prior_total:full[prior],ratio:full[q]/full[prior]} : null; }
+function guideProgress(){ const byT=Object.fromEntries(cohort().map(c=>[c.t,c]));
+  return latestGuides().map(g=>{ const c=byT[g.t], fy=g.fy, hv=r=>r[(c.headline||{}).field||"capex"] ?? null;
+    const rows=c.quarters.filter(r=>fy.startsWith("CY")?r.q.startsWith(fy.slice(2)):r.fiscal.startsWith("FY"+fy.slice(4)));
+    const vals=rows.map(hv), spent=vals.every(v=>v!=null)?vals.reduce((a,b)=>a+b,0):null, left=4-rows.length;
+    return {...g,spent,quarters:rows.length,through:rows.length?rows[rows.length-1].q:null,pace:g.mid*rows.length/4,
+      last_q:hv(c.quarters[c.quarters.length-1]),implied_per_q:spent!=null&&left>0?(g.mid-spent)/left:null}; }); }
 function capexPerContractedGw(){ const cc=D.capacity_crosscheck||{}; if(!cc.tenant_contracted_mw) return null; return cohortRunRate()/(cc.tenant_contracted_mw/1000); }
 
 /* ---------- header ---------- */
@@ -229,30 +258,52 @@ $("capexAsOf").textContent=D.capex_as_of; $("contractedAsOf").textContent=D.cont
   ];
   $("statbar").innerHTML=items.map(([k,n,l,m])=>`<div class="stat ${k}"><div class="n">${n}</div><div class="l">${l}</div><div class="m">${esc(m)}</div></div>`).join("");
 })();
+(function headline(){ const y=cohortYearOnYear(); if(y) $("headline").textContent=`The five hyperscalers spent $${fmt(y.total,0)}B on capex in ${y.q}, ${fmt(y.ratio,1)}× a year earlier`; })();
 
-/* ---------- chart ---------- */
+/* ---------- chart: cohort cash capex stacked by company, one bar per calendar quarter ---------- */
 (function chart(){
-  const cos=cohort(); const qs=[...new Set(cos.flatMap(c=>c.quarters.map(r=>r.q)))].sort();
-  const W=1100,H=360,L=46,R=12,T=18,B=40; const pw=W-L-R, ph=H-T-B;
-  const max=Math.max(...cos.flatMap(c=>c.quarters.map(r=>r.capex||0)))*1.12;
-  const gw=pw/qs.length, bw=Math.max(4,(gw-10)/cos.length-2);
-  const y=v=>T+ph-(v/max)*ph;
-  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Quarterly cash capex by hyperscaler">`;
-  const ticks=5; for(let i=0;i<=ticks;i++){ const v=max/ticks*i; g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(23,33,43,.07)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" fill="#606c7a">${Math.round(v)}</text>`; }
-  qs.forEach((q,i)=>{ const x0=L+i*gw+5; g+=`<text x="${L+i*gw+gw/2}" y="${H-14}" text-anchor="middle" fill="#8b97a3">${q}</text>`;
-    cos.forEach((c,j)=>{ const r=c.quarters.find(z=>z.q===q); if(!r) return; const x=x0+j*(bw+2), h=T+ph-y(r.capex);
-      const last=c.quarters[c.quarters.length-1]===r;
-      g+=`<rect class="bar" data-t="${c.t}" data-q="${q}" x="${x}" y="${y(r.capex)}" width="${bw}" height="${h}" rx="3" fill="${COLOR[c.t]}" stroke="#ffffff" stroke-width="1"></rect>`;
-      if(last) g+=`<text x="${x+bw/2}" y="${y(r.capex)-5}" text-anchor="middle" fill="#17212b" font-size="10.5">${fmt(r.capex,0)}</text>`; }); });
-  g+=`</svg><div class="tip" id="tip"></div>`;
-  $("capexChart").innerHTML=g;
-  $("chartLegend").innerHTML=cos.map(c=>`<span class="it"><span class="sw" style="background:${COLOR[c.t]}"></span>${c.t} <span style="color:var(--faint)">${esc(c.name)}</span></span>`).join("")+`<span class="it" style="color:var(--faint)">labels = latest reported quarter</span>`;
-  const tip=$("tip"), box=$("capexChart");
-  box.addEventListener("mousemove",e=>{ const b=e.target.closest(".bar"); if(!b){tip.style.display="none";return;}
-    const c=cos.find(z=>z.t===b.dataset.t), r=c.quarters.find(z=>z.q===b.dataset.q);
-    tip.innerHTML=`<b>${c.t} ${r.q}</b> · ${r.fiscal} · call ${r.call_date}<br/>cash PP&amp;E <b>$${fmt(r.capex)}B</b>${r.capex_incl_leases?` · headline $${fmt(r.capex_incl_leases)}B`:""}${r.cash_capex_mgmt?` · mgmt cash capex $${fmt(r.cash_capex_mgmt)}B`:""}${r.cash_capex_net?` · net cash capex $${fmt(r.cash_capex_net)}B`:""}<br/><span style="color:var(--muted)">${r.guide?esc(r.guide.fy+": "+r.guide.text):"no guide captured"}</span>`;
-    tip.style.display="block"; const rect=box.getBoundingClientRect(); tip.style.left=Math.min(e.clientX-rect.left+14,rect.width-330)+"px"; tip.style.top=(e.clientY-rect.top+14)+"px"; });
-  box.addEventListener("mouseleave",()=>tip.style.display="none");
+  const cos=cohort(), n=cos.length, tot=cohortQuarterTotals(), byQ=Object.fromEntries(tot.map(x=>[x[0],x])), yoy=cohortYearOnYear(), box=$("capexChart");
+  let drawnW=0;
+  function draw(){
+    const W=Math.max(300,Math.round(box.clientWidth)); if(W===drawnW) return; drawnW=W;
+    const H=W<600?260:340,L=40,R=8,T=24,B=36, pw=W-L-R, ph=H-T-B;
+    const top=Math.max(...tot.map(x=>x[1])), step=[10,20,25,50,100,200,250,500].find(s=>top/s<=5)||top/5, max=Math.ceil(top*1.08/step)*step;
+    const gw=pw/tot.length, bw=Math.min(56,gw*.62), y=v=>T+ph-(v/max)*ph;
+    const labelled=new Set([tot[0][0],yoy&&yoy.q,yoy&&yoy.prior]);
+    let g=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc("Cohort quarterly cash capex, $B, stacked by company: "+tot.map(([q,v,k])=>k===n?`${q} ${fmt(v,0)}`:`${q} ${k} of ${n} reported`).join(", "))}">`;
+    for(let v=0;v<=max;v+=step) g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(23,33,43,.07)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" fill="#606c7a">${v}</text>`;
+    tot.forEach(([q,sum,k],i)=>{ const x=L+i*gw+(gw-bw)/2, part=k<n, latest=yoy&&q===yoy.q; let acc=0;
+      g+=`<text x="${x+bw/2}" y="${H-20}" text-anchor="middle" fill="#8b97a3">${q.slice(4)}</text>`;
+      if(i===0||q.endsWith("Q1")) g+=`<text x="${x+bw/2}" y="${H-6}" text-anchor="middle" fill="#8b97a3">${q.slice(0,4)}</text>`;
+      cos.forEach(c=>{ const r=c.quarters.find(z=>z.q===q); if(!r||r.capex==null) return;
+        g+=`<rect class="bar" data-t="${c.t}" data-q="${q}" x="${x}" y="${y(acc+r.capex)}" width="${bw}" height="${y(acc)-y(acc+r.capex)}" fill="${COLOR[c.t]}" stroke="#ffffff" stroke-width="2"${part?' opacity=".45"':""}></rect>`; acc+=r.capex; });
+      if(part) g+=`<text x="${x+bw/2}" y="${y(acc)-7}" text-anchor="middle" fill="#8b97a3">${k} of ${n}</text>`;
+      else if(labelled.has(q)) g+=`<text x="${x+bw/2}" y="${y(acc)-7}" text-anchor="middle" fill="${latest?"#17212b":"#8b97a3"}"${latest?' font-weight="700"':""}>${fmt(sum,0)}</text>`; });
+    box.innerHTML=g+`</svg><div class="tip" id="tip"></div>`;
+  }
+  draw(); new ResizeObserver(draw).observe(box);
+  $("chartLegend").innerHTML=cos.map(c=>`<span class="it"><span class="sw" style="background:${COLOR[c.t]}"></span>${c.t} <span style="color:var(--faint)">${esc(c.name)}</span></span>`).join("")+`<span class="it" style="color:var(--faint)">labels = cohort total, $B</span>`;
+  box.addEventListener("mousemove",e=>{ const tip=$("tip"), b=e.target.closest(".bar"); if(!b){tip.style.display="none";return;}
+    const c=cos.find(z=>z.t===b.dataset.t), r=c.quarters.find(z=>z.q===b.dataset.q), [,sum,k]=byQ[r.q];
+    tip.innerHTML=`<b>${c.t} ${r.q}</b> · ${r.fiscal} · call ${r.call_date}<br/>cash PP&amp;E <b>$${fmt(r.capex)}B</b>${r.capex_incl_leases?` · headline $${fmt(r.capex_incl_leases)}B`:""}${r.cash_capex_mgmt?` · mgmt cash capex $${fmt(r.cash_capex_mgmt)}B`:""}${r.cash_capex_net?` · net cash capex $${fmt(r.cash_capex_net)}B`:""}<br/>cohort ${r.q} <b>$${fmt(sum)}B</b>${k<n?` · ${k} of ${n} reported, not a cohort total`:""}<br/><span style="color:var(--muted)">${r.guide?esc(r.guide.fy+": "+r.guide.text):"no guide captured"}</span>`;
+    tip.style.display="block"; const rect=box.getBoundingClientRect(); tip.style.left=Math.max(0,Math.min(e.clientX-rect.left+14,rect.width-330))+"px";
+    tip.style.top=Math.max(0,Math.min(e.clientY-rect.top+14,box.clientHeight-tip.offsetHeight-4))+"px"; });
+  box.addEventListener("mouseleave",()=>$("tip").style.display="none");
+})();
+
+/* ---------- spend to date vs full-year guide ---------- */
+(function progress(){
+  const ps=guideProgress(), top=Math.max(...ps.map(p=>p.high??p.mid)), step=[10,20,25,50,100,200].find(s=>top/s<=5)||top/5, max=Math.ceil(top*1.05/step)*step;
+  const x=v=>(v/max*100).toFixed(2)+"%", rng=p=>p.low!=null&&p.high!=null&&p.low!==p.high?`${num(p.low)}–${num(p.high)}`:num(p.mid);
+  let h=ps.map(p=>{ const lo=p.low??p.mid, hi=p.high??p.mid, pt=lo===hi;
+    const title=`${p.t} ${p.fy}: ${p.spent!=null?`$${fmt(p.spent)}B through ${p.through}`:"spend to date not disclosed"} on ${p.basis}; guide ${rng(p)} from the ${p.call_date} call`;
+    return `<div class="gp-row"><div><span class="dot" style="background:${COLOR[p.t]}"></span><span class="tk">${p.t}</span> <span style="color:var(--muted)">${p.fy}</span><div class="gp-basis">${esc(p.basis)}</div></div>`+
+      `<div class="gp-track" title="${esc(title)}"><span class="gp-band${pt?" pt":""}" style="left:${x(lo)};width:${pt?"3px":x(hi-lo)};background:${COLOR[p.t]}"></span>`+
+      `${p.spent!=null?`<span class="gp-bar" style="width:${x(p.spent)};background:${COLOR[p.t]}"></span>`:""}<span class="gp-pace" style="left:${x(p.pace)}"></span></div>`+
+      `<div class="gp-txt">${p.spent!=null?`<b>$${fmt(p.spent)}B</b> of <b>${rng(p)}</b> · ${Math.round(p.spent/p.mid*100)}% of the midpoint after ${p.quarters} of 4 quarters`:"spend to date not disclosed on this basis"} · guide from the ${p.call_date} call`+
+      `${p.implied_per_q!=null?`<br/>Rest of ${p.fy} at the midpoint averages <b>$${fmt(p.implied_per_q)}B</b> a quarter, against <b>$${fmt(p.last_q)}B</b> last quarter`:""}</div></div>`; }).join("");
+  let ax=""; for(let v=0;v<=max;v+=step) ax+=`<span style="left:${x(v)}">${v}</span>`;
+  $("guideProgress").innerHTML=h+`<div class="gp-row"><div></div><div class="gp-axis">${ax}</div></div>`;
 })();
 
 /* ---------- capex table ---------- */
