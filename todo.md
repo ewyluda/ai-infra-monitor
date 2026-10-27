@@ -61,6 +61,15 @@ Operational backlog for the public hub. Add items as they surface; check them of
   demand monitor and ETF atlas against any MacroGauge page that publishes the same figures (issuer
   debt, hyperscaler capex, ETF holdings), and list each conflict. *Added 2026-10-26.*
 
+- [ ] **Polish the visuals on every page of the site.** Covers the landing page and all five
+  dashboards (capacity tracker, financing ledger, demand monitor, ETF atlas, trade layer index).
+  Keep one cohesive style across pages. Remove no visuals; update or enhance them with elegant,
+  tasteful interactions: hover tooltips, click interactions (select, filter, drill in), smooth
+  transitions, and sortable table headers where sorting makes sense. Use the design skills and
+  plugins that help (`frontend-design`, `ui-ux-pro-max`, `dataviz`, `design:design-critique`,
+  `design:accessibility-review`). Do this before the README GIFs and the showcase video, so they
+  capture the finished pages. *Added 2026-10-27.*
+
 - [ ] **Replace the README screenshots with GIFs that scroll and interact with each page.** The six
   static PNGs in `docs/img/` (landing page plus five dashboards) show only the top of each page.
   Record a short GIF per page that scrolls through its best content and exercises its features
@@ -72,7 +81,9 @@ Operational backlog for the public hub. Add items as they surface; check them of
   gala video (`Code & Projects/Solution for sandra/video/` in Google Drive): a storyboard table of
   timed scenes and captions, a scripted browser capture (`capture.mjs`), original generated music
   (`music.py`), and a `build.sh` that encodes 1920×1080, 30 fps H.264 + AAC. Captions carry the
-  message, no voice, scene cuts on the beat. Do this after the README GIFs. *Added 2026-10-27.*
+  message, no voice, scene cuts on the beat. Do this after the README GIFs. Embed the finished
+  video on the home page (`site/index.html`) if it can be done without weighing the page down.
+  *Added 2026-10-27.*
 
 ## Done
 
