@@ -11,8 +11,8 @@ Operational backlog for the public hub. Add items as they surface; check them of
   2026-10-26: notebook capacity curated 2026-10-25, MacroGauge 2026-10-21, field change dates from
   git history on both sides. *Added 2026-10-26.*
   - **Done 2026-10-27 in MacroGauge
-    [PR #141](https://github.com/ewyluda/macrogauge/pull/141)** (merged 2026-10-27; reaches both
-    sites at the 2026-10-28 daily publish):
+    [PR #141](https://github.com/ewyluda/macrogauge/pull/141)** (merged and published on
+    MacroGauge 2026-10-27 09:21 ET by a manual run; reaches the hub at its next export):
     - IREN backlog $16.5B → **$19.4B**, checked against the FY26 10-K ($5.1B RPO + $11.4B lease
       contracts at 6/30, plus $2.8B of July contracts).
     - Net-debt convention written into MacroGauge's curation rules and the /capacity method note:
@@ -48,11 +48,12 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - **Check before deciding:** WYFI / BTBT plan (200 vs 120; both trace to the 9/14 deck, so check
     gross vs critical-IT; Q3 11/12) and GLXY backlog ($18B vs $13.5B; MacroGauge says the Q2
     release did not restate it, so find the notebook's source; Q3 10/27).
-  - **After the 2026-10-28 publish (PR #141 and #142):** flip the notebook financing ledger's
+  - **Unblocked now (PR #141 is published):** flip the notebook financing ledger's
     per-issuer basis to match (`nd_cash_includes_restricted` off for APLD, BTDR, WYFI, KEEL,
     RIOT, MARA; HUT onto consolidated debt incl. the River Bend and Beacon Point notes), re-sync,
-    and re-export the hub.
-    Until then the ledger's reconciliation shows APLD (+$0.70B) and HUT (+$7.40B) as "disagree".
+    and re-export the hub. The next export is blocked until this lands: it reads the new
+    `capacity.json`, so `check_financing.py` fails on the stale tracker snapshot, and a re-sync
+    without the flips shows APLD (+$0.70B) and HUT (+$7.40B) as "disagree".
     BTDR, KEEL and RIOT move $53–76M, inside the tolerance, so a missed flip there goes unflagged
     (overlap audit F4).
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
@@ -65,16 +66,18 @@ Operational backlog for the public hub. Add items as they surface; check them of
 - [ ] **Resolve the MacroGauge overlap conflicts.** Listed in
   `docs/reviews/2026-10-27-macrogauge-overlap-audit.md` (IDs below). *Added 2026-10-27.*
   - **Done 2026-10-27 in MacroGauge [PR #142](https://github.com/ewyluda/macrogauge/pull/142)**
-    (merged; reaches both sites at the 2026-10-28 daily publish): NBIS 0.50% 2030 converts
-    $3.0B → **$3.45B** in `issuer_bonds.json` (F2; the $450M option was exercised, 8/24 6-K).
-    WULF `bk` 32 → **27** per the Q2 investor deck (D6).
+    (merged after the 09:21 run; MacroGauge publishes it 2026-10-28, the hub at the export after
+    that): NBIS 0.50% 2030 converts $3.0B → **$3.45B** in `issuer_bonds.json` (F2; the $450M
+    option was exercised, 8/24 6-K). WULF `bk` 32 → **27** per the Q2 investor deck (D6).
+  - **Done 2026-10-27 in the notebook, not yet exported:** lab register restated from Anthropic's
+    S-1 (D1–D5; also Nscale $44.6B, Lambda $34.9B of $41.3B, AMD >$20B spend note); the Broadcom
+    $125.2B is the 2026 lease alone, $161.2B all leases. IREN July contracts noted (D8), Meta–Nebius
+    sized at the $12B dedicated (D10), Volta at 121 IT MW (D12). Exports with the ledger flip.
+  - **MacroGauge to source or drop:** the AKAM edge's extra $1.8B (D11). Akamai's 9/24 release
+    states $11.6B committed plus up to $9B more, with no $1.8B; the hub's $11.6B stands.
   - **At the Q3 re-pulls:** GLXY net debt (F1) and contracted revenue on both sites (D7; hub >$15B,
     MacroGauge $13.5B, notebook capacity $18B). The Nebius $3.5B Citi bridge goes into the /rates
     note and NBIS `ndflag` (F3).
-  - **Notebook, then re-export:** refresh the lab register from Anthropic's S-1 (D1–D5: Azure,
-    AWS, Google Cloud, SpaceX/xAI, Broadcom TPU leases). Note IREN's $2.8B July contracts (D8),
-    mark Meta–Nebius $27B as an upper bound (D10), source or drop Akamai's extra $1.8B (D11), and
-    fix the Volta row's 0.133 GW against 121 IT MW (D12).
 
 - [ ] **Polish the visuals on every page of the site.** Covers the landing page and all five
   dashboards (capacity tracker, financing ledger, demand monitor, ETF atlas, trade layer index).
