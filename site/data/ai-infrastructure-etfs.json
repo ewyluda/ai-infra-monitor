@@ -4255,6 +4255,11 @@
     "return_correlation": 0.7588
    }
   ],
-  "verdict": "Since Aug 6, all six are lower; the single-bottleneck funds swing 3.0× as much as the broad baskets."
+  "verdict": "Since Aug 6, all six are lower; the single-bottleneck funds swing 3.0× as much as the broad baskets.",
+  "headlines": {
+   "readthrough": "Different holdings, one trade.",
+   "holdings": "Five names hold 68–82% of each single-bottleneck fund.",
+   "compare": "The purest funds are the youngest."
+  }
  }
 }
