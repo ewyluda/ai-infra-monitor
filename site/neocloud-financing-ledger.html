@@ -74,6 +74,13 @@
   .st{font-family:var(--mono);font-size:10.5px;font-weight:700}.st.ITM{color:var(--ok)}.st.near{color:var(--warn)}.st.OTM{color:var(--bad)}
   .st.match{color:var(--ok)}.st.disagree{color:var(--bad)}.st.no-tracker{color:var(--muted)}.st.consolidated{color:var(--muted)}
   .det{font-size:11.5px;color:var(--muted);max-width:520px}
+  /* ledger table: headers and tags wrap and long tokens (URLs) in notes break, so all 13 columns fit the card;
+     each instrument is a tbody whose notes run on a full-width row under its columns */
+  .ledger th{white-space:normal}.ledger th,.ledger td{padding-left:6px;padding-right:6px}
+  .ledger .det{overflow-wrap:anywhere}.ledger .chip{display:inline-block;white-space:normal}
+  .ledger .instr{min-width:180px}.ledger .coupon{min-width:120px}.ledger .collat{min-width:170px}.ledger .asof{white-space:nowrap}
+  .ledger tr.has-notes td{border-bottom:0;padding-bottom:2px}.ledger tr.notes td{padding-top:0}.ledger tr.notes .det{max-width:none}
+  .ledger tbody:hover td{background:rgba(23,33,43,.02)}
   .det a{color:#2a78d6;text-decoration:none}.det a:hover{text-decoration:underline}
   .chartcard{border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:8px;margin-top:12px}
   svg text{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
@@ -344,20 +351,22 @@ function renderLedger(V){
     return (typeof va==='number'?va-vb:String(va).localeCompare(String(vb)))*sortDir;});
   const cols=[['t','Issuer'],['name','Instrument'],['type','Type'],['face_m','Face $M',1],['drawn_m','Drawn $M',1],['committed_m','Committed $M',1],['available_m','Available $M',1],['coupon','Coupon'],['maturity','Maturity'],['conv_price','Conv px',1],['collateral','Security / collateral'],['as_of','As of'],['provenance','Source']];
   const th=cols.map(([k,l,n])=>`<th class="${n?'num':''}" data-k="${k}">${l}${sortKey===k?(sortDir>0?' ▲':' ▼'):''}</th>`).join('');
-  const tr=rows.map(r=>`<tr>
+  const tr=rows.map(r=>{const note=[r.restrictions,r.notes].filter(Boolean).map(esc).join(' · ');
+    return `<tbody><tr${note?' class="has-notes"':''}>
     <td><span class="tkr">${r.t}</span>${isProForma(r)?' <span class="chip pf">PF</span>':''}</td>
-    <td><span class="cls ${CLASS_OF[r.type]}"></span>${esc(r.name)}${isDebt(r)?'':` <span class="chip">not debt · ${esc(CAT_LABEL[category(r)])}</span>`}<div class="det">${esc(r.restrictions||'')}${r.notes?' · '+esc(r.notes):''}</div></td>
+    <td class="instr"><span class="cls ${CLASS_OF[r.type]}"></span>${esc(r.name)}${isDebt(r)?'':` <span class="chip">not debt · ${esc(CAT_LABEL[category(r)])}</span>`}</td>
     <td><span class="chip">${esc(r.type.replace(/_/g,' '))}</span></td>
     <td class="num">${fM(r.face_m)}</td><td class="num">${fM(r.drawn_m)}</td><td class="num">${fM(r.committed_m!=null?r.committed_m:r.face_m)}</td>
     <td class="num">${'available_m' in r?fM(r.available_m):''}</td>
-    <td>${esc(r.coupon||'—')}</td><td>${esc(r.maturity||'undated')}${r.amortizing?' <span class="chip">amortizing</span>':''}</td>
+    <td class="coupon">${esc(r.coupon||'—')}</td><td>${esc(r.maturity||'undated')}${r.amortizing?' <span class="chip">amortizing</span>':''}</td>
     <td class="num">${r.conv_price?r.conv_price.toFixed(2)+(r.maturity_cash_ratio&&r.maturity_cash_ratio!==1?' ×'+r.maturity_cash_ratio:''):'—'}</td>
-    <td><div class="det">${esc(r.collateral||'')}${r.recourse?` <span class="chip">${esc(r.recourse)}</span>`:''}</div></td>
-    <td>${esc(r.as_of||'')}</td>
-    <td><span class="chip ${esc(r.provenance)}">${esc(r.provenance.replace(/_/g,' '))}</span><div class="det">${r.source?`<a href="${esc(r.source.url)}" target="_blank" rel="noopener">${esc(r.source.form||'source')} ${esc(r.source.date||'')}</a>`:''}</div></td></tr>`).join('');
+    <td class="collat"><div class="det">${esc(r.collateral||'')}${r.recourse?` <span class="chip">${esc(r.recourse)}</span>`:''}</div></td>
+    <td class="asof">${esc(r.as_of||'')}</td>
+    <td><span class="chip ${esc(r.provenance)}">${esc(r.provenance.replace(/_/g,' '))}</span><div class="det">${r.source?`<a href="${esc(r.source.url)}" target="_blank" rel="noopener">${esc(r.source.form||'source')} ${esc(r.source.date||'')}</a>`:''}</div></td></tr>
+    ${note?`<tr class="notes"><td></td><td colspan="${cols.length-1}"><div class="det">${note}</div></td></tr>`:''}</tbody>`;}).join('');
   const tot=totals(rows);
   V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view · ${rows.filter(r=>r.provenance==='secondary').length} secondary-only</div>
-    <div style="overflow-x:auto" tabindex="0"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div></div>`;
+    <div style="overflow-x:auto" tabindex="0"><table class="ledger"><thead><tr>${th}</tr></thead>${tr}</table></div></div>`;
   V.querySelectorAll('th').forEach(h=>h.addEventListener('click',()=>{const k=h.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();}));
 }
 
