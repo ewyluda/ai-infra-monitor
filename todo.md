@@ -50,7 +50,9 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - **After PR #141 publishes:** flip the notebook financing ledger's per-issuer basis to match
     (`nd_cash_includes_restricted` off for APLD, BTDR, WYFI, KEEL, RIOT, MARA; HUT onto
     consolidated debt incl. the River Bend and Beacon Point notes), re-sync, and re-export the hub.
-    Until then the ledger's reconciliation shows those issuers as "disagree".
+    Until then the ledger's reconciliation shows APLD (+$0.70B) and HUT (+$7.40B) as "disagree".
+    BTDR, KEEL and RIOT move $53–76M, inside the tolerance, so a missed flip there goes unflagged
+    (overlap audit F4).
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
     MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
@@ -58,9 +60,18 @@ Operational backlog for the public hub. Add items as they surface; check them of
   MacroGauge's prices at export time. A scheduled export (hub plan, Phase 3 follow-up) keeps the
   hub within a day. *Added 2026-10-26.*
 
-- [ ] **Audit the other hub pages for overlap with MacroGauge.** Check the financing ledger,
-  demand monitor and ETF atlas against any MacroGauge page that publishes the same figures (issuer
-  debt, hyperscaler capex, ETF holdings), and list each conflict. *Added 2026-10-26.*
+- [ ] **Resolve the MacroGauge overlap conflicts.** Listed in
+  `docs/reviews/2026-10-27-macrogauge-overlap-audit.md` (IDs below). *Added 2026-10-27.*
+  - **MacroGauge config, one PR:** NBIS 0.50% 2030 converts $3.0B → **$3.45B** in
+    `issuer_bonds.json` (F2; the $450M option was exercised, 8/24 6-K). WULF `bk` 32 → **27** per
+    the Q2 investor deck (D6).
+  - **At the Q3 re-pulls:** GLXY net debt (F1) and contracted revenue on both sites (D7; hub >$15B,
+    MacroGauge $13.5B, notebook capacity $18B). The Nebius $3.5B Citi bridge goes into the /rates
+    note and NBIS `ndflag` (F3).
+  - **Notebook, then re-export:** refresh the lab register from Anthropic's S-1 (D1–D5: Azure,
+    AWS, Google Cloud, SpaceX/xAI, Broadcom TPU leases). Note IREN's $2.8B July contracts (D8),
+    mark Meta–Nebius $27B as an upper bound (D10), source or drop Akamai's extra $1.8B (D11), and
+    fix the Volta row's 0.133 GW against 121 IT MW (D12).
 
 - [ ] **Polish the visuals on every page of the site.** Covers the landing page and all five
   dashboards (capacity tracker, financing ledger, demand monitor, ETF atlas, trade layer index).
@@ -87,6 +98,11 @@ Operational backlog for the public hub. Add items as they surface; check them of
   *Added 2026-10-27.*
 
 ## Done
+
+- [x] **Audited the other hub pages for overlap with MacroGauge.** The financing ledger and demand
+  monitor were checked against MacroGauge's `capacity.json` and `rates.json`: 4 ledger conflicts
+  and 12 demand conflicts, with capex, most backlog, and the MW cross-check in agreement. The ETF
+  atlas has no overlap. See `docs/reviews/2026-10-27-macrogauge-overlap-audit.md`. *2026-10-27.*
 
 - [x] **Financing ledger and demand monitor read MacroGauge's capacity data.** `financing_ledger_refresh.py`
   and `ai_demand_refresh.py` now read MacroGauge's published `capacity.json`; the ledger's net-debt
