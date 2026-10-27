@@ -57,7 +57,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:13px 18px;align-items:center;margin:16px 2px 8px;font-size:12.5px;color:var(--muted)}
   .legend .it{display:flex;align-items:center;gap:7px}.sw{width:13px;height:13px;border-radius:3px;flex:none}
   .card{border:1px solid var(--border);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:14px 16px;margin-top:12px}
-  .card h3{font-family:var(--display);font-size:15px;margin:0 0 8px;letter-spacing:-.01em}
+  .card h2,.card h3{font-family:var(--display);font-size:15px;margin:0 0 8px;letter-spacing:-.01em}
   .card .sub{font-size:12.5px;color:var(--muted);margin-bottom:10px}
   table{width:100%;border-collapse:collapse;font-size:12.5px}
   th{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:8px 8px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none}
@@ -93,6 +93,9 @@
   footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);line-height:1.6}
   footer code{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:rgba(23,33,43,.05);padding:1px 5px;border-radius:4px}
   .hidden{display:none}
+  .th-sort{all:unset;cursor:pointer}.th-sort:focus-visible{outline:2px solid var(--c-convert);outline-offset:2px}
+  .wall-hit{cursor:pointer}.wall-hit:hover,.wall-hit:focus-visible{fill:rgba(23,33,43,.05);outline:none;stroke:var(--c-convert);stroke-width:1.5}#heroWall rect[data-k]{cursor:pointer}
+  .yearchip{appearance:none;font:inherit;font-size:12.5px;color:var(--ink);background:var(--gold-dim);border:1px solid var(--gold);border-radius:99px;padding:5px 11px;cursor:pointer}.yearchip[hidden]{display:none}
   @media (max-width:760px){.wrap{padding:28px 16px 60px}.hbar{grid-template-columns:48px 1fr 150px}.kpis{grid-template-columns:1fr}.kpi.lead .n{font-size:36px}}
 </style>
 <meta name="description" content="Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="Neocloud Financing Ledger · AI Infra Monitor" /><meta property="og:description" content="Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style id="aim-theme">/* Shared light restyle for the dark dashboard system: surfaces, ink and type from the
@@ -101,7 +104,15 @@
   --bg:#F6F7F9;--ink:#17212B;--muted:#526170;--faint:#606C7A;
   --panel:#FFFFFF;--panel-2:#F9FAFB;--border:#DEE3E9;--border-2:#C9D1DA;
   --gold:#9A6210;--gold-dim:rgba(154,98,16,.10);
-  --mono:var(--aim-mono);--sans:var(--aim-sans);--display:var(--aim-sans)}
+  --mono:var(--aim-sans);--sans:var(--aim-sans);--display:var(--aim-sans)}
+/* The hub's shared style (the capacity page's MacroGauge parts) for both pages on this theme: sans
+   labels and numerals (--mono is the sans), one eyebrow and type scale, KPI tile, segmented control,
+   table head, hover card and card radius. */
+.eyebrow{font:650 12px/1.4 var(--aim-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--aim-sky)}
+h1{font-size:clamp(30px,3vw,42px);line-height:1.15;letter-spacing:-.035em;font-weight:650}
+.stat .n{font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+th{font:600 11px/1.4 var(--aim-sans);letter-spacing:.08em;color:var(--muted)}
+.num,td{font-variant-numeric:tabular-nums}
 body{background:var(--bg);color:var(--ink)}
 /* Links inside prose need a non-color cue (axe link-in-text-block). */
 footer a{color:#2763C4;text-decoration:underline;text-underline-offset:2px}
@@ -114,10 +125,54 @@ footer a{color:#2763C4;text-decoration:underline;text-underline-offset:2px}
    adjacent pair in that stack passes CVD and normal-vision separation on white. */
 :root{--bad:#BB4545;--c-scheduled:#1baf7a;--c-conv-ok:#9d93e8;--c-unpriced:#e87ba4;--c-debt:#c9d0d8}
 .chip.company_release{color:#2763C4}
+/* Shared style, page parts */
+.lede{line-height:1.65}
+.kpi{border-radius:8px;padding:18px 20px}
+.kpi .n{font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1.15}
+.kpi.lead .n{font-size:40px;color:var(--aim-sky)}
+.kpi .l{font-size:13px}
+.tabs{gap:4px;border-bottom:1px solid var(--border);margin:30px 0 8px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+.tab{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;margin-bottom:-1px;padding:12px 14px;font:500 15px var(--aim-sans);color:var(--muted);white-space:nowrap;
+  transition:color .15s var(--aim-ease),border-color .15s var(--aim-ease)}
+.tab:hover{color:var(--ink)}
+.tab.on{background:none;border-color:transparent;border-bottom-color:var(--aim-sky);color:var(--ink);font-weight:600}
+.tab .tn{display:none}
+.tab:focus-visible,.seg button:focus-visible,.toggle:focus-visible,.yearchip:focus-visible{outline:2px solid var(--aim-sky);outline-offset:2px}
+.controls{border-radius:11px}
+.search{border-radius:6px;border-color:var(--border)}
+.ctl-lab{font:500 11px var(--aim-sans);letter-spacing:.04em;color:var(--muted)}
+.seg{border-color:var(--border);border-radius:6px;background:var(--panel);padding:2px;gap:2px}
+.seg button{border-right:0;border-radius:4px;font:500 13px var(--aim-sans);padding:5px 10px;transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease)}
+.seg button.on{background:var(--aim-sky-wash);color:var(--aim-sky);font-weight:600}
+.toggle.on .switch{background:var(--aim-sky-wash);border-color:var(--aim-sky)}
+.toggle.on .switch::after{background:var(--aim-sky)}
+.yearchip{background:var(--aim-sky-wash);border-color:#B5C9EA;color:var(--aim-sky);font-weight:600}
+.card,.chartcard{border-radius:11px;background:var(--panel)}
+.chip{font:600 9.5px/1.5 var(--aim-sans);letter-spacing:.02em}
+.tkr{font-size:12.5px;font-weight:650}
+.st{font-weight:650}
+svg text{font-variant-numeric:tabular-nums}
+.hbar .lab{font-size:11.5px}
+td{border-bottom-style:solid}
+.ledger tbody{transition:background-color .12s var(--aim-ease)}
+.ledger tbody:hover td,#view table:not(.ledger) tbody tr:hover td{background:#F4F7FB}
+.ledger .aim-sort-ind{font-size:0}
+.ledger th{cursor:default}
+.wall-hit:hover,.wall-hit:focus-visible{fill:rgba(39,99,196,.06);stroke:var(--aim-sky)}
+.aim-all{margin-left:auto}
+/* the ledger's heads wrap so all 13 columns fit; the note teaser keeps Show more on its line */
+.ledger .aim-sort{display:inline;white-space:normal}
+.ledger .aim-sort-ind{display:inline-block;width:7px;margin-left:3px;vertical-align:-1px;background-size:7px 9px}
+.ledger th{font-size:10.5px;letter-spacing:.03em}
+.ledger tr.notes .det.aim-clamp:not(.aim-open){display:inline-block;width:min(calc(100% - 84px),calc(100vw - 210px));vertical-align:top} /* the toggle stays on screen when the table scrolls on a phone */
+.ledger tr.notes .det + .aim-more{margin:0 0 0 10px;vertical-align:top;line-height:1.5}
+.ledger td.coupon .aim-more,.ledger td.collat .aim-more{font-size:11.5px;margin-top:1px}
+.ledger th:first-child{white-space:nowrap}
+.det a{color:#2763C4;text-decoration:underline;text-underline-offset:2px} /* 4.41:1 was below AA and links in text need a non-color cue; the old gradient card hid both from axe */
 </style>
 </head>
 <body>
-<div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html" aria-current="page">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></div>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html" aria-current="page">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header><main class="aim-content">
 <div class="wrap">
   <div class="eyebrow">AI Infra Monitor · Neocloud financing ledger</div>
   <h1 id="headline">Neocloud Financing Ledger</h1>
@@ -133,11 +188,11 @@ footer a{color:#2763C4;text-decoration:underline;text-underline-offset:2px}
   <div class="note" id="heroNote"></div>
 
   <div class="tabs" id="tabs">
-    <button class="tab on" data-v="ledger"><span>Ledger</span><span class="tn">01</span></button>
-    <button class="tab" data-v="wall"><span>Maturity wall</span><span class="tn">02</span></button>
-    <button class="tab" data-v="commit"><span>Drawn vs committed</span><span class="tn">03</span></button>
-    <button class="tab" data-v="money"><span>Convert moneyness</span><span class="tn">04</span></button>
-    <button class="tab" data-v="recon"><span>Net-debt reconciliation</span><span class="tn">05</span></button>
+    <button type="button" class="tab on" aria-pressed="true" data-v="ledger"><span>Ledger</span><span class="tn">01</span></button>
+    <button type="button" class="tab" aria-pressed="false" data-v="wall"><span>Maturity wall</span><span class="tn">02</span></button>
+    <button type="button" class="tab" aria-pressed="false" data-v="commit"><span>Drawn vs committed</span><span class="tn">03</span></button>
+    <button type="button" class="tab" aria-pressed="false" data-v="money"><span>Convert moneyness</span><span class="tn">04</span></button>
+    <button type="button" class="tab" aria-pressed="false" data-v="recon"><span>Net-debt reconciliation</span><span class="tn">05</span></button>
   </div>
   <div class="view-sub" id="viewSub"></div>
 
@@ -149,6 +204,7 @@ footer a{color:#2763C4;text-decoration:underline;text-underline-offset:2px}
       <button class="on" data-c="all">all</button><button data-c="convert">converts</button><button data-c="notes">notes</button>
       <button data-c="facility">facilities</button><button data-c="vendor">vendor</button><button data-c="other">other</button><button data-c="nondebt">not debt</button></div></div>
     <div class="toggle on" id="pfToggle" role="switch" aria-checked="true" tabindex="0"><span class="switch"></span><span>include post-quarter rows (pro forma)</span></div>
+    <button type="button" class="yearchip" id="yearChip" hidden aria-label="Clear the maturity-year filter">maturing in <b></b> <span aria-hidden="true">×</span></button>
   </div>
   <div class="legend" id="legend"></div>
 
@@ -276,7 +332,7 @@ function reconciliation(){
 /* ---------- end base helpers ---------- */
 
 /* ---------- state ---------- */
-let view='ledger', query='', tick='all', cls='all', proForma=true, sortKey='t', sortDir=1;
+let view='ledger', query='', tick='all', cls='all', proForma=true, sortKey='t', sortDir=1, year=null;
 const fB=m=>m==null?'—':(m/1000).toFixed(2);
 const fM=m=>m==null?'n/d':Math.round(m).toLocaleString();
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -284,6 +340,7 @@ const CAT_LABEL={lease:'lease',preferred_equity:'preferred equity',operating_lia
 function matchesClass(r){return cls==='all'||(cls==='nondebt'?!isDebt(r):(isDebt(r)&&CLASS_OF[r.type]===cls));}
 function filtered(){
   return LED.instruments.filter(r=>(tick==='all'||r.t===tick)&&matchesClass(r)&&(proForma||!isProForma(r)||('drawn_bd_m' in r))
+    &&(!year||String(r.maturity||'').slice(0,4)===year)
     &&(!query||[r.t,r.name,r.type,category(r),r.collateral,r.restrictions,r.notes,(r.source||{}).form,r.provenance].join(' ').toLowerCase().includes(query)));
 }
 
@@ -302,16 +359,17 @@ function wallSvg(wall,series,W,o){
     s+=`<rect x="${x0}" y="${T-4}" width="${x1-x0}" height="${ph+4}" rx="6" fill="rgba(23,33,43,.04)"/>`;
     if(x1-x0>=150)s+=`<text x="${x0+8}" y="${T+12}" style="fill:var(--ink)">${o.near.label}</text>`;}}
   for(let i=0;i*step<=max+1e-9;i++){const v=i*step; s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(23,33,43,.07)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">$${+v.toFixed(2)}B</text>`;}
+  if(o.pick)keys.filter(isYr).forEach(k=>{s+=`<rect class="wall-hit" data-k="${k}" x="${cx[k]-sw/2+1}" y="${T-4}" width="${sw-2}" height="${ph+4}" rx="4" fill="transparent" tabindex="0" role="button" aria-label="Show instruments maturing in ${k}"/>`;});
   keys.forEach(k=>{ let base=0;
     for(const se of series){const v=se.keys.reduce((a,c)=>a+(wall[k][c]||0),0); if(!v)continue; const y0=y(base/1000), y1=y((base+v)/1000);
-      s+=`<rect x="${cx[k]-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-(base?2:0))}" rx="2" style="fill:${se.c}"><title>${k} · ${se.l}: $${fB(v)}B</title></rect>`; base+=v;}
+      s+=`<rect${o.pick&&isYr(k)?` data-k="${k}"`:''} x="${cx[k]-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-(base?2:0))}" rx="2" style="fill:${se.c}"><title>${k} · ${se.l}: $${fB(v)}B</title></rect>`; base+=v;}
     const t=tot(k)/1000, lab=narrow?'$'+Math.round(t):(+t.toFixed(o.dp)?'$'+t.toFixed(o.dp):'<$'+1/10**o.dp);
     if(!narrow||t>=top*.25)s+=`<text x="${cx[k]}" y="${y(t)-6}" text-anchor="middle" style="fill:var(--ink)">${lab}B</text>`;
     s+=`<text x="${cx[k]}" y="${H-B+16}" text-anchor="middle">${narrow?(isYr(k)?k.slice(2):k.slice(0,3)):k}</text>`; });
   if(o.peak){const ks=keys.filter(k=>isYr(k)&&+k>=o.peak.from&&+k<=o.peak.to), x0=cx[ks[0]]-bw/2-4, x1=cx[ks[ks.length-1]]+bw/2+4, by=T-18;
     s+=`<path d="M${x0} ${by+6}V${by}H${x1}V${by+6}" fill="none" style="stroke:var(--ink);stroke-width:1.2"/>
       <text x="${Math.min(W-R-100,Math.max(L+100,(x0+x1)/2))}" y="${by-7}" text-anchor="middle" style="fill:var(--ink);font-weight:700">${o.peak.label}</text>`;}
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(o.aria)}" style="display:block">${s}${marks}<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--border-2)"/></svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="${o.pick?'group':'img'}" aria-label="${esc(o.aria)}" style="display:block">${s}${marks}<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--border-2)"/></svg>`;
 }
 
 /* ---------- headline, ranked figures, hero wall ---------- */
@@ -343,10 +401,13 @@ function statBar(){
     'Where an issuer files a principal schedule, bullet notes and converts sit at their own maturity and the rest of the schedule is amortization, shown as other financial debt. Undisclosed draws count as zero.';
   const box=document.getElementById('heroWall'); let drawn=0;
   const draw=()=>{const W=Math.max(300,Math.round(box.clientWidth-16)); if(W===drawn)return; drawn=W;
-    box.innerHTML=wallSvg(wall,series,W,{dp:1,aria:`Maturity wall, $B of financial debt by year due${peak?`; ${span} carries $${f1(peak.total)}B`:''}`,
+    box.innerHTML=wallSvg(wall,series,W,{dp:1,pick:true,aria:`Maturity wall, $B of financial debt by year due${peak?`; ${span} carries $${f1(peak.total)}B`:''}`,
       peak:peak&&{from:peak.from,to:peak.to,label:`${span}: $${f1(peak.total)}B, ${pct(peak.total,tot.debt)} of the debt`},
       near:{keys:['demand',String(yr),String(yr+1)],label:`due by end-${yr+1}: $${f1(near)}B`}});};
   draw(); new ResizeObserver(draw).observe(box);
+  const pick=e=>{const k=e.target.closest&&e.target.closest('[data-k]'); if(!k)return; setYear(k.dataset.k); document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'start'});};
+  box.addEventListener('click',pick);
+  box.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e);}});
   document.getElementById('asOf').textContent=LED.as_of;
   const q=(LED.tracker||{}).quote_as_of||'n/a';
   document.getElementById('quoteAsOfLede').textContent=q; document.getElementById('quoteAsOf').textContent=q;
@@ -360,7 +421,8 @@ const SUB={
   money:'Each convert against the tracker price. Status compares price with the <b>maturity break-even</b> (conversion price × maturity cash ratio): below it, an accreting note is still a cash claim at maturity even if the price is above its initial conversion price. Status is price against the break-even only: some notes must pay principal in cash on conversion whatever the price (<b>cash principal</b>). Bubble area ∝ outstanding principal, with a minimum size so small series stay visible.',
   recon:'Ledger net debt (nd_include rows − cash per the issuer\'s convention) at the balance date and pro forma, against the net debt (<code>nd</code>) in MacroGauge\'s published capacity dataset, the figure the capacity page shows. Each issuer\'s <code>tracker_compare</code> names which figure the tracker claims to be (read from its own flag); a gap beyond max($0.15B, 3%) is <b>disagree</b>, and the fix belongs upstream.'
 };
-function setView(v){view=v;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+function setYear(y){year=y; const c=document.getElementById('yearChip'); c.hidden=!y; c.querySelector('b').textContent=y||''; if(view!=='ledger')setView('ledger'); else render();}
+function setView(v){view=v;document.querySelectorAll('.tab').forEach(b=>{b.classList.toggle('on',b.dataset.v===v);b.setAttribute('aria-pressed',String(b.dataset.v===v));});
   document.getElementById('viewSub').innerHTML=SUB[v];document.getElementById('controls').classList.toggle('hidden',v==='recon');setLegend(v);render();}
 function setLegend(v){
   const L=document.getElementById('legend');
@@ -378,7 +440,7 @@ function renderLedger(V){
     if(va==null&&vb==null)return 0; if(va==null)return 1; if(vb==null)return -1;
     return (typeof va==='number'?va-vb:String(va).localeCompare(String(vb)))*sortDir;});
   const cols=[['t','Issuer'],['name','Instrument'],['type','Type'],['face_m','Face $M',1],['drawn_m','Drawn $M',1],['committed_m','Committed $M',1],['available_m','Available $M',1],['coupon','Coupon'],['maturity','Maturity'],['conv_price','Conv px',1],['collateral','Security / collateral'],['as_of','As of'],['provenance','Source']];
-  const th=cols.map(([k,l,n])=>`<th class="${n?'num':''}" data-k="${k}">${l}${sortKey===k?(sortDir>0?' ▲':' ▼'):''}</th>`).join('');
+  const th=cols.map(([k,l,n])=>`<th class="${n?'num':''}" data-k="${k}" aria-sort="${sortKey===k?(sortDir>0?'ascending':'descending'):'none'}"><button type="button" class="th-sort aim-sort${n?' aim-sort-r':''}">${l}<span class="aim-sort-ind" aria-hidden="true">${sortKey===k?(sortDir>0?' ▲':' ▼'):''}</span></button></th>`).join('');
   const tr=rows.map(r=>{const note=[r.restrictions,r.notes].filter(Boolean).map(esc).join(' · ');
     return `<tbody><tr${note?' class="has-notes"':''}>
     <td><span class="tkr">${r.t}</span>${isProForma(r)?' <span class="chip pf">PF</span>':''}</td>
@@ -386,16 +448,16 @@ function renderLedger(V){
     <td><span class="chip">${esc(r.type.replace(/_/g,' '))}</span></td>
     <td class="num">${fM(r.face_m)}</td><td class="num">${fM(proForma||!('drawn_bd_m' in r)?r.drawn_m:r.drawn_bd_m)}</td><td class="num">${fM(r.committed_m!=null?r.committed_m:r.face_m)}</td>
     <td class="num">${'available_m' in r?fM(r.available_m):''}</td>
-    <td class="coupon">${esc(r.coupon||'—')}</td><td>${esc(r.maturity||'undated')}${r.amortizing?' <span class="chip">amortizing</span>':''}${r.first_put?` <span class="chip">holder put ${esc(r.first_put)}</span>`:''}</td>
+    <td class="coupon"><div class="cpn">${esc(r.coupon||'—')}</div></td><td>${esc(r.maturity||'undated')}${r.amortizing?' <span class="chip">amortizing</span>':''}${r.first_put?` <span class="chip">holder put ${esc(r.first_put)}</span>`:''}</td>
     <td class="num">${r.conv_price?r.conv_price.toFixed(2)+(r.maturity_cash_ratio&&r.maturity_cash_ratio!==1?' ×'+r.maturity_cash_ratio:''):'—'}</td>
     <td class="collat"><div class="det">${esc(r.collateral||'')}${r.recourse?` <span class="chip">${esc(r.recourse)}</span>`:''}</div></td>
     <td class="asof">${esc(proForma||!isProForma(r)?r.as_of||'':COS[r.t].balance_date)}</td>
     <td><span class="chip ${esc(r.provenance)}">${esc(r.provenance.replace(/_/g,' '))}</span><div class="det">${r.source?`<a href="${esc(r.source.url)}" target="_blank" rel="noopener">${esc(r.source.form||'source')} ${esc(r.source.date||'')}</a>`:''}</div></td></tr>
     ${note?`<tr class="notes"><td></td><td colspan="${cols.length-1}"><div class="det">${note}</div></td></tr>`:''}</tbody>`;}).join('');
   const tot=totals(rows,proForma);
-  V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view${proForma?'':' at the balance date'} · ${rows.filter(r=>r.provenance==='secondary').length} secondary-only</div>
+  V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view${proForma?'':' at the balance date'} · ${rows.filter(r=>r.provenance==='secondary').length} secondary-only${year?` · final maturity in ${year}. The wall's ${year} bar differs: it places amortization in the year it is due`:''}</div>
     <div style="overflow-x:auto" tabindex="0"><table class="ledger"><thead><tr>${th}</tr></thead>${tr}</table></div></div>`;
-  V.querySelectorAll('th').forEach(h=>h.addEventListener('click',()=>{const k=h.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();}));
+  V.querySelectorAll('th').forEach(h=>h.addEventListener('click',()=>{const k=h.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=h.classList.contains('num')?-1:1;}render();}));  // amounts: largest first
 }
 
 function renderWall(V){
@@ -409,7 +471,7 @@ function renderWall(V){
   const floorList=[...new Set(rows.filter(r=>isDebt(r)&&inBasis(r,proForma)&&r.amortizing&&!r.schedule&&!(lad.has(r.t)&&ladderRow(r))).map(r=>r.t))].join(', ');
   const puts=holderPuts(rows,`${yr+1}-12-31`,proForma), putSum=puts.reduce((s,p)=>s+p.amount_m,0), acc=accretion(rows,proForma);
   V.innerHTML=`<div class="chartcard">${svg}</div>
-    <div class="card"><h3>By issuer ($B financial debt) · due on demand or by end-${yr+1}: $${fB(near)}B</h3><div style="overflow-x:auto" tabindex="0">${tbl}</div>
+    <div class="card"><h2>By issuer ($B financial debt) · due on demand or by end-${yr+1}: $${fB(near)}B</h2><div style="overflow-x:auto" tabindex="0">${tbl}</div>
     <div class="note">Amortizing rows without a captured schedule still sit at final maturity, so the near-term figure is a floor for ${floorList||'no issuer'}.${putSum?` Holders can also require $${fB(putSum)}B to be repaid by end-${yr+1} (${puts.map(p=>`${p.t} ${p.first_put} $${fB(p.amount_m)}B`).join(', ')}); a put is the holder\'s option, so it is not in the chart.`:''} Converts show original principal${acc>0.5?`: accreting notes repay $${fB(acc)}B more at maturity`:''} (see Convert moneyness). Leases and non-debt claims are not in this chart.</div></div>`;
 }
 
@@ -451,7 +513,7 @@ function renderRecon(V){
       <td><span class="st ${r.status}">${r.status}</span></td></tr>`).join('')}</tbody></table>`;
   const cards=LED.companies.map(c=>{const r=rec.find(x=>x.t===c.t)||{}; const t=TR[c.t]||{};
     const lad=c.filed_ladder?' · filed principal ladder: '+Object.entries(c.filed_ladder.years||{}).map(([k,v])=>`${k} $${fB(v)}B`).join(' · ')+(c.filed_ladder.after?` · ${c.filed_ladder.after.from}+ $${fB(c.filed_ladder.after.amount_m)}B`:''):'';
-    return `<div class="card"><h3>${c.t} · <span class="st ${r.status}">${r.status}</span>${lad}</h3>
+    return `<div class="card"><h2>${c.t} · <span class="st ${r.status}">${r.status}</span>${lad}</h2>
       <div class="det" style="max-width:none"><b>Ledger convention:</b> ${esc(c.nd_convention||'')}</div>
       ${(c.pro_forma_cash||[]).length?`<div class="det" style="max-width:none;margin-top:4px"><b>Pro-forma cash:</b> ${(c.pro_forma_cash||[]).map(a=>`${esc(a.date)} ${a.amount_m>=0?'+':''}$${fM(a.amount_m)}M — ${esc(a.note)}`).join('; ')}</div>`:''}
       ${t.ndflag?`<div class="det" style="max-width:none;margin-top:4px"><b>Tracker net-debt flag${t.capital_as_of?' (capital_as_of '+esc(t.capital_as_of)+')':''}:</b> ${esc(t.ndflag)}</div>`:''}
@@ -468,7 +530,9 @@ function renderRecon(V){
 (function initTick(){const s=document.getElementById('tickSeg');s.innerHTML=`<button class="on" data-t="all">all</button>`+LED.companies.map(c=>`<button data-t="${c.t}">${c.t}</button>`).join('');})();
 document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)setView(b.dataset.v);});
 document.getElementById('search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();render();});
-function wireSeg(id,fn){const s=document.getElementById(id);s.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));fn(b);render();});}
+function wireSeg(id,fn){const s=document.getElementById(id);s.querySelectorAll('button').forEach(x=>{x.type='button';x.setAttribute('aria-pressed',String(x.classList.contains('on')));});
+  s.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;s.querySelectorAll('button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',String(x===b));});fn(b);render();});}
+document.getElementById('yearChip').addEventListener('click',()=>setYear(null));
 wireSeg('tickSeg',b=>tick=b.dataset.t); wireSeg('clsSeg',b=>cls=b.dataset.c);
 const pf=document.getElementById('pfToggle');
 function flip(){const on=pf.classList.toggle('on');proForma=on;pf.setAttribute('aria-checked',on);render();}
@@ -476,6 +540,6 @@ pf.addEventListener('click',flip);pf.addEventListener('keydown',e=>{if(e.key==='
 
 statBar();setView('ledger');
 </script>
-<div class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></div>
+</main><footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#view table:not(.ledger)"}], "tips": "#heroWall rect, #view svg rect, #view svg circle, .meter span[title]", "clamp": [{"sel": ".ledger tr.notes .det", "lines": 1, "all": "#yearChip"}, {"sel": ".ledger td.collat .det, .ledger td.coupon .cpn", "lines": 2, "all": "#yearChip"}]}</script><script src="assets/aim.js" defer></script>
 </body>
 </html>

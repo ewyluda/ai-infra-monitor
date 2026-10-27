@@ -75,10 +75,46 @@
   footer code{font:12px var(--mono);background:var(--chip);border-radius:4px;padding:0 4px}
   @media(max-width:720px){.wrap{padding-top:18px}.card{padding:12px}}
 </style>
-<meta name="description" content="How each layer of the AI trade has traded in 2026: ten equal- and cap-weighted layer indexes, from accelerators and chip equipment to neoclouds and software, charted year to date against SPY and QQQ." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Trade Layer Index · AI Infra Monitor" /><meta property="og:description" content="How each layer of the AI trade has traded in 2026: ten equal- and cap-weighted layer indexes, from accelerators and chip equipment to neoclouds and software, charted year to date against SPY and QQQ." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" />
+<meta name="description" content="How each layer of the AI trade has traded in 2026: ten equal- and cap-weighted layer indexes, from accelerators and chip equipment to neoclouds and software, charted year to date against SPY and QQQ." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Trade Layer Index · AI Infra Monitor" /><meta property="og:description" content="How each layer of the AI trade has traded in 2026: ten equal- and cap-weighted layer indexes, from accelerators and chip equipment to neoclouds and software, charted year to date against SPY and QQQ." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style id="aim-theme">/* Layer index on the hub's shared style (the capacity page's MacroGauge parts): sans eyebrow and
+   numerals, one segmented control, one table head, the kit's tooltip look. */
+.crumb{font:650 12px/1.4 var(--aim-sans);letter-spacing:.08em;color:var(--aim-sky)}
+.crumb a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+h1{font-size:clamp(30px,3vw,42px);line-height:1.15;letter-spacing:-.035em;font-weight:650}
+.lede{font-size:16px;line-height:1.65}
+.stat{border-radius:8px;padding:16px 18px;transition:border-color .15s var(--aim-ease),box-shadow .2s var(--aim-ease)}
+.stat .v{font:600 26px/1.15 var(--aim-sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat .l{font-size:12px;letter-spacing:.035em;margin-top:6px}
+.stat[data-k]:hover{border-color:#B5C9EA;box-shadow:0 6px 24px rgba(23,33,43,.06)}
+.seg{border-color:var(--border);border-radius:6px;background:var(--card);padding:2px;gap:2px}
+.seg button{border-radius:4px;font:500 13px var(--aim-sans);padding:6px 12px;min-height:32px;transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease)}
+.seg button+button{border-left:0}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--aim-sky-wash);color:var(--sky);font-weight:600}
+.seg button:focus-visible,.linkbtn:focus-visible,.chipbtn:focus-visible,#chart svg:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.chipbtn{transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease),border-color .15s var(--aim-ease)}
+.chipbtn:hover{border-color:#B5C9EA}
+.axis text{font:11px var(--aim-sans);font-variant-numeric:tabular-nums}
+.endlab .p{font:600 11.5px var(--aim-sans);font-variant-numeric:tabular-nums}
+.series path{transition:opacity .15s var(--aim-ease)}
+#chart svg{border-radius:6px}
+.tip{border-color:var(--border);border-radius:6px;box-shadow:var(--aim-shadow);padding:10px 12px;font:13px/1.5 var(--aim-sans)}
+.tip .d{font:600 12px var(--aim-sans);color:var(--text)}
+.tip .r b{font:600 12.5px var(--aim-sans);font-variant-numeric:tabular-nums}
+th{background:none;border-bottom:1px solid var(--border);font:600 11px var(--aim-sans);letter-spacing:.08em}
+td{border-top:0;border-bottom:1px solid var(--border)}
+td.num,th.num{font-family:var(--aim-sans)}
+tr.layer td{transition:background-color .12s var(--aim-ease)}
+tr.layer:hover td{background:var(--aim-row-hover)}
+.lname .sw{width:10px;height:10px;border-radius:50%}
+tr.members td{background:#F9FAFB}
+.members th{border-bottom:0}
+.members td{border-bottom:0}
+.tag{font:10.5px var(--aim-sans)}
+.lname{white-space:nowrap}
+</style>
 </head>
 <body>
-<div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html" aria-current="page">Layers</a></nav></div></div>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html" aria-current="page">Layers</a></nav></div></header><main class="aim-content">
 <div class="wrap">
   <div class="crumb"><a href="index.html">AI Infra Monitor</a> · AI trade layers · YTD</div>
   <h1>How each layer of the AI trade has traded in 2026</h1>
@@ -167,6 +203,7 @@ const fmtDate=iso=>new Date(iso+'T00:00:00Z').toLocaleDateString('en-US',{month:
 
 let weight='ew', scale='lin', hidden=new Set(), focus=null, openRow=null;
 const n=(D.dates||[]).length;
+let cursor=Math.max(0,n-1);  // the date the keyboard crosshair sits on
 const groups=(D.groups||[]).map((g,i)=>({...g, color:PALETTE[i%PALETTE.length]}));
 const built={};
 if(n){
@@ -187,12 +224,12 @@ function renderStats(){
   const beat=rows.filter(r=>qqq!=null&&r.v>qqq).length;
   const w=weight==='ew'?'equal-weight':'cap-weight';
   $('stats').innerHTML=[
-    [pct(rows[0].v),'Best layer · '+w,rows[0].g.name,tone(rows[0].v)],
-    [pct(rows[rows.length-1].v),'Weakest layer · '+w,rows[rows.length-1].g.name,tone(rows[rows.length-1].v)],
-    [pct(spy),'SPY YTD','S&P 500 ETF, price return',tone(spy)],
-    [pct(qqq),'QQQ YTD','Nasdaq-100 ETF, price return',tone(qqq)],
+    [pct(rows[0].v),'Best layer · '+w,rows[0].g.name,tone(rows[0].v),rows[0].g.id],
+    [pct(rows[rows.length-1].v),'Weakest layer · '+w,rows[rows.length-1].g.name,tone(rows[rows.length-1].v),rows[rows.length-1].g.id],
+    [pct(spy),'SPY YTD','S&P 500 ETF, price return',tone(spy),'SPY'],
+    [pct(qqq),'QQQ YTD','Nasdaq-100 ETF, price return',tone(qqq),'QQQ'],
     [beat+' of '+rows.length,'Layers ahead of QQQ',w+' basis','']
-  ].map(([v,l,s,t])=>`<div class="stat"><div class="v ${t}">${esc(v)}</div><div class="l">${esc(l)}</div><div class="s">${esc(s)}</div></div>`).join('');
+  ].map(([v,l,s,t,k])=>`<div class="stat"${k?` data-k="${k}"`:''}><div class="v ${t}">${esc(v)}</div><div class="l">${esc(l)}</div><div class="s">${esc(s)}</div></div>`).join('');
 }
 
 function renderLegend(){
@@ -209,7 +246,7 @@ function renderChart(){
   host.querySelectorAll('svg,.empty').forEach(e=>e.remove());
   if(!n){ host.insertAdjacentHTML('beforeend','<div class="empty">No price history in this edition.</div>'); return; }
   const W=Math.max(320,Math.round(host.clientWidth)), narrow=W<700;
-  const H=narrow?340:460, m={l:46,r:narrow?12:190,t:14,b:30}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const H=narrow?340:460, m={l:46,r:narrow?12:206,t:14,b:30}, iw=W-m.l-m.r, ih=H-m.t-m.b;
   const vis=seriesList().filter(s=>!hidden.has(s.key));
   // tv: index level -> plotted value (percent change on linear, log of the level on log scale)
   const tv=v=>scale==='log'?Math.log(v):v-100;
@@ -246,19 +283,34 @@ function renderChart(){
        `<text class="endlab${dim}" x="${m.l+iw+22}" y="${l.y+4}" fill="#17212B"><tspan class="p">${(l.v>=0?'+':'')+l.v.toFixed(1)}%</tspan> ${esc(name)}</text>`;
   }
   g+=`<line class="xhair" id="xhair" x1="0" x2="0" y1="${m.t}" y2="${m.t+ih}" visibility="hidden"/>`;
-  host.insertAdjacentHTML('beforeend',`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Year-to-date index of each AI trade layer and of SPY and QQQ, indexed to 100 at the 2025 year-end close">${g}<rect id="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`);
+  host.insertAdjacentHTML('beforeend',`<svg viewBox="0 0 ${W} ${H}" role="img" tabindex="0" aria-label="Year-to-date index of each AI trade layer and of SPY and QQQ, indexed to 100 at the 2025 year-end close. Left and right arrow keys step through the dates.">${g}<rect id="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`);
   const svg=host.querySelector('svg'), tip=$('tip'), xh=svg.querySelector('#xhair');
-  svg.querySelector('#hit').addEventListener('mousemove',e=>{
-    const pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse());
-    const i=Math.max(0,Math.min(n-1,Math.round((p.x-m.l)/iw*(n-1))));
+  function showAt(i,x,y){
+    cursor=i;
     xh.setAttribute('x1',X(i)); xh.setAttribute('x2',X(i)); xh.setAttribute('visibility','visible');
     const rows=vis.map(s=>({s,v:lineOf(s.key)[i]/100-1})).sort((a,b)=>b.v-a.v);
     tip.innerHTML=`<div class="d">${fmtDate(D.dates[i])}</div>`+rows.map(r=>`<div class="r"><span class="sw${r.s.bench?' '+BENCH[r.s.key].cls:''}" style="background:${r.s.color};--c:${r.s.color}"></span><span>${esc(r.s.label)}</span><b class="${tone(r.v)}">${pct(r.v)}</b></div>`).join('');
-    const box=host.getBoundingClientRect(), x=e.clientX-box.left, y=e.clientY-box.top;
+    const box=host.getBoundingClientRect();
+    if(x==null){ x=X(i)*box.width/W; y=(m.t+ih/3)*box.height/H; }
     tip.style.display='block';
-    const tw=tip.offsetWidth; tip.style.left=Math.min(box.width-tw-4, x+16>box.width-tw?x-tw-16:x+16)+'px'; tip.style.top=Math.max(0,y-tip.offsetHeight/2)+'px';
+    const tw=tip.offsetWidth; tip.style.left=Math.max(0,Math.min(box.width-tw-4, x+16>box.width-tw?x-tw-16:x+16))+'px'; tip.style.top=Math.max(0,y-tip.offsetHeight/2)+'px';
+  }
+  function hideTip(){ tip.style.display='none'; xh.setAttribute('visibility','hidden'); }
+  svg.querySelector('#hit').addEventListener('mousemove',e=>{
+    const pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+    const box=host.getBoundingClientRect();
+    showAt(Math.max(0,Math.min(n-1,Math.round((p.x-m.l)/iw*(n-1)))), e.clientX-box.left, e.clientY-box.top);
   });
-  svg.querySelector('#hit').addEventListener('mouseleave',()=>{ tip.style.display='none'; xh.setAttribute('visibility','hidden'); });
+  svg.querySelector('#hit').addEventListener('mouseleave',hideTip);
+  svg.addEventListener('focus',()=>showAt(cursor));
+  svg.addEventListener('blur',hideTip);
+  svg.addEventListener('keydown',e=>{
+    const step={ArrowLeft:-1,ArrowRight:1}[e.key];
+    const i=step?Math.max(0,Math.min(n-1,cursor+step*(e.shiftKey?5:1))):e.key==='Home'?0:e.key==='End'?n-1:null;
+    if(e.key==='Escape') return hideTip();
+    if(i==null) return;
+    e.preventDefault(); showAt(i);
+  });
 }
 
 function renderBoard(){
@@ -301,6 +353,10 @@ document.querySelectorAll('.seg button[data-s]').forEach(b=>b.addEventListener('
 $('legend').addEventListener('click',e=>{ const b=e.target.closest('.chipbtn'); if(!b) return; const k=b.dataset.k; hidden.has(k)?hidden.delete(k):hidden.add(k); if(focus===k) focus=null; renderLegend(); renderChart(); });
 $('legend').addEventListener('mouseover',e=>{ const b=e.target.closest('.chipbtn'); const k=b&&!hidden.has(b.dataset.k)?b.dataset.k:null; if(k!==focus){ focus=k; renderChart(); } });
 $('legend').addEventListener('mouseleave',()=>{ if(focus){ focus=null; renderChart(); } });
+function focusFrom(sel){ return e=>{ const el=e.target.closest(sel); const k=el&&!hidden.has(el.dataset.k||el.dataset.id)?(el.dataset.k||el.dataset.id):null; if(el&&k!==focus){ focus=k; renderChart(); } }; }
+$('board').addEventListener('mouseover',focusFrom('tr.layer'));
+$('stats').addEventListener('mouseover',focusFrom('.stat[data-k]'));
+['board','stats'].forEach(id=>$(id).addEventListener('mouseleave',()=>{ if(focus){ focus=null; renderChart(); } }));
 $('showAll').addEventListener('click',()=>{ hidden.clear(); renderLegend(); renderChart(); });
 $('benchOnly').addEventListener('click',()=>{ hidden=new Set(groups.map(g=>g.id)); renderLegend(); renderChart(); });
 function toggleRow(id){ openRow=openRow===id?null:id; renderBoard(); }
@@ -311,6 +367,6 @@ $('wlSynced').textContent=D.watchlist&&D.watchlist.modified?fmtDate(D.watchlist.
 $('missing').textContent=(D.missing||[]).length?`Not in FMP's history: ${D.missing.join(', ')}.`:'';
 renderAll();
 </script>
-<div class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></div>
+</main><footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#board", "skip": [0, 7, 8], "attach": "tr.members"}, {"table": "#board .members table"}]}</script><script src="assets/aim.js" defer></script>
 </body>
 </html>

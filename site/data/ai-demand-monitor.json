@@ -3,7 +3,7 @@
  "as_of": "2026-10-27",
  "capex_as_of": "2026-10-21",
  "contracted_as_of": "2026-10-07",
- "labs_as_of": "2026-10-01",
+ "labs_as_of": "2026-10-27",
  "title": "AI Demand Monitor — hyperscaler capex, contracted backlog and AI-lab commitments",
  "note": "Demand side of the AI buildout: what the buyers of capacity disclose. Canonical source for ai-demand-monitor.{md,html}. $B unless noted. Every row carries the date it was disclosed (as_of) and a primary source; sourcing='secondary' marks figures supported only by press accounts. Derived series (q/q, trailing-4Q, run-rate, guide midpoints and revisions, capex-per-contracted-GW) are computed at render time by the refresh script and the HTML from the same formulas, never stored. Research, not P&L. Does not duplicate the neocloud capacity tracker — capacity_crosscheck retains the selected company and tenant rows from MacroGauge's published capacity.json snapshot, with inferred-MW exclusions.",
  "sources_note": "Cash capex is FMP statements/cashflow-statement 'investmentsInPropertyPlantAndEquipment' (sign flipped), pulled 2026-10-25. Cross-checks: the five hyperscalers' quarterly figures and closed-year sums against their releases; CRWV against its 10-Q/10-K (H1 2025, 9M 2025, FY2025, H1 2026 cash paid for P&E); NBIS against its shareholder letters and the Q1 2026 financial-statement comparative for Q1 2025. Guide quotes, finance leases, RPO and contracted figures are from the linked releases and filings; guides whose quote comes from the call carry a guide.src and were checked against the FMP earningsTranscript text. Lab-register sizes marked primary link a company, lab or SEC source; secondary rows link the press report (press_src). Perplexity research (2026-10-25/26) located the sources; it is not cited as a source.",
@@ -2462,6 +2462,20 @@
    "size_kind": "funding round"
   },
   {
+   "date": "2026-06-09",
+   "lab": "Anthropic",
+   "counterparty": "Broadcom AI XPV Platform (Apollo-led; Blackstone)",
+   "type": "accelerator lease financing",
+   "usd_b": 35,
+   "gw": null,
+   "term_years": 5,
+   "note": "A financing, not a new Anthropic commitment: the AI XPV Platform's initial tranche, led by Apollo with Blackstone, funds Anthropic's previously announced >1 GW expansion at Fluidstack-based sites from mid-2026 (the platform targets >20 GW of Broadcom XPU capacity for labs incl. Anthropic and OpenAI through 2028). Broadcom 10-Q (filed 6/9): on 6/8 Apollo took on agreements to buy AI racks of Broadcom-designed accelerators and the related lease agreements with an unnamed customer; Broadcom backstops the customer's 5-year lease obligations, maximum exposure $29B. Neither release says whether the 2026-10-26 $63B SPV includes or follows this tranche: that one funds deliveries from 2027, this one deployments from mid-2026. The leases match Anthropic's five-year Broadcom equipment leases (2026-10-01 row; the S-1 notes Broadcom assigned part of one to a third party in Q2 2026)",
+   "src": "https://www.apollo.com/insights-news/pressreleases/2026/06/broadcom--apollo--and-blackstone-establish-landmark-strategic-pl",
+   "sourcing": "primary",
+   "overlap": "overlaps 2025-12-11 and 2026-10-01",
+   "size_kind": "financing"
+  },
+  {
    "date": "2026-07-06",
    "lab": "Anthropic",
    "counterparty": "TeraWulf (Justified Data campus, KY)",
@@ -2581,6 +2595,47 @@
    "sourcing": "primary",
    "overlap": "overlaps 2026-04-06 and 2025-12-11",
    "press_src": "https://www.cnbc.com/2026/10/01/broadcom-lending-anthropic-42-billion-chips-reuters.html",
+   "size_kind": "lease commitment"
+  },
+  {
+   "date": "2026-10-16",
+   "lab": "Anthropic",
+   "counterparty": "EverWind (Point Tupper, Nova Scotia)",
+   "type": "data-center lease",
+   "usd_b": null,
+   "gw": 0.095,
+   "term_years": null,
+   "note": "EverWind announced a long-term lease with an unnamed 'leading frontier AI developer' for the campus's initial 95 MW phase (late 2027; IT vs gross not stated); a 325 MW expansion targeted for 2028 (420 MW campus) is subject to commercial, technical and regulatory conditions. Lease value and term undisclosed. Anthropic's first Canadian data center; the Anthropic attribution is press-reported (Anthropic confirmed to Global News)",
+   "src": "https://everwindfuels.com/2026/10/everwind-announces-10-billion-investment-in-point-tupper-data-centre-campus-and-renewable-energy-portfolio-across-nova-scotia/",
+   "sourcing": "secondary",
+   "press_src": "https://globalnews.ca/news/12105095/everwind-nova-scotia-data-centre/",
+   "size_kind": "capacity only"
+  },
+  {
+   "date": "2026-10-26",
+   "lab": "Anthropic",
+   "counterparty": "Broadcom-arranged SPV (Bank of America / Citi / Morgan Stanley; Blackstone)",
+   "type": "accelerator lease financing (SPV)",
+   "usd_b": 63,
+   "gw": null,
+   "term_years": null,
+   "note": "A financing, not a new Anthropic commitment: a new SPV with committed financing buys Broadcom XPU accelerators and networking to lease to Anthropic, part of the strategic compute capacity agreement Broadcom announced earlier (deliveries from calendar 2027). BofA, Citi and Morgan Stanley arrange the first lien; Blackstone is sole provider of the committed second lien; Broadcom gives the SPV residual value support equal to the first lien. Anthropic's side is its Broadcom equipment-lease rent (2026-10-01 row)",
+   "src": "https://www.prnewswire.com/news-releases/bank-of-america-blackstone-citi-and-morgan-stanley-announce-landmark-63-billion-financing-structure-to-enable-ai-compute-capacity-in-partnership-with-broadcom-302919849.html",
+   "sourcing": "primary",
+   "overlap": "overlaps 2026-10-01 and 2026-04-06",
+   "size_kind": "financing"
+  },
+  {
+   "date": "2026-10-26",
+   "lab": "xAI (SpaceX)",
+   "counterparty": "Apollo-managed lessor (GPU finance lease)",
+   "type": "GPU finance lease",
+   "usd_b": 40,
+   "gw": null,
+   "term_years": 5,
+   "note": "8-K: binding commitment letter (10/24) to enter a master finance lease; the Apollo-managed lessor buys GPU pods and related equipment and leases them in tranches of ~5–5.25 years, rent quarterly in advance plus fixed-rate interest set at pricing. Aggregate principal ~$40B excluding interest; subject to closing conditions, close expected before year-end, schedules from H1 2027 on delivery. SpaceX's 10/26 release: Nvidia Vera Rubin, financing led by Apollo and Goldman Sachs, for Grok and SpaceX's cloud-services customers. xAI is now SpaceXAI, a SpaceX subsidiary",
+   "src": "https://www.sec.gov/Archives/edgar/data/1181412/000110465926118614/tm2628247d1_8k.htm",
+   "sourcing": "primary",
    "size_kind": "lease commitment"
   }
  ],

@@ -112,7 +112,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 .cm-alt small { font-size: 11px; color: var(--muted); }
 .cap-withheld { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
 .cap-table tr.cap-table-group th { text-align: left; padding-top: 14px; font-size: 13px; font-weight: 600; background: var(--chip-bg); }
-.cap-group-head { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
+.research-page .cap-group-head { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
 .cap-group-head small { margin-left: 6px; font-size: 12.5px; font-weight: 400; color: var(--muted); }
 .research-page .cap-row { padding: 0; border-radius: 8px; overflow: hidden; }
 .cap-row.is-open { border-color: #B5C9EA; box-shadow: 0 6px 24px #17212B0D; }
@@ -156,7 +156,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 .cap-ledger-pipe { grid-column: 1 / -1; margin: 0; padding: 10px 16px; border-top: 1px solid var(--border); background: #FAFBFC; font-size: 13px; color: var(--muted); }
 .cap-ledger-pipe span { color: var(--text); font-weight: 600; margin-right: 6px; }
 .cap-note { border-left: 3px solid var(--accent-amber); background: #FBF7F0; padding: 12px 16px; border-radius: 0 6px 6px 0; max-width: 78ch; }
-.cap-note h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--accent-amber); }
+.cap-note h3 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--accent-amber); }
 .cap-note p { margin: 0; font-size: 14px; line-height: 1.6; }
 .cap-stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .cap-stat { padding: 12px 14px 12px 0; min-width: 0; }
@@ -224,7 +224,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
    map and the insets); the other views anchor to their .cap-chart. */
 .cap-viz { position: relative; display: flex; flex-direction: column; gap: 16px; }
 .cap-viz-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 32px; flex-wrap: wrap; }
-.cap-viz-head h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.015em; }
+.cap-viz-head h2 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.015em; }
 .cap-viz-head p { margin: 6px 0 0; max-width: 72ch; font-size: 14px; line-height: 1.6; color: var(--muted); }
 .cap-key { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--muted); }
 .cap-key li { display: inline-flex; align-items: center; gap: 7px; }
@@ -245,7 +245,11 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 .cap-median-label { font-weight: 600; pointer-events: none; paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
 .cap-corner { font-size: 12.5px; fill: #8C99A6; font-style: italic; }
 .cap-mark { cursor: pointer; transition: fill-opacity 120ms ease; }
-.cap-mark:hover, .cap-mark:focus-visible { fill-opacity: 1; outline: none; stroke: var(--text); }
+.cap-mark:hover, .cap-mark:focus-visible, .cap-mark.is-hot { fill-opacity: 1; outline: none; stroke: var(--text); }
+.cap-chart.has-hot .cap-mark:not(.is-hot) { fill-opacity: .22; }
+.cap-table tbody tr[data-t] td { transition: background-color 120ms ease; }
+.cap-table tbody tr.is-hot td { background: #F4F7FB; }
+@media (max-width: 640px) { .cap-table caption .cap-muted { display: none; } }
 .cap-label { font-size: 12px; font-weight: 600; fill: var(--text); pointer-events: none; paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
 .cap-viz-note { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); max-width: 110ch; }
 .cap-muted { color: var(--muted); }
@@ -353,7 +357,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
   .cap-quarters > li { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px; }
   .cap-quarter-head { flex-direction: row; align-items: baseline; gap: 10px; }
   .cap-minibar-cell { display: none; }
-  .cap-viz-head h3 { font-size: 17px; }
+  .cap-viz-head h2 { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) { .cap-mark, .cap-flow, .cap-col, .cap-site, .cap-quarters > li { transition: none; } }
 .cap-size-item { gap: 12px !important; }
@@ -367,7 +371,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 <meta name="description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Capacity Tracker · AI Infra Monitor" /><meta property="og:description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" />
 </head>
 <body>
-<div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html" aria-current="page">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></div>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html" aria-current="page">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
 <main class="page-shell research-page">
   <header class="research-intro">
     <div class="research-eyebrow">AI infrastructure · AI capacity tracker <span id="updated"></span></div>
@@ -624,14 +628,14 @@ function dossier(c) {
     (PRICED ? stat('Backlog ÷ EV', c.coverage != null ? `${c.coverage}×` : '—') : '');
   return `<div class="cap-dossier">
     <section aria-label="Capacity" class="cap-ledger">${ledger}</section>
-    ${c.flag ? `<aside class="cap-note"><h4>${c.confidence === 'estimate' ? 'How this estimate is built' : 'Curator’s note'}</h4><p>${esc(c.flag)}</p></aside>` : ''}
-    <section aria-label="Valuation"><h4 class="cap-h">${PRICED ? 'Valuation' : 'Balance sheet and backlog'}</h4><dl class="cap-stats">${stats}</dl>
+    ${c.flag ? `<aside class="cap-note"><h3>${c.confidence === 'estimate' ? 'How this estimate is built' : 'Curator’s note'}</h3><p>${esc(c.flag)}</p></aside>` : ''}
+    <section aria-label="Valuation"><h3 class="cap-h">${PRICED ? 'Valuation' : 'Balance sheet and backlog'}</h3><dl class="cap-stats">${stats}</dl>
       ${c.ndflag ? `<p class="cap-foot"><span>Net debt basis.</span> ${esc(c.ndflag)}</p>` : ''}</section>
     <div class="cap-columns">
-      ${econ.length ? `<section aria-label="Business economics"><h4 class="cap-h">Business economics</h4><dl class="cap-econ">${econ.map(([k, v]) => `<div><dt>${esc(econLabel(k))}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>` : ''}
-      ${c.sites.length ? `<section aria-label="Sites"><h4 class="cap-h">Sites <small>${c.sites.length}</small></h4><div class="capacity-site-table" tabindex="0"><table class="cap-sites"><thead><tr><th scope="col">Site</th><th scope="col" class="num">MW</th><th scope="col">Status and timing</th></tr></thead><tbody>${c.sites.map(([name, mw, st, when]) => `<tr><td>${esc(name)}</td><td class="num">${mw != null ? mw.toLocaleString('en-US') : 'n/d'}</td><td><span class="cap-status cap-status-${esc(st)}">${esc(SITE_STATUS[st] || st)}</span><span class="cap-when">${esc(when)}</span></td></tr>`).join('')}</tbody></table></div></section>` : ''}
+      ${econ.length ? `<section aria-label="Business economics"><h3 class="cap-h">Business economics</h3><dl class="cap-econ">${econ.map(([k, v]) => `<div><dt>${esc(econLabel(k))}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>` : ''}
+      ${c.sites.length ? `<section aria-label="Sites"><h3 class="cap-h">Sites <small>${c.sites.length}</small></h3><div class="capacity-site-table" tabindex="0"><table class="cap-sites"><thead><tr><th scope="col">Site</th><th scope="col" class="num">MW</th><th scope="col">Status and timing</th></tr></thead><tbody>${c.sites.map(([name, mw, st, when]) => `<tr><td>${esc(name)}</td><td class="num">${mw != null ? mw.toLocaleString('en-US') : 'n/d'}</td><td><span class="cap-status cap-status-${esc(st)}">${esc(SITE_STATUS[st] || st)}</span><span class="cap-when">${esc(when)}</span></td></tr>`).join('')}</tbody></table></div></section>` : ''}
     </div>
-    ${c.src.length ? `<section aria-label="Sources" class="cap-sources"><h4 class="cap-h">Sources</h4><ul>${c.src.map(([label, url]) => `<li><a href="${esc(url)}" target="_blank" rel="noreferrer">${esc(label)}</a></li>`).join('')}</ul></section>` : ''}
+    ${c.src.length ? `<section aria-label="Sources" class="cap-sources"><h3 class="cap-h">Sources</h3><ul>${c.src.map(([label, url]) => `<li><a href="${esc(url)}" target="_blank" rel="noreferrer">${esc(label)}</a></li>`).join('')}</ul></section>` : ''}
   </div>`;
 }
 
@@ -655,7 +659,7 @@ function renderBars(panel, rs) {
     ${groups.map(g => {
       const max = Math.max(...g.rows.map(total), 1), start = rank + 1;
       return `<section class="cap-group"${g.label ? ` aria-label="${esc(g.label)}"` : ''}>
-        ${g.label ? `<h3 class="cap-group-head">${esc(g.label)} <small>${esc(g.detail)} · ${g.rows.length} · bars scaled to ${fmtMW(max)}</small></h3>` : ''}
+        ${g.label ? `<h2 class="cap-group-head">${esc(g.label)} <small>${esc(g.detail)} · ${g.rows.length} · bars scaled to ${fmtMW(max)}</small></h2>` : ''}
         <ol class="cap-list" start="${start}">${g.rows.map(c => {
           const i = rank++, isOpen = openRow === c.t;
           const badge = c.confidence === 'estimate'
@@ -723,12 +727,14 @@ function renderValuation(panel, rs) {
   const medText = m => `${VGROUP[m.g].short} median ${fmtM(m.median)} per MW`;
   const placed = medLabels.map(m => { const w = medText(m).length * 6.8; return { x: W - M.r - 4 - w, y: m.y - 11, w, h: 14 }; });
   const labels = new Map();
+  const dots = pts.map(c => { const r = R(c) * 0.85; return { t: c.t, x: X(c.pct_energized) - r, y: Y(c.ev_per_mw) - r, w: 2 * r, h: 2 * r }; });
   for (const c of [...pts].sort((a, b) => b.wmw - a.wmw)) {
     if (labels.size >= maxLabels) break;
     const cx = X(c.pct_energized), cy = Y(c.ev_per_mw), r = R(c), w = c.t.length * 7.4 + 4, h = 13;
     const cands = [[cx + r + 4, cy + 4, 'start', { x: cx + r + 3, y: cy - 8, w, h }], [cx - r - 4, cy + 4, 'end', { x: cx - r - 3 - w, y: cy - 8, w, h }],
       [cx, cy - r - 5, 'middle', { x: cx - w / 2, y: cy - r - 17, w, h }], [cx, cy + r + 13, 'middle', { x: cx - w / 2, y: cy + r + 1, w, h }]];
-    const ok = cands.find(([, , , b]) => b.x >= M.l && b.x + b.w <= W - M.r && b.y >= M.t - 4 && b.y + b.h <= H - M.b && !placed.some(p => hit(p, b)));
+    const ok = cands.find(([, , , b]) => b.x >= M.l && b.x + b.w <= W - M.r && b.y >= M.t - 4 && b.y + b.h <= H - M.b && !placed.some(p => hit(p, b))
+      && !dots.some(d => d.t !== c.t && hit(d, b)));
     if (ok) { placed.push(ok[3]); labels.set(c.t, { x: ok[0], y: ok[1], anchor: ok[2] }); }
   }
   const groups = Object.keys(VGROUP).filter(g => pts.some(c => vgroupOf(c) === g));
@@ -749,19 +755,27 @@ function renderValuation(panel, rs) {
   const table = groups.map(g => {
     const grp = pts.filter(c => vgroupOf(c) === g).sort((a, b) => a.ev_per_mw - b.ev_per_mw);
     return `<tbody><tr class="cap-table-group"><th scope="colgroup" colspan="6"><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(VGROUP[g].label)}<span class="cap-muted"> · ${grp.length} · median ${fmtM(medianOf(grp.map(c => c.ev_per_mw)))} per MW</span></th></tr>
-      ${grp.map(c => `<tr><td><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(c.n)} <span class="cap-muted">${esc(c.t)}</span></td><td class="cap-muted">${esc(VGROUP[g].short)}</td><td class="num">${fmtM(c.ev_per_mw)}${c.stale ? '*' : ''}</td><td class="num">${c.pct_energized}%</td><td class="num">${fmtMW(c.wmw)}</td><td class="num">${c.coverage != null ? c.coverage + '×' : '—'}</td></tr>`).join('')}</tbody>`;
+      ${grp.map(c => `<tr data-t="${esc(c.t)}"><td><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(c.n)} <span class="cap-muted">${esc(c.t)}</span></td><td class="cap-muted">${esc(VGROUP[g].short)}</td><td class="num">${fmtM(c.ev_per_mw)}${c.stale ? '*' : ''}</td><td class="num">${c.pct_energized}%</td><td class="num">${fmtMW(c.wmw)}</td><td class="num">${c.coverage != null ? c.coverage + '×' : '—'}</td></tr>`).join('')}</tbody>`;
   }).join('');
   const noted = excluded.filter(c => c.ev_note);
   panel.innerHTML = `<div class="cap-viz">
-    <div class="cap-viz-head"><div><h3>What the market pays per megawatt, against how much is already live</h3>
+    <div class="cap-viz-head"><div><h2>What the market pays per megawatt, against how much is already live</h2>
       <p>Each dot is a company: enterprise value per weighted MW (log scale) against the share of its capacity that is energized. Dot area is weighted MW. Dashed lines are each business type&apos;s median, since GPU clouds and landlords are priced as different businesses.</p></div>
       <ul class="cap-key">${groups.map(g => `<li><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i>${esc(VGROUP[g].label)}</li>`).join('')}</ul></div>
     <div class="dashboard-panel cap-chart" id="valChart">${svg}</div>
-    <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Cheapest per megawatt first, within each business type</caption>
+    <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Cheapest per megawatt first, within each business type<span class="cap-muted"> · select a column to re-sort</span></caption>
       <thead><tr><th scope="col">Company</th><th scope="col">Type</th><th scope="col" class="num">EV per MW</th><th scope="col" class="num">Energized</th><th scope="col" class="num">Weighted MW</th><th scope="col" class="num">Backlog ÷ EV</th></tr></thead>${table}</table></div>
     <p class="cap-viz-note">Weighted MW = operational + half of construction + a quarter of planned. Valuations are MacroGauge&apos;s, priced ${esc(DATA.priced_date || '—')}.${excluded.length ? ` Not plotted: ${excluded.map(c => esc(c.t)).join(', ')} — EV per MW is withheld for hyperscalers and private builders (enterprise value isn&apos;t tied to AI megawatts)${noted.length ? `, for companies whose EV prices a much larger business than their AI megawatts (${noted.map(c => esc(c.t)).join(', ')})` : ''}${excluded.some(c => c.dupe === 'parent') ? ', and parent rows that repeat a subsidiary' : ''}.` : ''}</p>
   </div>`;
-  wireTips($('valChart'), t => { const c = byT.get(t); return c && `<strong>${esc(c.n)}</strong><span>${esc(VGROUP[vgroupOf(c)].short)}</span><dl><dt>EV per MW</dt><dd>${fmtM(c.ev_per_mw)}${c.stale ? ' (stale quote)' : ''}</dd><dt>Energized</dt><dd>${c.pct_energized}%</dd><dt>Weighted MW</dt><dd>${fmtMW(c.wmw)}</dd><dt>Backlog ÷ EV</dt><dd>${c.coverage != null ? c.coverage + '×' : '—'}</dd></dl>`; });
+  const hot = t => {
+    $('valChart').classList.toggle('has-hot', !!t);
+    panel.querySelectorAll('.is-hot').forEach(el => el.classList.remove('is-hot'));
+    if (t) panel.querySelectorAll(`[data-tip="${CSS.escape(t)}"], tr[data-t="${CSS.escape(t)}"]`).forEach(el => el.classList.add('is-hot'));
+  };
+  wireTips($('valChart'), t => { const c = byT.get(t); return c && `<strong>${esc(c.n)}</strong><span>${esc(VGROUP[vgroupOf(c)].short)}</span><dl><dt>EV per MW</dt><dd>${fmtM(c.ev_per_mw)}${c.stale ? ' (stale quote)' : ''}</dd><dt>Energized</dt><dd>${c.pct_energized}%</dd><dt>Weighted MW</dt><dd>${fmtMW(c.wmw)}</dd><dt>Backlog ÷ EV</dt><dd>${c.coverage != null ? c.coverage + '×' : '—'}</dd></dl>`; }, hot, () => hot(null));
+  const rows = panel.querySelector('.cap-table');
+  rows.addEventListener('pointerover', e => { const tr = e.target.closest('tr[data-t]'); if (tr) hot(tr.dataset.t); });
+  rows.addEventListener('pointerleave', () => hot(null));
 }
 
 /* ---------- Demand map (MacroGauge DemandMap) ---------- */
@@ -801,7 +815,7 @@ function renderDemand(panel, rs) {
       return `<g class="cap-node" role="img" tabindex="0" data-tip="p${k}" aria-label="${esc(names.get(n.key) || n.key)}: ${fmtMW(n.total || null)} contracted"><rect x="${XR}" y="${offR + n.y}" width="${BAR}" height="${Math.max(n.h, 2)}" rx="2" class="cap-node-bar"/><rect x="${XR}" y="${cy - 16}" width="290" height="32" fill="transparent"/><text x="${XR + BAR + 8}" y="${cy - 2}" class="cap-node-name">${esc(short(names.get(n.key) || n.key, 30))}</text><text x="${XR + BAR + 8}" y="${cy + 13}" class="cap-node-sub">${esc(n.key)} · ${n.total > 0 ? fmtMW(n.total) : 'MW undisclosed'}</text></g>`; }).join('')}
   </svg>`;
   panel.innerHTML = `<div class="cap-viz">
-    <div class="cap-viz-head"><div><h3>Who has signed for whose capacity</h3><p>Disclosed leases and compute contracts, from the buyer on the left to the provider on the right. Ribbon width follows committed critical-IT MW.</p></div>
+    <div class="cap-viz-head"><div><h2>Who has signed for whose capacity</h2><p>Disclosed leases and compute contracts, from the buyer on the left to the provider on the right. Ribbon width follows committed critical-IT MW.</p></div>
       <ul class="cap-key"><li><i class="cap-ribbon-key" aria-hidden="true"></i>MW disclosed</li><li><i class="cap-ribbon-key cap-ribbon-key-inf" aria-hidden="true"></i>MW inferred from deal value</li><li><i class="cap-ribbon-key cap-ribbon-key-nd" aria-hidden="true"></i>MW undisclosed</li></ul></div>
     <div class="dashboard-panel cap-chart" id="demandChart"><div class="cap-scroll" tabindex="0">${svg}</div></div>
     <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Every disclosed deal, largest first</caption>
@@ -873,7 +887,7 @@ function renderTimeline(panel, rs) {
       <div><dt>Biggest quarter</dt><dd>${qLabel(peak.q)} <small>+${fmtMW(peak.add_mw)}</small></dd></div>
       <div><dt>Construction sites with a date</dt><dd>${nSites}</dd></div>
     </dl>
-    <div class="cap-viz-head"><div><h3>Critical-IT capacity scheduled to energize, by quarter</h3><p>Construction-stage sites with a disclosed first-power date. Undated sites are left out, so this understates the pipeline, and slippage is common.</p></div></div>
+    <div class="cap-viz-head"><div><h2>Critical-IT capacity scheduled to energize, by quarter</h2><p>Construction-stage sites with a disclosed first-power date. Undated sites are left out, so this understates the pipeline, and slippage is common.</p></div></div>
     <div class="dashboard-panel cap-chart" id="tlChart"><div class="cap-scroll" tabindex="0">${svg}</div></div>
     <ol class="cap-quarters">${Object.entries(tl.milestones).map(([q, items]) => `<li id="cap-q-${q}"><div class="cap-quarter-head"><strong>${qLabel(q)}</strong><span>+${fmtMW(items.reduce((s, m) => s + m[2], 0))}</span><small>${items.length} site${items.length > 1 ? 's' : ''}</small></div>
       <table class="cap-quarter-sites"><tbody>${items.slice().sort((a, b) => b[2] - a[2]).map(([t, site, mw]) => `<tr><td class="cap-ticker">${esc(t)}</td><td>${esc(site)}</td><td class="num">${fmtMW(mw)}</td><td class="cap-minibar-cell" aria-hidden="true"><i class="cap-minibar" style="width:${mw / maxSite * 100}%"></i></td></tr>`).join('')}</tbody></table></li>`).join('')}</ol>
@@ -907,16 +921,16 @@ function renderGeo(panel, rs) {
     ${[...here].sort((a, b) => (b.mw ?? -1) - (a.mw ?? -1)).map(s => { const [cx, cy] = proj(p, s.lng, s.lat), nd = s.mw == null, hollow = nd || s.st === 's', k = all.push(s) - 1;
       return `<circle cx="${cx}" cy="${cy}" r="${nd ? 4.5 : R(s.mw)}" class="cap-site cap-site-${esc(s.st)}${hollow ? ' is-hollow' : ''}${s.approx ? ' is-approx' : ''}" role="img" tabindex="0" data-tip="${k}" aria-label="${esc(s.site)}, ${esc(names.get(s.t) || s.t)}: ${fmtMW(s.mw)}, ${STATUS[s.st] || s.st}"/>`; }).join('')}</svg>`;
   panel.innerHTML = `<div class="cap-viz" id="geoWrap">
-    <div class="cap-viz-head"><div><h3>Where the AI campuses are</h3><p>Campus-level sites sized by critical-IT MW. Positions are town or county centroids, not parcels.</p></div>
+    <div class="cap-viz-head"><div><h2>Where the AI campuses are</h2><p>Campus-level sites sized by critical-IT MW. Positions are town or county centroids, not parcels.</p></div>
       <ul class="cap-key">${['o', 'c', 'p', 's'].map(st => `<li><i class="cap-site-key cap-site-${st}${st === 's' ? ' is-hollow' : ''}" aria-hidden="true"></i>${STATUS[st]}</li>`).join('')}
         <li><i class="cap-site-key is-approx-key" aria-hidden="true"></i>Approximate location</li>
         <li class="cap-size-item">${[100, 500, 1500].map(mw => { const d = R(mw) * 2; return `<span><svg width="${d + 2}" height="${d + 2}" aria-hidden="true" class="cap-size-key"><circle cx="${d / 2 + 1}" cy="${d / 2 + 1}" r="${d / 2}"/></svg>${fmtMW(mw)}</span>`; }).join('')}</li></ul></div>
     ${na && na.here.length ? `<div class="dashboard-panel cap-chart cap-map">${panelSvg('na', na.p, na.here)}</div>` : ''}
     <div class="cap-geo-row">
       ${others.map(x => `<div class="dashboard-panel cap-chart cap-map cap-map-inset"><span class="cap-map-name">${PANEL_NAME[x.id] || x.id}</span>${panelSvg(x.id, x.p, x.here)}</div>`).join('')}
-      ${largest.length ? `<section class="cap-largest" aria-label="Largest mapped campuses"><h4 class="cap-h">Largest campuses</h4><ol>${largest.map(s => `<li><span class="cap-status cap-status-${esc(s.st)}" role="img" aria-label="${STATUS[s.st]}"></span><span class="cap-largest-name">${esc(s.site)}<small>${esc(names.get(s.t) || s.t)}</small></span><span class="num">${fmtMW(s.mw)}</span><i class="cap-minibar" style="width:${s.mw / maxMW * 100}%" aria-hidden="true"></i></li>`).join('')}</ol></section>` : ''}
+      ${largest.length ? `<section class="cap-largest" aria-label="Largest mapped campuses"><h3 class="cap-h">Largest campuses</h3><ol>${largest.map(s => `<li><span class="cap-status cap-status-${esc(s.st)}" role="img" aria-label="${STATUS[s.st]}"></span><span class="cap-largest-name">${esc(s.site)}<small>${esc(names.get(s.t) || s.t)}</small></span><span class="num">${fmtMW(s.mw)}</span><i class="cap-minibar" style="width:${s.mw / maxMW * 100}%" aria-hidden="true"></i></li>`).join('')}</ol></section>` : ''}
     </div>
-    ${elsewhere.length ? `<section class="cap-elsewhere" aria-label="Sites not on the map"><h4 class="cap-h">Not on the map <small>${elsewhere.length}</small></h4><div class="capacity-site-table" tabindex="0"><table class="cap-table"><thead><tr><th scope="col">Site</th><th scope="col">Company</th><th scope="col" class="num">MW</th><th scope="col">Status</th><th scope="col">Why it isn&apos;t mapped</th></tr></thead>
+    ${elsewhere.length ? `<section class="cap-elsewhere" aria-label="Sites not on the map"><h3 class="cap-h">Not on the map <small>${elsewhere.length}</small></h3><div class="capacity-site-table" tabindex="0"><table class="cap-table"><thead><tr><th scope="col">Site</th><th scope="col">Company</th><th scope="col" class="num">MW</th><th scope="col">Status</th><th scope="col">Why it isn&apos;t mapped</th></tr></thead>
       <tbody>${elsewhere.map(s => `<tr><td>${esc(s.site)}</td><td>${esc(names.get(s.t) || s.t)}</td><td class="num">${s.mw != null ? Math.round(s.mw).toLocaleString('en-US') : 'n/d'}</td><td><span class="cap-status cap-status-${esc(s.st)}">${esc(STATUS[s.st] || s.st)}</span></td><td class="cap-muted">${esc(s.why)}</td></tr>`).join('')}</tbody></table></div></section>` : ''}
     <p class="cap-viz-note">${esc(DATA.geo_note)}</p>
   </div>`;
@@ -940,6 +954,6 @@ renderHeader();
 renderPowerDeals();
 update();
 </script>
-<div class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></div>
+<footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": ".cap-table", "group": "tr.cap-table-group"}, {"table": ".power-deals-table", "skip": [6]}], "tips": ".power-deals-table [title]"}</script><script src="assets/aim.js" defer></script>
 </body>
 </html>

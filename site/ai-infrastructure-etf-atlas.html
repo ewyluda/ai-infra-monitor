@@ -52,7 +52,7 @@
   .rail-inner{max-width:1440px;margin:auto;padding:7px 34px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
   .rail-inner::-webkit-scrollbar{display:none}
   .rail a{flex:0 0 auto;text-decoration:none;border:1px solid #c9d1da;border-radius:999px;padding:5px 10px;color:#526170;font:var(--fs-1) var(--mono);letter-spacing:.05em;text-transform:uppercase}
-  .rail a:hover,.rail a:focus-visible{background:var(--navy);border-color:var(--navy);color:var(--white);outline:none}
+  .rail a:hover,.rail a:focus-visible,.rail a[aria-current="true"]{background:var(--navy);border-color:var(--navy);color:var(--white);outline:none}
 
   .section{padding:38px 0 0;scroll-margin-top:42px}
   .section-head{display:grid;grid-template-columns:minmax(240px,.62fr) minmax(340px,1fr);gap:30px;align-items:end;margin-bottom:15px}
@@ -211,18 +211,11 @@
 </style>
 <meta name="description" content="Six listed routes into the physical AI buildout, from power and grid to photonics, memory and neocloud compute, with issuer-sourced holdings look-through." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Infrastructure ETF Atlas · AI Infra Monitor" /><meta property="og:description" content="Six listed routes into the physical AI buildout, from power and grid to photonics, memory and neocloud compute, with issuer-sourced holdings look-through." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style id="aim-theme">/* ETF atlas: brand type, and ink text where the page put white text on navy panels that are
    now white cards. The page's own topbar is replaced by the hub bar. */
-:root{color-scheme:light;--mono:var(--aim-mono);--sans:var(--aim-sans);--serif:var(--aim-sans)}
+:root{color-scheme:light;--mono:var(--aim-sans);--sans:var(--aim-sans);--serif:var(--aim-sans)}
 .topbar{display:none}
-h1{font-weight:650;line-height:1;letter-spacing:-.035em}
-h2{line-height:1.05;letter-spacing:-.025em}
-.kicker::before{border-color:var(--aim-sky)}
 .chart-shell{color:var(--ink);box-shadow:none}
-.series-button:hover,.series-button:focus-visible{border-color:var(--ink);color:var(--ink)}
 .holdings-tabs{background:#F9FAFB}
 .holdings-tab:hover,.holdings-tab:focus-visible,.holdings-tab.active{color:var(--ink)}
-th{background:#EEF2F6;color:#526170}
-.rail a:hover,.rail a:focus-visible{background:var(--aim-sky);border-color:var(--aim-sky);color:#fff}
-.takeaway{border-top-color:var(--aim-sky)}
 .skip{color:#fff}
 /* Series toggles and legend (price edition): fund hues stay on borders and swatches, text stays
    text-safe; "off" is gray plus strikethrough instead of fading the whole item below 4.5:1. */
@@ -231,26 +224,85 @@ th{background:#EEF2F6;color:#526170}
 .legend-item.off{opacity:1}
 .legend-item.off .legend-top,.legend-item.off .legend-return{color:#606c7a;text-decoration:line-through}
 .legend-item.off .legend-swatch{opacity:.36}
+
+/* The hub's shared style (the capacity page's MacroGauge parts): one type scale, sans labels and
+   numerals (--mono maps to the sans), one eyebrow, segmented control, chip, table head, card radius. */
+:root{--fs-7:clamp(30px,3vw,42px);--fs-6:24px;--fs-5:19px}
+h1{font-weight:650;line-height:1.15;letter-spacing:-.035em;margin:12px 0 10px}
+h2{font-weight:600;line-height:1.3;letter-spacing:-.025em}
+.hero-lede{font-size:16px;line-height:1.65;color:var(--muted)}
+.hero-verdict{font-size:18px;line-height:1.4;letter-spacing:-.01em}
+.kicker,.eyebrow{font:650 12px/1.4 var(--aim-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--aim-sky)}
+.kicker::before{display:none}
+.hero-q,.hero-stat span,.fund-metric span,.holding-label,.holding-stat span,.fund-sleeve,.legend-period,.torque-group,.structure,.takeaway .num-label{font:500 11px/1.4 var(--aim-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.takeaway .num-label{text-transform:none;letter-spacing:0;font-size:12px}
+.section-intro{font-size:14px;line-height:1.6;color:var(--muted)}
+.rail a{font:500 13px var(--aim-sans);letter-spacing:0;text-transform:none;color:var(--muted);background:var(--aim-card);border-color:var(--aim-border);
+  transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease),border-color .15s var(--aim-ease)}
+.rail a:hover,.rail a:focus-visible,.rail a[aria-current="true"]{background:var(--aim-sky-wash);border-color:#B5C9EA;color:var(--aim-sky)}
+.rail a[aria-current="true"]{font-weight:600}
+.rail a:focus-visible{outline:2px solid var(--aim-sky);outline-offset:1px}
+/* cards: one radius; fund identity stays on the colored top edge */
+.chart-shell,.fund-card,.holdings-browser,.overlap-panel,.takeaway,.table-wrap,.stack-node{border-radius:11px}
+.fund-card,.holdings-browser,.overlap-panel,.takeaway{overflow:hidden}
+.stack-node::before{border-radius:11px 11px 0 0}
+.chart-foot{border-radius:0 0 11px 11px}
+.takeaway{border:1px solid var(--border,#dee3e9)}
+.stack-node{transition:border-color .15s var(--aim-ease),box-shadow .2s var(--aim-ease)}
+.stack-node:hover{border-color:#B5C9EA;box-shadow:0 6px 24px rgba(23,33,43,.06)}
+.fund-metric{border-radius:6px}
+/* controls: fund chips and the window segmented control */
+.series-button{font:500 12.5px var(--aim-sans);letter-spacing:0;padding:4px 10px;border-color:var(--aim-border);
+  transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease),border-color .15s var(--aim-ease)}
+.series-button:hover,.series-button:focus-visible{border-color:#B5C9EA;color:var(--ink)}
+.series-button.all{border-color:#B5C9EA;color:var(--aim-sky)!important;background:var(--aim-sky-wash)}
+.window-toggle{display:inline-flex;gap:2px;padding:2px;border:1px solid var(--aim-border);border-radius:6px;background:var(--aim-card)}
+.window-toggle .window-button{border:0;border-radius:4px;padding:6px 12px;font:500 13px var(--aim-sans);color:var(--muted)}
+.window-toggle .window-button:hover{color:var(--ink)}
+.window-toggle .window-button[aria-pressed="true"]{background:var(--aim-sky-wash);color:var(--aim-sky);font-weight:600}
+.series-button:focus-visible,.legend-item:focus-visible,.holdings-tab:focus-visible{outline:2px solid var(--aim-sky);outline-offset:1px}
+.legend-item,.holdings-tab{transition:background-color .15s var(--aim-ease),color .15s var(--aim-ease)}
+.legend-item:hover,.legend-item:focus-visible{background:#F4F7FB}
+/* chart tooltip: the kit's hover card, in ink (the page's navy text maps to white) */
+.tooltip{color:var(--ink);border-color:var(--aim-border);border-radius:6px;box-shadow:var(--aim-shadow);padding:10px 12px;font-size:13px}
+.tooltip-date{font:600 12px var(--aim-sans);color:var(--ink)}
+.tooltip-row{font-size:12.5px}
+.tooltip-row b{font-variant-numeric:tabular-nums}
+/* tables: one head, no vertical rules, readable cells */
+th{background:none;color:var(--muted);font:600 11px/1.4 var(--aim-sans);letter-spacing:.08em;border-bottom:1px solid var(--aim-border)}
+td{border-right:0;font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+.table-ticker{font-weight:650;font-size:14px}
+.holding-weight{font-weight:600;font-variant-numeric:tabular-nums}
+.holdings-table tbody tr td,#compare tbody tr td{transition:background-color .12s var(--aim-ease)}
+.holdings-table tbody tr:hover td,#compare tbody tr:hover td{background:#F4F7FB}
+.matrix{font:12px var(--aim-sans);font-variant-numeric:tabular-nums}
+.matrix th{font:600 11px var(--aim-sans);letter-spacing:.04em;border-bottom:0;transition:color .12s var(--aim-ease)}
+.matrix th.hl{color:var(--ink)}
+.matrix td{border-radius:3px;transition:box-shadow .12s var(--aim-ease)}
+.matrix td:not(.self):hover,.matrix td.hl{box-shadow:inset 0 0 0 2px var(--ink)}
+/* links that read as buttons */
+.view-holdings,.fund-source{font:600 12px var(--aim-sans);letter-spacing:0;text-transform:none;color:var(--aim-sky);border-bottom-color:#B5C9EA}
+.risk b{font:600 11px var(--aim-sans);letter-spacing:.04em}
 </style>
 </head>
 <body>
-<div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html" aria-current="page">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></div>
-<a class="skip" href="#performance">Skip to performance chart</a>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html" aria-current="page">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
 <div class="topbar"><div class="topbar-inner"><a class="home-link" href="index.html">AI Infra Monitor</a><span><strong>Atlas 01</strong> · AI infrastructure fund map</span></div></div>
 
 <div class="shell">
-  <header class="hero">
+  <section class="hero" aria-label="Atlas overview"><a class="skip" href="#performance">Skip to performance chart</a>
     <div>
       <div class="kicker">Six listed routes into the physical AI buildout</div>
       <h1>AI Infrastructure ETF Atlas</h1>
       <p class="hero-lede">AIPO, GRID, LYTE, DRAM, NCLD and DTCR do not own the same trade. This atlas separates the broad buildout from its scarce inputs—power delivery, optical bandwidth, memory, GPU capacity and data-center real estate—then compares what the tape has rewarded.</p>
     </div>
-    <aside class="hero-side" aria-label="Atlas summary">
+    <div class="hero-side">
       <div class="hero-q">The question behind the basket</div>
       <p>Which bottleneck captures the economics as AI capex moves from chips into complete, powered and networked systems?</p>
       <div class="hero-stats" id="heroBody"></div>
-    </aside>
-  </header>
+    </div>
+  </section>
 
   <nav class="rail" aria-label="Page sections"><div class="rail-inner">
     <a href="#performance">Performance</a><a href="#readthrough">Read-through</a><a href="#stack">Exposure map</a><a href="#funds">Fund sleeves</a><a href="#holdings">Holdings</a><a href="#compare">Compare</a><a href="#method">Method</a>
@@ -361,8 +413,8 @@ th{background:#EEF2F6;color:#526170}
         </div>
       </div>
     </section>
-  </main>
   <footer><span>For research and comparison—not personalized investment advice.</span><span id="footerStamp">AI Infrastructure ETF Atlas</span></footer>
+  </main>
 </div>
 
 <script>
@@ -434,6 +486,15 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   document.getElementById('fundGrid').addEventListener('click',e=>{const link=e.target.closest('[data-holdings-ticker]');if(link)renderHoldings(link.dataset.holdingsTicker)});
   renderHoldings(funds[0].ticker);
 
+  // The rail marks the section crossing the middle of the viewport.
+  const railLinks = [...document.querySelectorAll('.rail a[href^="#"]')], inView = new Map();
+  const railObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => inView.set(en.target.id, en.isIntersecting));
+    const current = railLinks.find(a => inView.get(a.hash.slice(1)));
+    railLinks.forEach(a => a === current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
+  }, {rootMargin: '-45% 0px -50% 0px'});
+  railLinks.forEach(a => { const sec = document.getElementById(a.hash.slice(1)); if (sec) railObserver.observe(sec); });
+
   document.getElementById('comparisonBody').innerHTML = funds.map(f => `<tr style="--row-color:${f.color}"><td><span class="table-ticker">${f.ticker}</span><span class="table-sub">${esc(f.provider)}</span></td><td>${esc(f.sleeve)}</td><td>${f.structure}<span class="table-sub">${f.index ? esc(f.index) : 'Manager selected'}</span></td><td class="num">${f.expense_ratio.toFixed(2)}%</td><td class="num">${f.inception}</td><td class="num">${fmtPct(f.performance_pct)}<span class="table-sub">${f.performance_label.toLowerCase()}</span></td><td>${f.purity}/5<div class="purity" role="img" aria-label="${f.purity} out of 5"><i class="on"></i><i class="${f.purity>=2?'on':''}"></i><i class="${f.purity>=3?'on':''}"></i><i class="${f.purity>=4?'on':''}"></i><i class="${f.purity>=5?'on':''}"></i></div></td><td>${roles[f.ticker]}</td></tr>`).join('');
 
   document.getElementById('sourceList').innerHTML = funds.map(f => `<li><a href="${f.source}" target="_blank" rel="noreferrer"><code>${f.ticker}</code><span>${esc(f.provider)} fund page ↗</span></a></li>`).join('') + `<li><a href="${data.market_data_url}" target="_blank" rel="noreferrer"><code>PRICES</code><span>${esc(data.market_data_source)} ↗</span></a></li>`;
@@ -441,7 +502,20 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   function renderMatrix(id, cell){
     document.getElementById(id).innerHTML = `<tr><td></td>${funds.map(f => `<th scope="col">${f.ticker}</th>`).join('')}</tr>` + funds.map(a => `<tr><th scope="row">${a.ticker}</th>${funds.map(b => a === b ? '<td class="self"></td>' : cell(a.ticker, b.ticker)).join('')}</tr>`).join('');
   }
-  renderMatrix('overlapMatrix', (a,b) => { const v = pair(a,b).shared_weight_pct; return `<td style="--v:${Math.min(1, v/25).toFixed(2)}">${v ? v.toFixed(1) : '0'}</td>`; });
+  renderMatrix('overlapMatrix', (a,b) => { const v = pair(a,b).shared_weight_pct; return `<td style="--v:${Math.min(1, v/25).toFixed(2)}" title="${a} and ${b} hold ${v ? v.toFixed(1) : '0'}% of portfolio weight in the same securities">${v ? v.toFixed(1) : '0'}</td>`; });
+  // Hovering a cell names its pair: the row and column heads light up, as does the mirror cell.
+  function wireMatrix(id){
+    const body = document.getElementById(id);
+    const clear = () => body.querySelectorAll('.hl').forEach(el => el.classList.remove('hl'));
+    body.addEventListener('mouseover', e => {
+      const td = e.target.closest('td'); clear();
+      if (!td || td.classList.contains('self') || !td.textContent) return;
+      const r = td.parentElement.rowIndex, c = td.cellIndex, rows = body.rows;
+      [rows[0].cells[c], rows[r].cells[0], rows[c] && rows[c].cells[r]].forEach(el => el && el.classList.add('hl'));
+    });
+    body.addEventListener('mouseleave', clear);
+  }
+  wireMatrix('overlapMatrix');
   const overlapRank = [...analytics.pairs].sort((p,q) => q.shared_weight_pct - p.shared_weight_pct).map(p => ({pair:`${p.a}–${p.b}`, v:p.shared_weight_pct}));
   document.getElementById('overlapTitle').textContent = analytics.holdings_distinct ? 'Few shared holdings.' : 'Several pairs share holdings.';
   const partial = funds.filter(f => f.top_holdings.length >= 20).map(f => f.ticker);
@@ -466,7 +540,8 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   };
   Object.values(views).forEach(v => { v.series = Object.fromEntries(funds.map(f => [f.ticker, series(f, v.from)])); });
   const belowSince = analytics.below_start_since;
-  renderMatrix('corrMatrix', (a,b) => { const r = pair(a,b).return_correlation; return `<td style="--v:${Math.max(0,r).toFixed(2)}">${r.toFixed(2)}</td>`; });
+  renderMatrix('corrMatrix', (a,b) => { const r = pair(a,b).return_correlation; return `<td style="--v:${Math.max(0,r).toFixed(2)}" title="${a} and ${b}: daily returns correlate at ${r.toFixed(2)} since ${fmtShortDate(commonStart)}">${r.toFixed(2)}</td>`; });
+  wireMatrix('corrMatrix');
   const corrs = analytics.pairs.map(p => p.return_correlation);
   document.getElementById('corrTitle').textContent = analytics.moves_together ? 'Prices that move together.' : 'Prices that don’t all move together.';
   document.getElementById('corrNote').textContent = `Since ${fmtShortDate(commonStart)} (${analytics.common_sessions} sessions), every pair's daily returns correlate between ${Math.min(...corrs).toFixed(2)} and ${Math.max(...corrs).toFixed(2)}; 1.00 means moving in lockstep.`;
@@ -500,12 +575,12 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   }
   function draw(){
     const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
-    const labelFont='600 11px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.font=labelFont;
+    const labelFont='600 11px ui-sans-serif, -apple-system, system-ui, sans-serif';ctx.font=labelFont;
     const ends=funds.filter(f=>active.has(f.ticker)).map(f=>({f,last:seriesByTicker[f.ticker].at(-1),text:w<600?f.ticker:`${f.ticker} ${fmtPct(latest(f))}`}));
     const pad={l:w<600?49:64,r:18+Math.max(...ends.map(e=>ctx.measureText(e.text).width)),t:24,b:40}; const pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
     const {lo,hi}=chartBounds(); const x=day=>pad.l+(day-minDay)/(maxDay-minDay)*pw; const y=value=>pad.t+(hi-value)/(hi-lo)*ph;
     geometry={pad,pw,ph,lo,hi,x,y}; ctx.clearRect(0,0,w,h);
-    ctx.font='11px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
+    ctx.font='11px ui-sans-serif, -apple-system, system-ui, sans-serif';ctx.textBaseline='middle';
     if(view===views.common&&belowSince){const x0=x(toDay(belowSince));ctx.fillStyle='#eef2f6';ctx.fillRect(x0,pad.t,x(maxDay)-x0,ph);ctx.fillStyle='#526170';ctx.textAlign='right';ctx.fillText(w<600?`All six below start since ${fmtShortDate(belowSince)}`:`All six below their ${fmtShortDate(view.from)} close since ${fmtShortDate(belowSince)}`,x(maxDay),pad.t-12)}
     const step=(hi-lo)>100?25:10;
     for(let tick=Math.ceil(lo/step)*step;tick<=hi;tick+=step){
@@ -557,6 +632,6 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   setView(view);new ResizeObserver(resize).observe(canvas);resize();
 })();
 </script>
-<div class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></div>
+<footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#compare table", "skip": [7]}, {"table": ".holdings-table"}], "tips": ".matrix td[title]"}</script><script src="assets/aim.js" defer></script>
 </body>
 </html>
