@@ -57,7 +57,8 @@
   .series-button{cursor:pointer;border:1px solid #c9d1da;background:transparent;color:#526170;border-radius:999px;padding:5px 9px;font:10px var(--mono);letter-spacing:.04em}
   .series-button:hover,.series-button:focus-visible{border-color:var(--white);color:var(--white);outline:none}
   .series-button.off{opacity:.38;text-decoration:line-through}
-  .series-button.all{border-color:var(--lime);color:var(--lime)}
+  .series-button.all,.window-button[aria-pressed="true"]{border-color:var(--lime);color:var(--lime)}
+  .window-toggle{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
   .chart-wrap{position:relative;height:350px;padding:5px 8px 0}
   #performanceChart{display:block;width:100%;height:100%}
   .tooltip{position:absolute;pointer-events:none;min-width:170px;max-width:220px;background:var(--white);color:var(--navy);border:1px solid #dee3e9;box-shadow:0 10px 25px rgba(23,33,43,.24);padding:10px 11px;opacity:0;transform:translate(-50%,-110%);z-index:4}
@@ -137,6 +138,14 @@
   .takeaway .num-label{font:10px var(--mono);color:var(--muted)}
   .takeaway h3{margin:9px 0 6px;font:600 19px/1.08 var(--serif)}
   .takeaway p{margin:0;color:#526170;font-size:11.5px}
+  .overlap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}
+  .overlap-panel{background:var(--white);border:1px solid #dee3e9;padding:15px}
+  .overlap-panel h3{margin:0 0 6px;font:600 19px/1.08 var(--serif)}
+  .overlap-panel p{margin:0 0 12px;color:#526170;font-size:11.5px}
+  .matrix{min-width:0;table-layout:fixed;border-collapse:separate;border-spacing:2px;font:11px var(--mono)}
+  .matrix th{background:none;color:var(--muted);font:11px var(--mono);letter-spacing:0;padding:5px 0;text-align:center}
+  .matrix td{background:color-mix(in srgb,var(--lime) calc(var(--v,0) * 70%),var(--white));color:var(--ink);border:0;padding:8px 0;text-align:center;vertical-align:middle}
+  .matrix td.self{background:var(--paper)}
 
   .method-grid{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:28px;border-top:1px solid #dee3e9;padding-top:24px}
   .method-grid h3{margin:0 0 9px;font:600 19px var(--serif)}
@@ -160,7 +169,7 @@
     .rail{margin-inline:-17px}.rail-inner{padding-inline:17px}
     .section{padding-top:32px}.section-head{grid-template-columns:1fr;gap:9px}.section-intro{justify-self:start}
     .chart-toolbar{grid-template-columns:1fr;padding:13px 12px 9px}.chart-actions{justify-content:flex-start}.chart-wrap{height:310px;padding-inline:0}.legend{grid-template-columns:repeat(2,1fr)}.legend-item:nth-child(3){border-right:1px solid #e3e8ee}.legend-item:nth-child(even){border-right:0}.legend-item:nth-child(-n+4){border-bottom:1px solid #e3e8ee}.chart-foot{display:block}.chart-foot span{display:block;margin-top:4px}
-    .fund-grid,.takeaway-grid{grid-template-columns:1fr}.fund-name,.mandate{min-height:0}.stack-map{grid-template-columns:repeat(2,1fr)}.stack-node:nth-child(3){border-right:1px solid #e3e8ee}.stack-node:nth-child(even){border-right:0}.stack-node:nth-child(-n+4){border-bottom:1px solid #e3e8ee}
+    .fund-grid,.takeaway-grid,.overlap{grid-template-columns:1fr}.fund-name,.mandate{min-height:0}.stack-map{grid-template-columns:repeat(2,1fr)}.stack-node:nth-child(3){border-right:1px solid #e3e8ee}.stack-node:nth-child(even){border-right:0}.stack-node:nth-child(-n+4){border-bottom:1px solid #e3e8ee}
     .holdings-tabs{grid-template-columns:repeat(2,1fr)}.holdings-tab:nth-child(3){border-right:1px solid #e3e8ee}.holdings-tab:nth-child(even){border-right:0}.holdings-tab:nth-child(-n+4){border-bottom:1px solid #e3e8ee}.holdings-summary{grid-template-columns:1fr 1fr;gap:14px 22px}.holdings-summary>div:first-child{grid-column:1/-1}.holding-stat strong{text-align:left}.holdings-foot{display:block}.holdings-foot a{display:inline-block;margin-top:5px}
     .method-grid{grid-template-columns:1fr}.source-list{grid-template-columns:1fr}footer{display:block}footer span{display:block;margin-top:5px}
   }
@@ -219,19 +228,19 @@ th{background:#EEF2F6;color:#526170}
   <main>
     <section class="section" id="performance">
       <div class="section-head">
-        <div><div class="eyebrow">01 / Price performance</div><h2>One year. Six starting lines.</h2></div>
-        <p class="section-intro">All series are rebased to 0% at the first available 2026 close. AIPO, GRID and DTCR show YTD market-price change; DRAM, LYTE and NCLD begin at their 2026 launch dates. Click a ticker to isolate the paths.</p>
+        <div><div class="eyebrow">01 / Price performance</div><h2>One starting line. Six paths.</h2></div>
+        <p class="section-intro">By default every series starts at 0% on <span id="commonStartIntro">the first close all six funds share</span>, so the returns compare like for like. Full 2026 rebases each fund at its first 2026 close: AIPO, GRID and DTCR from January, DRAM, LYTE and NCLD from their launches. Click a ticker to isolate a path.</p>
       </div>
       <div class="chart-shell">
         <div class="chart-toolbar">
-          <div class="chart-title"><h3>2026 market-price change</h3><p id="chartSubtitle">Normalized to each fund’s first available close · loading…</p></div>
+          <div class="chart-title"><h3>2026 market-price change</h3><p id="chartSubtitle">Market-price change · loading…</p><p>Solid lines: single-bottleneck funds · dashed: broad baskets</p><div class="window-toggle" id="windowToggle" role="group" aria-label="Return window"></div></div>
           <div class="chart-actions" id="chartActions" role="group" aria-label="Toggle chart series"></div>
         </div>
         <div class="chart-wrap" id="chartWrap"><canvas id="performanceChart" role="img" aria-label="Line chart comparing 2026 market-price performance for six AI infrastructure ETFs"></canvas><div class="tooltip" id="tooltip" aria-hidden="true"></div></div>
         <div class="legend" id="legend"></div>
         <div class="chart-foot"><strong>Price return, not total return.</strong><span id="chartMethod"></span></div>
       </div>
-      <div class="sr-only"><table><caption>Latest 2026 performance by fund</caption><thead><tr><th>Ticker</th><th>Period</th><th>Return</th></tr></thead><tbody id="accessibleReturns"></tbody></table></div>
+      <div class="sr-only"><table><caption>Latest 2026 performance by fund</caption><thead><tr><th>Ticker</th><th>Since first shared close</th><th>Full 2026 period</th><th>Full 2026 return</th></tr></thead><tbody id="accessibleReturns"></tbody></table></div>
     </section>
 
     <section class="section" id="stack">
@@ -287,10 +296,14 @@ th{background:#EEF2F6;color:#526170}
         <div><div class="eyebrow">06 / Portfolio read-through</div><h2>Three decisions hiding inside one theme.</h2></div>
         <p class="section-intro">The tickers can complement one another, but indiscriminately owning all six quietly builds repeated exposure to the same capital-spending cycle.</p>
       </div>
+      <div class="overlap">
+        <div class="overlap-panel"><h3>Few shared holdings.</h3><p id="overlapNote"></p><table class="matrix"><caption class="sr-only">Portfolio weight each pair of funds holds in the same securities, in percent</caption><tbody id="overlapMatrix"></tbody></table></div>
+        <div class="overlap-panel"><h3>Prices that move together.</h3><p id="corrNote"></p><table class="matrix"><caption class="sr-only">Correlation of daily price returns for each pair of funds</caption><tbody id="corrMatrix"></tbody></table></div>
+      </div>
       <div class="takeaway-grid">
         <article class="takeaway"><div class="num-label">01 / Core vs satellite</div><h3>Broad sleeves are not neutral.</h3><p>AIPO spans power, construction, cooling and silicon; GRID leans industrial; DTCR leans real estate and towers. Each can anchor a basket, but each imports a different factor exposure.</p></article>
         <article class="takeaway"><div class="num-label">02 / Chokepoint beta</div><h3>Purity raises torque—and fragility.</h3><p>DRAM, LYTE and NCLD target narrower scarcity claims. That can make the thesis legible, while increasing cycle, geography, financing and single-industry risk.</p></article>
-        <article class="takeaway"><div class="num-label">03 / Track-record trap</div><h3>Do not compare unequal histories.</h3><p>LYTE and NCLD have only <span id="launchCloses"></span> closes in this dataset; DRAM began in April. Their chart lines are launch-to-date snapshots inside a YTD frame, not equivalent full-year evidence.</p></article>
+        <article class="takeaway"><div class="num-label">03 / Track-record trap</div><h3>Do not compare unequal histories.</h3><p>LYTE and NCLD have only <span id="launchCloses"></span> closes in this dataset; DRAM began in April. The chart therefore opens on the window all six share; in the full-2026 view their lines are launch-to-date snapshots, not full-year evidence.</p></article>
       </div>
     </section>
 
@@ -304,7 +317,7 @@ th{background:#EEF2F6;color:#526170}
           <h3>Performance methodology</h3>
           <ul>
             <li>Daily unadjusted closing market prices, through the latest date shared by all six funds.</li>
-            <li>Each series is rebased to 0% at its first available 2026 close; 2026 launches therefore show since-inception price change.</li>
+            <li>The default chart view rebases all six to 0% at the first close they share. The full-2026 view rebases each series at its first available 2026 close, so 2026 launches show since-inception price change.</li>
             <li>Distributions, taxes, bid/ask spreads and trading costs are excluded. Issuer-reported total returns will differ.</li>
             <li>Holdings change. Every exposure list carries its own as-of date and should be refreshed before making a trade.</li>
             <li>Cash, currencies and money-market funds are excluded. Roundhill rows sharing the same security identifier are consolidated; the displayed weights are summed.</li>
@@ -342,18 +355,14 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   const fmtMoney = n => `$${n.toFixed(n >= 100 ? 2 : 2)}`;
   const esc = value => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
-  document.getElementById('chartSubtitle').textContent = `Normalized to each fund’s first available close · through ${fmtDate(data.as_of)}`;
   document.getElementById('launchCloses').textContent = Math.min(...funds.filter(f => ['LYTE','NCLD'].includes(f.ticker)).map(f => f.history.length));
   document.getElementById('chartMethod').textContent = data.performance_method;
   document.getElementById('footerStamp').textContent = `Market data through ${fmtDate(data.as_of)} · generated ${data.generated_at.slice(0,10)}`;
 
   const actions = document.getElementById('chartActions');
-  actions.innerHTML = `<button class="series-button all" data-action="all">All funds</button>` + funds.map(f => `<button class="series-button" data-ticker="${f.ticker}" style="border-color:${f.color};color:${f.color}">${f.ticker}</button>`).join('');
+  actions.innerHTML = `<button class="series-button all" data-action="all">All funds</button>` + funds.map(f => `<button class="series-button" data-ticker="${f.ticker}" style="border-color:${f.color};color:${f.color}${purity[f.ticker] < 5 ? ';border-style:dashed' : ''}">${f.ticker}</button>`).join('');
 
   const legend = document.getElementById('legend');
-  legend.innerHTML = funds.map(f => `<button class="legend-item" data-ticker="${f.ticker}" aria-pressed="true"><span class="legend-top"><i class="legend-swatch" style="background:${f.color}"></i>${f.ticker}</span><span class="legend-return ${f.performance_pct >= 0 ? 'positive':'negative'}">${fmtPct(f.performance_pct)}</span><span class="legend-period">${f.performance_label} · from ${fmtShortDate(f.history[0].date)}</span></button>`).join('');
-
-  document.getElementById('accessibleReturns').innerHTML = funds.map(f => `<tr><td>${f.ticker}</td><td>${f.performance_label}</td><td>${fmtPct(f.performance_pct)}</td></tr>`).join('');
 
   document.getElementById('stackMap').innerHTML = funds.map((f,i) => `<article class="stack-node" style="--fund-color:${f.color}"><span class="stack-num">0${i+1}</span><strong>${f.ticker}</strong><span>${esc(f.short_sleeve)}</span><em>${esc(f.provider)}</em></article>`).join('');
 
@@ -391,6 +400,16 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
 
   document.getElementById('sourceList').innerHTML = funds.map(f => `<li><a href="${f.source}" target="_blank" rel="noreferrer"><code>${f.ticker}</code><span>${esc(f.provider)} fund page ↗</span></a></li>`).join('') + `<li><a href="${data.market_data_url}" target="_blank" rel="noreferrer"><code>PRICES</code><span>${esc(data.market_data_source)} ↗</span></a></li>`;
 
+  function renderMatrix(id, cell){
+    document.getElementById(id).innerHTML = `<tr><td></td>${funds.map(f => `<th scope="col">${f.ticker}</th>`).join('')}</tr>` + funds.map(a => `<tr><th scope="row">${a.ticker}</th>${funds.map(b => a === b ? '<td class="self"></td>' : cell(a.ticker, b.ticker)).join('')}</tr>`).join('');
+  }
+  const weights = Object.fromEntries(funds.map(f => [f.ticker, new Map(f.top_holdings.map(h => [h.ticker, h.weight]))]));
+  const shared = (a,b) => [...weights[a]].reduce((sum,[t,w]) => sum + (weights[b].has(t) ? Math.min(w, weights[b].get(t)) : 0), 0);
+  renderMatrix('overlapMatrix', (a,b) => { const v = shared(a,b); return `<td style="--v:${Math.min(1, v/25).toFixed(2)}">${v ? v.toFixed(1) : '0'}</td>`; });
+  const overlapRank = funds.flatMap((a,i) => funds.slice(i+1).map(b => ({pair:`${a.ticker}–${b.ticker}`, v:shared(a.ticker,b.ticker)}))).sort((p,q) => q.v - p.v);
+  const partial = funds.filter(f => f.top_holdings.length >= 20).map(f => f.ticker);
+  document.getElementById('overlapNote').textContent = `${overlapRank[0].pair} overlap by ${overlapRank[0].v.toFixed(1)}% of portfolio weight; no other pair overlaps by more than ${overlapRank[1].v.toFixed(1)}%.` + (partial.length ? ` ${new Intl.ListFormat('en',{type:'conjunction'}).format(partial)} report top-20 lists, so their overlap may run higher.` : '');
+
   const canvas = document.getElementById('performanceChart');
   const wrap = document.getElementById('chartWrap');
   const tooltip = document.getElementById('tooltip');
@@ -399,12 +418,32 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   let mouse = null;
 
   function toDay(iso){ return Date.parse(iso+'T00:00:00Z') / 86400000; }
-  const minDay = toDay('2026-01-02');
   const maxDay = toDay(data.as_of);
   const tradingDays = [...new Set(funds.flatMap(f => f.history.map(p => p.date)))].sort();
   const months = tradingDays.filter((d,i) => !i || d.slice(0,7) !== tradingDays[i-1].slice(0,7)).map(d => [d, new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(new Date(d+'T00:00:00Z')).toUpperCase()]);
-  function series(f){ const base=f.history[0].close; return f.history.map(p => ({date:p.date,day:toDay(p.date),value:(p.close/base-1)*100,close:p.close})); }
-  const seriesByTicker = Object.fromEntries(funds.map(f => [f.ticker,series(f)]));
+  const commonStart = funds.map(f => f.history[0].date).sort().pop();
+  function series(f,from){ const pts=f.history.filter(p => p.date >= from), base=pts[0].close; return pts.map(p => ({date:p.date,day:toDay(p.date),value:(p.close/base-1)*100,close:p.close})); }
+  const views = {
+    common: {from: commonStart, label: `Since ${fmtShortDate(commonStart)} · all six`, subtitle: `Every fund rebased to 0% on ${fmtDate(commonStart)}, the first close all six share · through ${fmtDate(data.as_of)}`},
+    full: {from: tradingDays[0], label: 'Full 2026', subtitle: `Normalized to each fund’s first available close · through ${fmtDate(data.as_of)}`}
+  };
+  Object.values(views).forEach(v => { v.series = Object.fromEntries(funds.map(f => [f.ticker, series(f, v.from)])); });
+  const belowSince = (() => {
+    const s = views.common.series, dates = s[funds[0].ticker].map(p => p.date), at = Object.fromEntries(funds.map(f => [f.ticker, new Map(s[f.ticker].map(p => [p.date, p.value]))]));
+    let i = dates.length; while (i > 0 && funds.every(f => at[f.ticker].get(dates[i-1]) < 0)) i--;
+    return i < dates.length ? dates[i] : null;
+  })();
+  const dailyReturns = Object.fromEntries(funds.map(f => { const pts = views.common.series[f.ticker]; return [f.ticker, new Map(pts.slice(1).map((p,i) => [p.date, Math.log(p.close/pts[i].close)]))]; }));
+  function correlation(a,b){
+    const xy = [...dailyReturns[a]].filter(([d]) => dailyReturns[b].has(d)).map(([d,v]) => [v, dailyReturns[b].get(d)]), n = xy.length;
+    const mx = xy.reduce((s,[u]) => s+u, 0)/n, my = xy.reduce((s,[,v]) => s+v, 0)/n; let sxy = 0, sxx = 0, syy = 0;
+    xy.forEach(([u,v]) => { sxy += (u-mx)*(v-my); sxx += (u-mx)**2; syy += (v-my)**2; }); return sxy/Math.sqrt(sxx*syy);
+  }
+  renderMatrix('corrMatrix', (a,b) => { const r = correlation(a,b); return `<td style="--v:${Math.max(0,r).toFixed(2)}">${r.toFixed(2)}</td>`; });
+  const corrs = funds.flatMap((a,i) => funds.slice(i+1).map(b => correlation(a.ticker,b.ticker)));
+  document.getElementById('corrNote').textContent = `Since ${fmtShortDate(commonStart)} (${dailyReturns[funds[0].ticker].size} sessions), every pair's daily returns correlate between ${Math.min(...corrs).toFixed(2)} and ${Math.max(...corrs).toFixed(2)}; 1.00 means moving in lockstep.`;
+  let view = views.common, minDay = toDay(view.from), seriesByTicker = view.series;
+  const latest = f => view === views.common ? seriesByTicker[f.ticker].at(-1).value : f.performance_pct;
 
   function chartBounds(){
     const values = funds.filter(f => active.has(f.ticker)).flatMap(f => seriesByTicker[f.ticker].map(p => p.value));
@@ -419,20 +458,28 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   }
   function draw(){
     const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
-    const pad={l:w<600?49:64,r:w<600?16:42,t:24,b:40}; const pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+    const labelFont='600 11px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.font=labelFont;
+    const ends=funds.filter(f=>active.has(f.ticker)).map(f=>({f,last:seriesByTicker[f.ticker].at(-1),text:w<600?f.ticker:`${f.ticker} ${fmtPct(latest(f))}`}));
+    const pad={l:w<600?49:64,r:18+Math.max(...ends.map(e=>ctx.measureText(e.text).width)),t:24,b:40}; const pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
     const {lo,hi}=chartBounds(); const x=day=>pad.l+(day-minDay)/(maxDay-minDay)*pw; const y=value=>pad.t+(hi-value)/(hi-lo)*ph;
     geometry={pad,pw,ph,lo,hi,x,y}; ctx.clearRect(0,0,w,h);
     ctx.font='10px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
+    if(view===views.common&&belowSince){const x0=x(toDay(belowSince));ctx.fillStyle='#eef2f6';ctx.fillRect(x0,pad.t,x(maxDay)-x0,ph);ctx.fillStyle='#526170';ctx.textAlign='right';ctx.fillText(w<600?`All six below start since ${fmtShortDate(belowSince)}`:`All six below their ${fmtShortDate(view.from)} close since ${fmtShortDate(belowSince)}`,x(maxDay),pad.t-12)}
     const step=(hi-lo)>100?25:10;
     for(let tick=Math.ceil(lo/step)*step;tick<=hi;tick+=step){
       const yy=y(tick);ctx.strokeStyle=tick===0?'#606c7a':'#e3e8ee';ctx.lineWidth=tick===0?1.2:1;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();ctx.fillStyle='#606c7a';ctx.textAlign='right';ctx.fillText(`${tick>0?'+':''}${tick}%`,pad.l-9,yy);
     }
-    months.forEach(([d,label],i)=>{const xx=x(toDay(d));ctx.strokeStyle='#eef2f6';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,h-pad.b);ctx.stroke();ctx.fillStyle='#606c7a';ctx.textAlign=i===0?'left':'center';ctx.fillText(label,xx,h-18)});
+    const ticks=months.filter(([d])=>d>=view.from);if(!ticks.length||ticks[0][0]!==view.from)ticks.unshift([view.from,fmtShortDate(view.from).toUpperCase()]);
+    ticks.forEach(([d,label],i)=>{const xx=x(toDay(d));ctx.strokeStyle='#eef2f6';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,h-pad.b);ctx.stroke();ctx.fillStyle='#606c7a';ctx.textAlign=i===0?'left':'center';ctx.fillText(label,xx,h-18)});
     funds.forEach(f=>{
-      if(!active.has(f.ticker))return;const pts=seriesByTicker[f.ticker];ctx.strokeStyle=f.color;ctx.lineWidth=2.4;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();pts.forEach((p,i)=>{const xx=x(p.day),yy=y(p.value);i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();
+      if(!active.has(f.ticker))return;const pts=seriesByTicker[f.ticker];ctx.strokeStyle=f.color;ctx.lineWidth=2.4;ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash(purity[f.ticker]<5?[7,4]:[]);ctx.beginPath();pts.forEach((p,i)=>{const xx=x(p.day),yy=y(p.value);i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.setLineDash([]);
       const last=pts[pts.length-1];ctx.fillStyle=f.color;ctx.beginPath();ctx.arc(x(last.day),y(last.value),4.2,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.stroke();
       if(pts[0].day>minDay){const xx=x(pts[0].day);ctx.save();ctx.setLineDash([3,4]);ctx.strokeStyle=f.color+'88';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,h-pad.b);ctx.stroke();ctx.restore()}
     });
+    ctx.font=labelFont;ctx.textAlign='left';ends.forEach(e=>{e.y0=y(e.last.value);e.y=e.y0});ends.sort((a,b)=>a.y-b.y);
+    ends.forEach((e,i)=>{if(i)e.y=Math.max(e.y,ends[i-1].y+13)});
+    for(let i=ends.length-1,max=h-pad.b;i>=0;i--){ends[i].y=Math.min(ends[i].y,max);max=ends[i].y-13}
+    ends.forEach(e=>{const xx=x(e.last.day);if(Math.abs(e.y-e.y0)>2){ctx.strokeStyle='#c9d1da';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xx+6,e.y0);ctx.lineTo(xx+9,e.y);ctx.stroke()}ctx.fillStyle='#17212b';ctx.fillText(e.text,xx+11,e.y)});
     if(mouse) drawHover(w,h);
   }
   function nearestPoint(points,day){let best=points[0],dist=Math.abs(best.day-day);for(const p of points){const d=Math.abs(p.day-day);if(d<dist){best=p;dist=d}}return best}
@@ -444,6 +491,19 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
     tooltip.innerHTML=`<div class="tooltip-date">${fmtDate(chosen.point.date)}</div>`+sameDay.sort((a,b)=>b.point.value-a.point.value).map(r=>`<div class="tooltip-row"><i class="tooltip-dot" style="background:${r.fund.color}"></i><span>${r.fund.ticker}</span><b>${fmtPct(r.point.value)}</b></div>`).join('');
     tooltip.style.left=`${Math.max(95,Math.min(w-95,xx))}px`;tooltip.style.top=`${Math.max(92,mouse.y)}px`;tooltip.classList.add('visible');
   }
+  function renderLegend(){
+    legend.innerHTML=funds.map(f=>{const v=latest(f),on=active.has(f.ticker);return `<button class="legend-item${on?'':' off'}" data-ticker="${f.ticker}" aria-pressed="${on}"><span class="legend-top"><i class="legend-swatch" style="background:${purity[f.ticker]<5?`repeating-linear-gradient(90deg,${f.color} 0 6px,transparent 6px 9px)`:f.color}"></i>${f.ticker}</span><span class="legend-return ${v>=0?'positive':'negative'}">${fmtPct(v)}</span><span class="legend-period">${view===views.common?`since ${fmtShortDate(view.from)} · all six`:`${f.performance_label} · from ${fmtShortDate(seriesByTicker[f.ticker][0].date)}`}</span></button>`}).join('');
+  }
+  const windowToggle=document.getElementById('windowToggle');
+  windowToggle.innerHTML=Object.entries(views).map(([key,v])=>`<button class="series-button window-button" data-view="${key}" aria-pressed="false">${v.label}</button>`).join('');
+  function setView(next){
+    view=next;minDay=toDay(view.from);seriesByTicker=view.series;
+    windowToggle.querySelectorAll('button').forEach(btn=>btn.setAttribute('aria-pressed',String(views[btn.dataset.view]===view)));
+    document.getElementById('chartSubtitle').textContent=view.subtitle;renderLegend();updateButtons();
+  }
+  windowToggle.addEventListener('click',e=>{const btn=e.target.closest('[data-view]');if(btn)setView(views[btn.dataset.view])});
+  document.getElementById('commonStartIntro').textContent=fmtDate(commonStart);
+  document.getElementById('accessibleReturns').innerHTML=funds.map(f=>`<tr><td>${f.ticker}</td><td>${fmtPct(views.common.series[f.ticker].at(-1).value)}</td><td>${f.performance_label}</td><td>${fmtPct(f.performance_pct)}</td></tr>`).join('');
   function updateButtons(){
     document.querySelectorAll('[data-ticker]').forEach(el=>{const on=active.has(el.dataset.ticker);el.classList.toggle('off',!on);if(el.classList.contains('legend-item'))el.setAttribute('aria-pressed',String(on))});draw();
   }
@@ -452,7 +512,7 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   legend.addEventListener('click',e=>{const btn=e.target.closest('[data-ticker]');if(btn)toggle(btn.dataset.ticker)});
   canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect();mouse={x:e.clientX-rect.left,y:e.clientY-rect.top};draw()});
   canvas.addEventListener('mouseleave',()=>{mouse=null;tooltip.classList.remove('visible');draw()});
-  new ResizeObserver(resize).observe(canvas);resize();
+  setView(view);new ResizeObserver(resize).observe(canvas);resize();
 })();
 </script>
 <div class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div></div></div>
