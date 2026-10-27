@@ -71,6 +71,9 @@ Operational backlog for the public hub. Add items as they surface; check them of
     Meta–Nebius sized at the $12B dedicated (D10), Volta at 121 IT MW (D12).
   - **Next export (after MacroGauge's 2026-10-28 publish):** picks up PR #142's WULF backlog 27 on
     the capacity page. Re-sync the notebook ledger and demand monitor to that publish first.
+  - **Lab register sweep since 10-01:** the S-1 restated existing rows only, so `labs_as_of` stays
+    2026-10-01. Review lab deals announced since then (e.g. the 10/26 Broadcom-led Anthropic
+    financing) before moving the date.
   - **MacroGauge to source or drop:** the AKAM edge's extra $1.8B (D11). Akamai's 9/24 release
     states $11.6B committed plus up to $9B more, with no $1.8B; the hub's $11.6B stands.
   - **At the Q3 re-pulls:** GLXY net debt (F1) and contracted revenue on both sites (D7; hub >$15B,
