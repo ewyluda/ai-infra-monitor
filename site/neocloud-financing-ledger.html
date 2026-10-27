@@ -11,6 +11,7 @@
     --border:rgba(23,33,43,.08);--border-2:rgba(23,33,43,.14);
     --gold:#c98500;--gold-dim:rgba(201,133,0,.16);
     --c-convert:#6250d6;--c-notes:#c98500;--c-facility:#2a78d6;--c-vendor:#eb6834;--c-lease:#8b97a3;--c-other:#1e4f9c;--c-scheduled:#e34948;
+    --c-conv-ok:#7b6fc4;--c-unpriced:#e879a6;--c-debt:#4b5563;
     --ok:#147a63;--warn:#9a6210;--bad:#e34948;
     --radius:14px;
     --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -24,13 +25,14 @@
   .wrap{max-width:1280px;margin:0 auto;padding:42px 28px 80px}
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
   h1{font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:clamp(28px,4.4vw,46px);line-height:1.04;margin:0 0 14px}
-  h1 .accent{background:linear-gradient(90deg,#6250d6,#2a78d6 40%,#9a6210 80%,#eb6834);-webkit-background-clip:text;background-clip:text;color:transparent}
   .lede{max-width:880px;color:var(--muted);font-size:16px}.lede b{color:var(--ink);font-weight:600}
-  .statbar{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 4px}
-  .stat{border:1px solid var(--border);background:var(--panel);border-radius:12px;padding:12px 16px;min-width:124px}
-  .stat .n{font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.02em}
-  .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-  .stat.gold .n{color:var(--gold)}.stat.vio .n{color:var(--c-convert)}.stat.blue .n{color:var(--c-facility)}.stat.bad .n{color:var(--bad)}
+  .kpis{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:10px;margin:24px 0 8px}
+  .kpi{border:1px solid var(--border);background:var(--panel);border-radius:12px;padding:14px 16px}
+  .kpi .n{font-family:var(--mono);font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .kpi.lead .n{font-size:44px}
+  .kpi .l{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.4}
+  .meter{display:flex;gap:2px;height:8px;margin-top:12px}.meter span{border-radius:2px}
+  .context{font-size:13px;color:var(--muted);margin:4px 2px 0}
   .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 6px}
   .tab{appearance:none;border:1px solid var(--border-2);background:var(--panel);color:var(--muted);font-family:var(--display);font-weight:600;font-size:13.5px;
     padding:10px 16px;border-radius:11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:9px}
@@ -84,7 +86,7 @@
   footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);line-height:1.6}
   footer code{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:rgba(23,33,43,.05);padding:1px 5px;border-radius:4px}
   .hidden{display:none}
-  @media (max-width:760px){.wrap{padding:28px 16px 60px}.hbar{grid-template-columns:48px 1fr 150px}}
+  @media (max-width:760px){.wrap{padding:28px 16px 60px}.hbar{grid-template-columns:48px 1fr 150px}.kpis{grid-template-columns:1fr}.kpi.lead .n{font-size:36px}}
 </style>
 <meta name="description" content="Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="Neocloud Financing Ledger · AI Infra Monitor" /><meta property="og:description" content="Every debt instrument behind the buildout: maturity wall, drawn versus committed facilities, converts and vendor financing, reconciled issuer by issuer to the filings." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style id="aim-theme">/* Shared light restyle for the dark dashboard system: surfaces, ink and type from the
    AI Infra Monitor brand (MacroGauge tokens). Injected after the page's own styles. */
@@ -99,22 +101,29 @@ footer a{color:#2763C4;text-decoration:underline;text-underline-offset:2px}
 
 /* Financing ledger: text-safe status red. "scheduled" moves from red to aqua: it stacks with
    vendor orange, and that red/orange pair fails the normal-vision floor on white. Stack order
-   scheduled, convert, notes, facility, vendor, other passes the dataviz validator. */
-:root{--bad:#BB4545;--c-scheduled:#1baf7a}
+   scheduled, convert, notes, facility, vendor, other passes the dataviz validator.
+   Hero wall: convert violet (more than 20% below break-even) over a lighter violet step (near or above;
+   the pair passes the ordinal checks), unpriced magenta, and a de-emphasis gray for other debt. Every
+   adjacent pair in that stack passes CVD and normal-vision separation on white. */
+:root{--bad:#BB4545;--c-scheduled:#1baf7a;--c-conv-ok:#9d93e8;--c-unpriced:#e87ba4;--c-debt:#c9d0d8}
 .chip.company_release{color:#2763C4}
 </style>
 </head>
 <body>
 <div class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html" aria-current="page">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a></nav></div></div>
 <div class="wrap">
-  <div class="eyebrow">AI Infra Monitor · financing</div>
-  <h1>Neocloud <span class="accent">Financing Ledger</span></h1>
+  <div class="eyebrow">AI Infra Monitor · Neocloud financing ledger</div>
+  <h1 id="headline">Neocloud Financing Ledger</h1>
   <p class="lede">One row per instrument across the levered AI-infrastructure cohort — <b>what is owed, to whom, when, and on what terms</b>.
     Cohort maturity wall, drawn vs committed, convert moneyness against today's price, and each issuer's net debt reconciled to the
     <a href="neocloud-capacity-tracker.html">capacity tracker</a>'s <code>nd</code> field (disagreements are flagged, never overwritten).
     Research as of <b id="asOf">—</b>; quotes as of <b id="quoteAsOfLede">—</b>. Research note, not investment advice; no positions, no P&amp;L.</p>
 
-  <div class="statbar" id="statbar"></div>
+  <div class="kpis" id="statbar"></div>
+  <p class="context" id="context"></p>
+  <div class="legend" id="heroLegend"></div>
+  <div class="chartcard" id="heroWall"></div>
+  <div class="note" id="heroNote"></div>
 
   <div class="tabs" id="tabs">
     <button class="tab on" data-v="ledger"><span>Ledger</span><span class="tn">01</span></button>
@@ -151,8 +160,10 @@ const LED = /*FIN-DATA-START*/{"schema_version":2,"as_of":"2026-10-25","note":"N
 /* ---------- base helpers (same formulas as the refresh script) ---------- */
 const CLASS_OF={convert:'convert',secured_notes:'notes',unsecured_notes:'notes',term_loan:'facility',ddtl:'facility',bridge:'facility',abl:'facility',revolver:'facility',project_finance:'facility',gpu_financing:'facility',btc_backed:'facility',vendor:'vendor',lease:'lease',other:'other'};
 const WALL_CLASSES=['scheduled','convert','notes','facility','vendor','other'];
+const MONEY_CLASSES=['OTM','near','ITM'];
 const CATEGORIES=['financial_debt','lease','preferred_equity','operating_liability','trading_book'];
 const MONEY_NEAR=0.20, RECON_TOL_M=150, RECON_TOL_PCT=0.03;
+const PEAK_YEARS=3;
 const DEMAND_RE=/\bon demand\b|\brecallable\b/i;
 const COS=Object.fromEntries(LED.companies.map(c=>[c.t,c]));
 const TR=(LED.tracker&&LED.tracker.rows)||{};
@@ -165,25 +176,34 @@ function outstanding(r){return r.drawn_m==null?0:r.drawn_m;}
 function isProForma(r){const co=COS[r.t];return !!(r.as_of&&co&&co.balance_date&&r.as_of>co.balance_date);}
 function outstandingBd(r){if('drawn_bd_m' in r)return r.drawn_bd_m||0;return isProForma(r)?0:outstanding(r);}
 function ladderTotal(l){return Object.values(l.years||{}).reduce((a,b)=>a+b,0)+(((l.after||{}).amount_m)||0);}
-function maturityWall(rows,proForma,useLadder){
-  const wall={}; const add=(k,c,a)=>{wall[k]=wall[k]||Object.fromEntries(WALL_CLASSES.map(x=>[x,0]));wall[k][c]+=a;};
+function moneyStatus(r){const px=(TR[r.t]||{}).px; if(r.type!=='convert'||!r.conv_price||!px)return null;
+  const pctBe=px/(r.conv_price*(r.maturity_cash_ratio||1))-1; return pctBe>=0?'ITM':(pctBe>=-MONEY_NEAR?'near':'OTM');}
+/* byMoney classes priced converts by moneyStatus instead of 'convert'; unpriced converts stay 'convert' */
+function maturityWall(rows,proForma,useLadder,byMoney){
+  const CL=byMoney?WALL_CLASSES.concat(MONEY_CLASSES):WALL_CLASSES, cl=r=>(byMoney&&moneyStatus(r))||CLASS_OF[r.type];
+  const wall={}; const add=(k,c,a)=>{wall[k]=wall[k]||Object.fromEntries(CL.map(x=>[x,0]));wall[k][c]+=a;};
   const pools={};
   for(const r of rows){ if(!isDebt(r))continue; const co=COS[r.t];
     if(useLadder&&co.filed_ladder&&!isProForma(r)){(pools[r.t]=pools[r.t]||[]).push(r);continue;}
     const amt=proForma?outstanding(r):outstandingBd(r); if(!amt)continue;
     const sched=r.schedule; const tot=sched?sched.reduce((s,x)=>s+x[1],0):0;
-    if(sched&&tot){for(const [when,a] of sched)add(bucket(when),CLASS_OF[r.type],amt*a/tot);}
-    else add(bucket(r.maturity),CLASS_OF[r.type],amt); }
+    if(sched&&tot){for(const [when,a] of sched)add(bucket(when),cl(r),amt*a/tot);}
+    else add(bucket(r.maturity),cl(r),amt); }
   for(const [t,prs] of Object.entries(pools)){ const lad=COS[t].filed_ladder;
     for(const [y,a] of Object.entries(lad.years||{}))add(y,'scheduled',a);
     const aft=lad.after; if(aft){ const late=prs.filter(r=>(maturityYear(r.maturity)||0)>=aft.from);
       const base=late.reduce((s,r)=>s+outstandingBd(r),0);
-      for(const r of late) if(base) add(bucket(r.maturity),CLASS_OF[r.type],aft.amount_m*outstandingBd(r)/base); } }
+      for(const r of late) if(base) add(bucket(r.maturity),cl(r),aft.amount_m*outstandingBd(r)/base); } }
   return wall;
 }
 /* JS enumerates year-like keys numerically before any other key, so order buckets explicitly */
 function wallKeys(w){return Object.keys(w).sort((a,b)=>{const ka=bucketKey(a),kb=bucketKey(b);return ka[0]-kb[0]||ka[1].localeCompare(kb[1]);});}
 function nearTerm(wall){const y=+LED.as_of.slice(0,4);return ['demand',String(y),String(y+1)].reduce((s,k)=>s+(wall[k]?Object.values(wall[k]).reduce((a,b)=>a+b,0):0),0);}
+/* the n consecutive calendar years carrying the most principal; a skipped year counts zero, the earliest run wins a tie */
+function peakWindow(wall,n){const tot=k=>wall[k]?Object.values(wall[k]).reduce((a,b)=>a+b,0):0; let best=null;
+  for(const k of wallKeys(wall)){ if(!/^\d{4}$/.test(k))continue; const y=+k; let s=0; for(let i=0;i<n;i++)s+=tot(String(y+i));
+    if(!best||s>best.total)best={from:y,to:y+n-1,total:s}; }
+  return best;}
 function totals(rows){
   const out={debt:0,converts:0}; CATEGORIES.filter(c=>c!=='financial_debt').forEach(c=>out[c]=0);
   for(const r of rows){const c=category(r); if(c==='financial_debt'){out.debt+=outstanding(r); if(r.type==='convert')out.converts+=outstanding(r);} else out[c]+=outstanding(r);}
@@ -202,7 +222,7 @@ function moneyness(rows){
   for(const r of rows){ if(r.type!=='convert'||!r.conv_price||!outstanding(r))continue; const px=(TR[r.t]||{}).px; if(!px)continue;
     const ratio=r.maturity_cash_ratio||1, be=r.conv_price*ratio, pct=px/r.conv_price-1, pctBe=px/be-1;
     out.push({t:r.t,name:r.name,face_m:outstanding(r),drawn_m:r.drawn_m,conv_price:r.conv_price,px,pct,pct_be:pctBe,breakeven:be,maturity:r.maturity,
-      status:pctBe>=0?'ITM':(pctBe>=-MONEY_NEAR?'near':'OTM')}); }
+      status:moneyStatus(r)}); }
   return out.sort((a,b)=>b.pct_be-a.pct_be);
 }
 function ndCash(co){return (co.cash_m||0)+(co.nd_cash_includes_restricted?(co.restricted_cash_m||0):0);}
@@ -233,22 +253,65 @@ function filtered(){
     &&(!query||[r.t,r.name,r.type,category(r),r.collateral,r.restrictions,r.notes,(r.source||{}).form,r.provenance].join(' ').toLowerCase().includes(query)));
 }
 
-/* ---------- stat bar ---------- */
+/* ---------- maturity wall chart (hero and tab), drawn at the container's width ---------- */
+/* series: [{keys, c, l}] stacked from the baseline up; o: {dp, aria, peak:{from,to,label}, near:{keys,label}} */
+function wallSvg(wall,series,W,o){
+  const keys=wallKeys(wall), narrow=W<640, H=narrow?260:340, L=48,R=10,T=o.peak?46:22,B=30, pw=W-L-R, ph=H-T-B;
+  const tot=k=>Object.values(wall[k]).reduce((a,b)=>a+b,0), top=Math.max(1,...keys.map(tot))/1000;
+  const step=[.1,.2,.25,.5,1,2,2.5,5,10,20,25,50,100].find(s=>top/s<=5)||top/5, max=Math.ceil(top*1.04/step)*step, y=v=>T+ph-ph*v/max;
+  const isYr=k=>/^\d{4}$/.test(k), skip=keys.map((k,i)=>i>0&&isYr(k)&&isYr(keys[i-1])&&+k-keys[i-1]>1);
+  const sw=pw/(keys.length+skip.filter(Boolean).length/2), bw=Math.min(44,sw*.66), cx={};
+  let x=L, s='', marks='';
+  keys.forEach((k,i)=>{ if(skip[i]){const m=x+sw/4; marks+=`<path d="M${m-5} ${T+ph+5}l4 -10M${m+1} ${T+ph+5}l4 -10" fill="none" style="stroke:var(--muted);stroke-width:1.2"/>`; x+=sw/2;}
+    cx[k]=x+sw/2; x+=sw; });
+  if(o.near){const ks=o.near.keys.filter(k=>k in cx); if(ks.length){const x0=cx[ks[0]]-sw/2+2, x1=cx[ks[ks.length-1]]+sw/2-2;
+    s+=`<rect x="${x0}" y="${T-4}" width="${x1-x0}" height="${ph+4}" rx="6" fill="rgba(23,33,43,.04)"/>`;
+    if(x1-x0>=150)s+=`<text x="${x0+8}" y="${T+12}" style="fill:var(--ink)">${o.near.label}</text>`;}}
+  for(let i=0;i*step<=max+1e-9;i++){const v=i*step; s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(23,33,43,.07)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">$${+v.toFixed(2)}B</text>`;}
+  keys.forEach(k=>{ let base=0;
+    for(const se of series){const v=se.keys.reduce((a,c)=>a+(wall[k][c]||0),0); if(!v)continue; const y0=y(base/1000), y1=y((base+v)/1000);
+      s+=`<rect x="${cx[k]-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-(base?2:0))}" rx="2" style="fill:${se.c}"><title>${k} · ${se.l}: $${fB(v)}B</title></rect>`; base+=v;}
+    const t=tot(k)/1000, lab=narrow?'$'+Math.round(t):(+t.toFixed(o.dp)?'$'+t.toFixed(o.dp):'<$'+1/10**o.dp);
+    if(!narrow||t>=top*.25)s+=`<text x="${cx[k]}" y="${y(t)-6}" text-anchor="middle" style="fill:var(--ink)">${lab}B</text>`;
+    s+=`<text x="${cx[k]}" y="${H-B+16}" text-anchor="middle">${narrow?(isYr(k)?k.slice(2):k.slice(0,3)):k}</text>`; });
+  if(o.peak){const ks=keys.filter(k=>isYr(k)&&+k>=o.peak.from&&+k<=o.peak.to), x0=cx[ks[0]]-bw/2-4, x1=cx[ks[ks.length-1]]+bw/2+4, by=T-18;
+    s+=`<path d="M${x0} ${by+6}V${by}H${x1}V${by+6}" fill="none" style="stroke:var(--ink);stroke-width:1.2"/>
+      <text x="${Math.min(W-R-100,Math.max(L+100,(x0+x1)/2))}" y="${by-7}" text-anchor="middle" style="fill:var(--ink);font-weight:700">${o.peak.label}</text>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(o.aria)}" style="display:block">${s}${marks}<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--border-2)"/></svg>`;
+}
+
+/* ---------- headline, ranked figures, hero wall ---------- */
+const f1=m=>(m/1000).toFixed(1);
+const HERO_SERIES=[[['OTM'],'var(--c-convert)','converts more than 20% below maturity break-even'],[['near','ITM'],'var(--c-conv-ok)','converts near or above break-even'],
+  [['convert'],'var(--c-unpriced)','converts without a price'],[['scheduled','notes','facility','vendor','other'],'var(--c-debt)','other financial debt']];
 function statBar(){
   const rows=LED.instruments; const tot=totals(rows);
   const other=CATEGORIES.filter(c=>c!=='financial_debt').reduce((s,c)=>s+tot[c],0);
   const com=Object.values(commitments(rows)); const avail=com.reduce((s,o)=>s+o.available,0), undis=com.reduce((s,o)=>s+o.undisclosed,0);
-  const yr=+LED.as_of.slice(0,4); const near=nearTerm(maturityWall(rows,true,true));
-  const dis=reconciliation().filter(r=>r.status==='disagree').length; const sec=rows.filter(r=>r.provenance==='secondary').length;
+  const yr=+LED.as_of.slice(0,4), wall=maturityWall(rows,true,true,true), near=nearTerm(wall), peak=peakWindow(wall,PEAK_YEARS);
+  const m=moneyness(rows), priced=m.reduce((s,x)=>s+x.face_m,0), otm=m.filter(x=>x.status==='OTM').reduce((s,x)=>s+x.face_m,0);
+  const pct=(a,b)=>Math.round(100*a/b)+'%', span=peak?`${peak.from}–${String(peak.to).slice(2)}`:'';
+  const top=LED.companies.map(c=>[c.t,nearTerm(maturityWall(rows.filter(r=>r.t===c.t),true,true))]).sort((a,b)=>b[1]-a[1])[0];
+  if(peak)document.getElementById('headline').textContent=`The debt wall is ${span}`+
+    (priced?`, and ${pct(otm,priced)} of ${priced<tot.converts-0.5?'priced ':''}convert debt is a cash claim unless prices recover`:'');
   document.getElementById('statbar').innerHTML=
-    `<div class="stat"><div class="n">${LED.companies.length} · ${rows.length}</div><div class="l">issuers · instruments</div></div>
-     <div class="stat gold"><div class="n">$${fB(tot.debt)}B</div><div class="l">financial debt (pro forma)</div></div>
-     <div class="stat vio"><div class="n">$${fB(tot.converts)}B</div><div class="l">of it converts</div></div>
-     <div class="stat"><div class="n">$${fB(near)}B</div><div class="l">due on demand or by end-${yr+1}</div></div>
-     <div class="stat blue"><div class="n">$${fB(avail)}B</div><div class="l">available undrawn · +$${fB(undis)}B draw n/d</div></div>
-     <div class="stat"><div class="n">$${fB(other)}B</div><div class="l">leases &amp; other claims (not debt)</div></div>
-     <div class="stat ${dis?'bad':''}"><div class="n">${dis}</div><div class="l">nd disagreements</div></div>
-     <div class="stat ${sec?'bad':''}"><div class="n">${sec}</div><div class="l">secondary-only rows</div></div>`;
+    (peak?`<div class="kpi lead"><div class="n">$${f1(peak.total)}B</div><div class="l">due ${span}, ${pct(peak.total,tot.debt)} of the $${f1(tot.debt)}B of financial debt (pro forma)</div></div>`:'')+
+    (priced?`<div class="kpi"><div class="n">${pct(otm,priced)}</div><div class="l">of the $${f1(priced)}B of priced converts sits more than 20% below maturity break-even</div>
+      <div class="meter" aria-hidden="true"><span style="flex:${otm};background:var(--c-convert)" title="more than 20% below: $${f1(otm)}B"></span><span style="flex:${priced-otm};background:var(--c-conv-ok)" title="near or above: $${f1(priced-otm)}B"></span></div></div>`
+      :`<div class="kpi"><div class="n">$${f1(tot.converts)}B</div><div class="l">of the financial debt is converts</div></div>`)+
+    `<div class="kpi"><div class="n">$${f1(near)}B</div><div class="l">due on demand or by end-${yr+1}${near?`, ${pct(top[1],near)} of it ${top[0]}`:''}</div></div>`;
+  document.getElementById('context').textContent=`${LED.companies.length} issuers · ${rows.length} instruments · $${f1(avail)}B available undrawn, plus $${f1(undis)}B committed with the draw undisclosed · $${f1(other)}B of leases and other claims, listed but kept out of debt`;
+  const series=HERO_SERIES.map(([keys,c,l])=>keys[0]==='convert'&&!priced?{keys,c:'var(--c-convert)',l:'converts'}:{keys,c,l})
+    .filter(se=>Object.values(wall).some(b=>se.keys.some(k=>b[k])));
+  document.getElementById('heroLegend').innerHTML=series.map(se=>`<span class="it"><span class="sw" style="background:${se.c}"></span>${se.l}</span>`).join('');
+  document.getElementById('heroNote').textContent=(priced?'Converts are split by today\'s price against their maturity break-even. ':'')+
+    'An issuer\'s filed principal schedule is not split by instrument, so it counts as other financial debt. Undisclosed draws count as zero.';
+  const box=document.getElementById('heroWall'); let drawn=0;
+  const draw=()=>{const W=Math.max(300,Math.round(box.clientWidth-16)); if(W===drawn)return; drawn=W;
+    box.innerHTML=wallSvg(wall,series,W,{dp:1,aria:`Maturity wall, $B of financial debt by year due${peak?`; ${span} carries $${f1(peak.total)}B`:''}`,
+      peak:peak&&{from:peak.from,to:peak.to,label:`${span}: $${f1(peak.total)}B, ${pct(peak.total,tot.debt)} of the debt`},
+      near:{keys:['demand',String(yr),String(yr+1)],label:`due by end-${yr+1}: $${f1(near)}B`}});};
+  draw(); new ResizeObserver(draw).observe(box);
   document.getElementById('asOf').textContent=LED.as_of;
   const q=(LED.tracker||{}).quote_as_of||'n/a';
   document.getElementById('quoteAsOfLede').textContent=q; document.getElementById('quoteAsOf').textContent=q;
@@ -293,28 +356,20 @@ function renderLedger(V){
     <td>${esc(r.as_of||'')}</td>
     <td><span class="chip ${esc(r.provenance)}">${esc(r.provenance.replace(/_/g,' '))}</span><div class="det">${r.source?`<a href="${esc(r.source.url)}" target="_blank" rel="noopener">${esc(r.source.form||'source')} ${esc(r.source.date||'')}</a>`:''}</div></td></tr>`).join('');
   const tot=totals(rows);
-  V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view</div>
+  V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view · ${rows.filter(r=>r.provenance==='secondary').length} secondary-only</div>
     <div style="overflow-x:auto" tabindex="0"><table><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div></div>`;
   V.querySelectorAll('th').forEach(h=>h.addEventListener('click',()=>{const k=h.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();}));
 }
 
 function renderWall(V){
   const rows=filtered(); const useLadder=cls==='all'; const wall=maturityWall(rows,proForma,useLadder); const keys=wallKeys(wall);
-  const W=1100,H=360,pl=64,pr=20,pt=20,pb=44; const iw=W-pl-pr, ih=H-pt-pb;
-  const max=Math.max(1,...keys.map(k=>Object.values(wall[k]).reduce((a,b)=>a+b,0)));
-  const bw=iw/Math.max(keys.length,1); let s='';
-  const ticks=5; for(let i=0;i<=ticks;i++){const v=max*i/ticks,y=pt+ih-ih*i/ticks;s+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="rgba(23,33,43,.07)"/><text x="${pl-8}" y="${y+4}" text-anchor="end">$${(v/1000).toFixed(1)}B</text>`;}
-  keys.forEach((k,i)=>{let y=pt+ih; const x=pl+i*bw+bw*.12, w=bw*.76;
-    for(const c of WALL_CLASSES){const v=wall[k][c]; if(!v)continue; const h=ih*v/max; y-=h;
-      s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="var(--c-${c})" rx="2"><title>${k} · ${c}: $${fB(v)}B</title></rect>`;}
-    const tot=Object.values(wall[k]).reduce((a,b)=>a+b,0);
-    s+=`<text x="${x+w/2}" y="${y-6}" text-anchor="middle" style="fill:var(--ink)">$${fB(tot)}B</text><text x="${x+w/2}" y="${H-pb+16}" text-anchor="middle">${k}</text>`;});
+  const svg=wallSvg(wall,WALL_CLASSES.map(c=>({keys:[c],c:`var(--c-${c})`,l:c})),Math.max(300,Math.round(V.clientWidth-18)),{dp:2,aria:'Maturity wall by instrument class, $B of financial debt by year due'});
   const perCo={}; for(const t of [...new Set(rows.map(r=>r.t))]){const w=maturityWall(rows.filter(r=>r.t===t),proForma,useLadder); for(const [k,cl] of Object.entries(w))(perCo[t]=perCo[t]||{})[k]=Object.values(cl).reduce((a,b)=>a+b,0);}
   const tbl=`<table><thead><tr><th>Issuer</th>${keys.map(y=>`<th class="num">${y}</th>`).join('')}<th class="num">Total</th></tr></thead><tbody>${
     Object.entries(perCo).sort((a,b)=>Object.values(b[1]).reduce((x,y)=>x+y,0)-Object.values(a[1]).reduce((x,y)=>x+y,0)).map(([t,m])=>`<tr><td><span class="tkr">${t}</span>${COS[t].filed_ladder&&useLadder?' <span class="chip">filed ladder</span>':''}</td>${keys.map(y=>`<td class="num">${m[y]?fB(m[y]):''}</td>`).join('')}<td class="num"><b>${fB(Object.values(m).reduce((x,y)=>x+y,0))}</b></td></tr>`).join('')}</tbody></table>`;
   const near=nearTerm(wall), yr=+LED.as_of.slice(0,4);
   const floorList=[...new Set(rows.filter(r=>isDebt(r)&&r.amortizing&&!r.schedule&&!(useLadder&&COS[r.t].filed_ladder&&!isProForma(r))).map(r=>r.t))].join(', ');
-  V.innerHTML=`<div class="chartcard"><svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${s}</svg></div>
+  V.innerHTML=`<div class="chartcard">${svg}</div>
     <div class="card"><h3>By issuer ($B financial debt) · due on demand or by end-${yr+1}: $${fB(near)}B</h3><div style="overflow-x:auto" tabindex="0">${tbl}</div>
     <div class="note">Amortizing rows without a captured schedule still sit at final maturity, so the near-term figure is a floor for ${floorList||'no issuer'}. Converts show original principal — accreting notes repay more at maturity (see Convert moneyness). Leases and non-debt claims are not in this chart.</div></div>`;
 }
@@ -364,7 +419,8 @@ function renderRecon(V){
       ${c.reconciliation_note?`<div class="det" style="max-width:none;margin-top:4px"><b>Filing vs FMP:</b> ${esc(c.reconciliation_note)}</div>`:''}
       ${(c.post_quarter||[]).length?`<div class="det" style="max-width:none;margin-top:8px"><b>Post-quarter events</b></div>`+(c.post_quarter||[]).map(e=>`<div class="det" style="max-width:none;margin-top:3px"><span class="tkr" style="font-weight:500">${esc(e.date)}</span> — ${esc(e.event)} ${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">source</a>`:''} <span class="chip ${esc(e.provenance||'secondary')}">${esc((e.provenance||'secondary').replace(/_/g,' '))}</span></div>`).join(''):''}
     </div>`;}).join('');
-  V.innerHTML=`<div class="card"><div style="overflow-x:auto" tabindex="0">${tbl}</div>
+  const dis=rec.filter(r=>r.status==='disagree').map(r=>r.t);
+  V.innerHTML=`<div class="card"><div class="sub">${dis.length} of ${rec.length} issuers disagree with the tracker's <code>nd</code> beyond tolerance${dis.length?': '+dis.join(', '):''}</div><div style="overflow-x:auto" tabindex="0">${tbl}</div>
     <div class="note">Ledger convention: financial debt rows with <code>nd_include</code> true (the tracker's per-issuer convention, e.g. HUT excludes its non-recourse SPV notes, CRWV includes finance and operating leases) less unrestricted cash (plus restricted cash where the tracker nets it). Pro forma adds post-quarter rows and the issuer's <code>pro_forma_cash</code>: proceeds of post-quarter borrowings in, disclosed cash uses and repayments out. <b>disagree</b> means the tracker's <code>nd</code> needs a deliberate re-derivation at the next 10-Q — this page never writes to it. <b>consolidated</b> (BTBT) means the tracker figure consolidates WYFI while this ledger lists WYFI's instruments under WYFI.</div></div>${cards}`;
 }
 
