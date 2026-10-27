@@ -1,20 +1,20 @@
 {
  "schema_version": 1,
- "as_of": "2026-10-26",
+ "as_of": "2026-10-27",
  "capex_as_of": "2026-10-21",
  "contracted_as_of": "2026-10-07",
  "labs_as_of": "2026-10-01",
  "title": "AI Demand Monitor — hyperscaler capex, contracted backlog and AI-lab commitments",
- "note": "Demand side of the AI buildout: what the buyers of capacity disclose. Canonical source for ai-demand-monitor.{md,html}. $B unless noted. Every row carries the date it was disclosed (as_of) and a primary source; sourcing='secondary' marks figures supported only by press accounts. Derived series (q/q, trailing-4Q, run-rate, guide midpoints and revisions, capex-per-contracted-GW) are computed at render time by the refresh script and the HTML from the same formulas, never stored. Research, not P&L. Does not duplicate the neocloud capacity tracker — capacity_crosscheck is read from neocloud-capacity.json at sync time.",
- "sources_note": "Cash capex is FMP statements/cashflow-statement 'investmentsInPropertyPlantAndEquipment' (sign flipped), pulled 2026-10-25. Cross-checks: the five hyperscalers' quarterly figures and closed-year sums against their releases; CRWV against its 10-Q/10-K (H1 2025, 9M 2025, FY2025, H1 2026 cash paid for P&E); NBIS against the capex stated in its shareholder letters. Guide quotes, finance leases, RPO and contracted figures are from the linked releases and filings; guides whose quote comes from the call carry a guide.src and were checked against the FMP earningsTranscript text. Lab-register sizes marked primary link a company, lab or SEC source; secondary rows link the press report (press_src). Perplexity research (2026-10-25/26) located the sources; it is not cited as a source.",
+ "note": "Demand side of the AI buildout: what the buyers of capacity disclose. Canonical source for ai-demand-monitor.{md,html}. $B unless noted. Every row carries the date it was disclosed (as_of) and a primary source; sourcing='secondary' marks figures supported only by press accounts. Derived series (q/q, trailing-4Q, run-rate, guide midpoints and revisions, capex-per-contracted-GW) are computed at render time by the HTML, never stored. Research, not P&L. Does not duplicate the neocloud capacity tracker — capacity_crosscheck retains the selected company and tenant rows from the published capacity.json snapshot, with inferred-MW exclusions.",
+ "sources_note": "Cash capex is FMP statements/cashflow-statement 'investmentsInPropertyPlantAndEquipment' (sign flipped), pulled 2026-10-25. Cross-checks: the five hyperscalers' quarterly figures and closed-year sums against their releases; CRWV against its 10-Q/10-K (H1 2025, 9M 2025, FY2025, H1 2026 cash paid for P&E); NBIS against its shareholder letters and the Q1 2026 financial-statement comparative for Q1 2025. Guide quotes, finance leases, RPO and contracted figures are from the linked releases and filings; guides whose quote comes from the call carry a guide.src and were checked against the FMP earningsTranscript text. Lab-register sizes marked primary link a company, lab or SEC source; secondary rows link the press report (press_src). Perplexity research (2026-10-25/26) located the sources; it is not cited as a source.",
  "basis": {
   "qoq": "capex[q] / capex[q-1] - 1 (within a company's own series)",
   "ttm": "sum of the company's latest four reported quarters of capex (null until four exist)",
   "run_rate": "latest reported quarter × 4, per company; the cohort run-rate sums the five hyperscalers' latest quarters, whose period-ends differ (the page prints the span)",
-  "guide_mid": "(low + high) / 2 when both are numbers; a single number is its own midpoint; qualitative guides have no midpoint",
-  "guide_revision": "per company and guide fiscal year, the ordered guide midpoints by call date; implied and carried points are shown but revision = last stated − first stated full-year guide; vs_actual = actual − last stated guide once fy_actual is recorded",
-  "capex_per_contracted_gw": "hyperscaler cohort run-rate ($B/yr) ÷ de-duplicated tenant-disclosed contracted neocloud MW (GW) from neocloud-capacity.json. Scale context only: hyperscaler payments to neoclouds are mostly service fees or leases, not cash P&E, and the tenant list includes non-hyperscaler tenants. Not a forecast.",
-  "latest_guide_move": "last stated full-year guide midpoint − the previous stated midpoint for the same fiscal year (null when only one exists)"
+  "guide_mid": "(low + high) / 2 for a closed range; a point estimate is its own midpoint. Open-ended bounds and qualitative guides have no midpoint.",
+  "guide_revision": "Per company and guide fiscal year: last stated minus first stated full-year midpoint, only when both have a midpoint. Implied/carried points are not counted. Open-ended bounds retain their qualifier and produce no exact revision. vs_actual = actual minus last stated midpoint when available.",
+  "capex_per_contracted_gw": "Hyperscaler cohort run-rate ($B/yr) divided by included tenant MW / 1000 from the published capacity.json snapshot. Explicitly inferred MW and undisclosed MW are excluded. The constituent rows, exclusions and source publication date are retained in capacity_crosscheck. Scale context only, not a forecast or a capacity price.",
+  "latest_guide_move": "Last stated full-year midpoint minus the previous stated midpoint for the same year; null when only one exists or either guide is open-ended."
  },
  "capex": {
   "companies": [
@@ -407,7 +407,10 @@
        "kind": "implied",
        "text": "Q4 'capital investments' (cash capex + equipment finance leases) of $26.3B are 'reasonably representative of our 2025 capital investment rate' → ~$105B implied on that basis; the widely quoted ~$100B was an analyst's framing on the call",
        "src": "https://ir.aboutamazon.com/events/event-details/2025/Q4-2024-Amazoncom-Inc-Earnings-Conference-Call/default.aspx"
-      }
+      },
+      "cash_capex_mgmt": 26.052,
+      "fin_lease": 0.445,
+      "fin_lease_principal": 0.333
      },
      {
       "q": "2025Q1",
@@ -574,7 +577,8 @@
        "sourcing": "primary",
        "kind": "full_year"
       },
-      "capex_incl_leases": 14.84
+      "capex_incl_leases": 14.84,
+      "fin_lease_principal": 0.411
      },
      {
       "q": "2025Q1",
@@ -805,7 +809,7 @@
        "fy": "FY2026",
        "text": "'FY2026 CapEx will be higher at over $25 billion'; 'may turn out to be understated'",
        "low": 25,
-       "high": 25,
+       "high": null,
        "sourcing": "primary",
        "kind": "full_year",
        "qualifier": "over"
@@ -972,10 +976,21 @@
     "name": "CoreWeave",
     "cohort": "neocloud_buyer",
     "fy_end": "December",
-    "capex_basis": "Cash purchases of property and equipment (FMP cashflow-statement), tied to the 10-Q/10-K: H1 2025 $3.9B, 9M 2025 $6.249B, FY2025 $10.309B, H1 2026 $14.1B. CoreWeave's own 'CapEx' (capex_company, stated on each call: Q1'25 deck, later quarters on the call) is accrual-based and excludes construction in progress — FY2025 $14.9B vs $10.3B cash. No quarterly 2024Q4 disclosure exists (pre-IPO; the S-1 filed 2025-03-03 carries annual figures), so the series starts 2025Q1. Buyer context only: excluded from hyperscaler aggregates.",
+    "capex_basis": "Cash purchases of property and equipment (FMP cashflow-statement), tied to the 10-Q/10-K: H1 2025 $3.9B, 9M 2025 $6.249B, FY2025 $10.309B, H1 2026 $14.1B. CoreWeave's own 'CapEx' (capex_company, stated on each call: Q1'25 deck, later quarters on the call) is accrual-based and excludes construction in progress — FY2025 $14.9B vs $10.3B cash. Q4 2024 cash P&E is the comparative quarter in the FY2025 release published February 26, 2026; it was not disclosed in a standalone pre-IPO quarterly release. Buyer context only: excluded from hyperscaler aggregates.",
     "rpo_basis": null,
     "filings_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001769628&type=10-Q&dateb=&owner=include&count=40",
     "quarters": [
+     {
+      "q": "2024Q4",
+      "period_end": "2024-12-31",
+      "fiscal": "FY24Q4",
+      "call_date": null,
+      "as_of": "2026-02-26",
+      "capex": 3.498,
+      "filing_date": "2026-02-26",
+      "call_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000094/coreweave4q25earningspress.htm",
+      "source_note": "Q4 2024 comparative cash-flow figure disclosed with FY2025 results on February 26, 2026; no standalone Q4 2024 earnings call."
+     },
      {
       "q": "2025Q1",
       "period_end": "2025-03-31",
@@ -1053,10 +1068,32 @@
     "name": "Nebius",
     "cohort": "neocloud_buyer",
     "fy_end": "December",
-    "capex_basis": "Cash purchases of property and equipment (6-K/20-F, FMP cashflow-statement); matches the capex stated in each shareholder letter ($955.5M, ~$2.1B, ~$2.5B, ~$5.7B). Nebius reported H1 2025 capex only as a half-year, so the series starts 2025Q3. Buyer context only: excluded from hyperscaler aggregates.",
+    "capex_basis": "Cash purchases of property and equipment and intangible assets (6-K/20-F). Q1 2025 uses the $543.9M comparative in the Q1 2026 financial statements (original May 2025 release: $544.0M); Q2 2025 is $510.6M in the shareholder letter. Later quarters match the reported capex, rounded to $0.001B. Buyer context only: excluded from hyperscaler aggregates.",
     "rpo_basis": null,
     "filings_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=6-K&dateb=&owner=include&count=40",
     "quarters": [
+     {
+      "q": "2025Q1",
+      "period_end": "2025-03-31",
+      "fiscal": "FY25Q1",
+      "call_date": "2025-05-20",
+      "as_of": "2026-05-13",
+      "capex": 0.5439,
+      "filing_date": "2026-05-13",
+      "call_url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925050975/tm2515580d1_ex99-1.htm",
+      "capex_src": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926064092/nbis-20260331xex99d2.htm",
+      "source_note": "Uses the $543.9M Q1 2025 comparative disclosed May 13, 2026; the original May 20, 2025 release reported $544.0M."
+     },
+     {
+      "q": "2025Q2",
+      "period_end": "2025-06-30",
+      "fiscal": "FY25Q2",
+      "call_date": "2025-08-07",
+      "as_of": "2025-08-07",
+      "capex": 0.5106,
+      "filing_date": "2025-08-07",
+      "call_url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925075028/tm2522866d1_ex99-2.htm"
+     },
      {
       "q": "2025Q3",
       "period_end": "2025-09-30",
@@ -1100,7 +1137,7 @@
     ],
     "headline": {
      "field": "capex",
-     "label": "capex per shareholder letter (equals cash P&E)"
+     "label": "reported cash capex (P&E and intangible assets)"
     }
    }
   ]
@@ -1272,13 +1309,13 @@
      {
       "q": "2025Q4",
       "period_end": "2025-12-31",
-      "report_date": "2026-02-12",
-      "as_of": "2026-02-12",
+      "report_date": "2026-04-30",
+      "as_of": "2026-04-30",
       "value": 21.333,
       "metric": "RPO",
       "sourcing": "primary",
       "src": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
-      "note": "figure from the FY2025 20-F, not the February letter",
+      "note": "Figure from the FY2025 20-F filed April 30, 2026, not the February earnings release; period end remains December 31, 2025.",
       "counterparties": [
        "Microsoft",
        "Meta"
@@ -1292,7 +1329,7 @@
       "value": 33.585,
       "metric": "RPO",
       "sourcing": "primary",
-      "src": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926064092/nbis-20260331xex99d1.htm",
+      "src": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926064092/nbis-20260331xex99d2.htm",
       "counterparties": [
        "Microsoft",
        "Meta"
@@ -1626,21 +1663,22 @@
     "t": "GLXY",
     "name": "Galaxy Digital",
     "metric": "lifetime contracted lease revenue (Helios / CoreWeave)",
-    "definition": "Galaxy mostly discloses anticipated average ANNUAL lease revenue (>$1B, later >$1.2B) rather than a backlog. Only the 2026Q1 recap states a lifetime total (>$15B). Annual × term is a derived estimate, not a company figure.",
+    "definition": "Lifetime contracted lease revenue, not remaining backlog. The May 2025 call gives >$13B for Phases I and II combined; the May 2026 recap gives >$15B across the lease agreements. Other quarters use annual-revenue framing and are not converted into lifetime totals. Scope expands across phases; bounds are shown with >.",
     "quarters": [
      {
       "q": "2025Q1",
       "period_end": "2025-03-31",
       "report_date": "2025-05-13",
       "as_of": "2025-05-13",
-      "value": 9.0,
-      "metric": "incremental lifetime lease revenue (Phase II)",
+      "value": 13.0,
+      "metric": "lifetime contracted lease revenue (Phases I and II)",
       "sourcing": "primary",
       "src": "https://investor.galaxy.com/static-files/e6138b3d-fb54-4316-a071-bc91bc347313",
-      "note": "~$9B over the second 15-year lease (post-quarter option); Phase I ~$4.5B is press-sourced only",
+      "note": "May 13 call: Phases I and II combined are expected to generate >$13B over 15 years. The ~$9B Phase II amount is incremental, not the combined total; Phase II was a post-quarter option exercise.",
       "counterparties": [
        "CoreWeave"
-      ]
+      ],
+      "qualifier": "over"
      },
      {
       "q": "2025Q2",
@@ -1689,8 +1727,8 @@
      {
       "q": "2026Q1",
       "period_end": "2026-03-31",
-      "report_date": "2026-04-28",
-      "as_of": "2026-04-28",
+      "report_date": "2026-05-04",
+      "as_of": "2026-05-04",
       "value": 15.0,
       "metric": "lifetime contracted lease revenue",
       "sourcing": "primary",
@@ -1698,7 +1736,8 @@
       "note": ">$15B over the life of the lease agreements (May 4 recap)",
       "counterparties": [
        "CoreWeave"
-      ]
+      ],
+      "qualifier": "over"
      },
      {
       "q": "2026Q2",
@@ -2193,8 +2232,9 @@
    "src": "https://www.sec.gov/Archives/edgar/data/1730168/000173016825000116/avgo-11022025x8kxex99.htm",
    "sourcing": "primary",
    "overlap": "overlaps 2025-10-23",
-   "src_note": "orders disclosed by the CEO on the 2025-12-11 earnings call (transcript via FMP earningsTranscript); link is that day's release",
-   "size_kind": "chip orders"
+   "src_note": "Orders disclosed by the CEO on the December 11, 2025 earnings call, corroborated through FMP. The source link is the release; the call-transcript link is a third-party transcript of management’s remarks.",
+   "size_kind": "chip orders",
+   "transcript_src": "https://www.roic.ai/quote/AVGO%3ACN/transcripts/2025-year/4-quarter"
   },
   {
    "date": "2026-01-06",
@@ -2214,10 +2254,10 @@
    "lab": "OpenAI",
    "counterparty": "SB Energy / SoftBank (Milam County)",
    "type": "data-center lease + equity",
-   "usd_b": 1.0,
+   "usd_b": 0.5,
    "gw": 1.2,
    "term_years": null,
-   "note": "1.2 GW lease; OpenAI and SoftBank each invest $0.5B in SB Energy (equity flows from OpenAI)",
+   "note": "1.2 GW lease; OpenAI invests $0.5B in SB Energy, and SoftBank separately invests $0.5B ($1B combined). The amount shown is OpenAI’s equity contribution, not the lease value.",
    "src": "https://openai.com/index/stargate-sb-energy-partnership/",
    "sourcing": "primary",
    "size_kind": "equity investment by lab"
@@ -2545,8 +2585,8 @@
   }
  ],
  "capacity_crosscheck": {
-  "source": null,
-  "capacity_as_of": "2026-10-25",
+  "source": "data/capacity.json",
+  "capacity_as_of": "2026-10-21",
   "deduped_tickers": [
    "APLD",
    "BTDR",
@@ -2563,12 +2603,305 @@
    "WULF",
    "WYFI"
   ],
-  "op_mw": 1334.5,
-  "con_mw": 6338,
-  "plan_mw": 10262,
-  "tenant_contracted_mw": 6322.7,
-  "tenants_counted": 22,
-  "tenants_undisclosed_mw": 6,
-  "method": "Sum of tenants[i].mw where the landlord/operator ticker is not flagged dupe in the tracker (CRWV tenant overlap, ORCL/SPCX benchmarks, BTBT parent, AKAM context excluded). Tenant rows with undisclosed MW are counted but add 0. Includes non-hyperscaler tenants (Fluidstack, AMD, AI labs). A disclosure total, not a capacity forecast."
+  "op_mw": 1319.5,
+  "con_mw": 6561.3,
+  "plan_mw": 8963,
+  "tenant_contracted_mw": 6281,
+  "tenants_counted": 21,
+  "tenants_undisclosed_mw": 3,
+  "method": "Select tenant rows for the 14 listed operator tickers; exclude CRWV tenant overlap, ORCL/SPCX benchmarks, BTBT parent and AKAM context. Include numeric MW unless explicitly marked MW inferred in the source note. Undisclosed and inferred rows remain in this snapshot but add zero to the denominator. Operator op/con/plan totals retain the same ticker selection and are separate from tenant MW. Includes non-hyperscaler tenants. This reproduces the published tracker selection, not an independent certification of each tenant disclosure.",
+  "source_published_at": "2026-10-26T12:49:10Z",
+  "source_sha256": "81daf216b0fb4184db3e2ea40a35505176a3ee57dd892e320f4a15135110a5fe",
+  "synced_on": "2026-10-27",
+  "companies": [
+   {
+    "t": "NBIS",
+    "op": 185,
+    "con": 1000,
+    "plan": 3800
+   },
+   {
+    "t": "APLD",
+    "op": 250,
+    "con": 1160,
+    "plan": 0
+   },
+   {
+    "t": "CORZ",
+    "op": 437,
+    "con": 663,
+    "plan": 1400
+   },
+   {
+    "t": "GLXY",
+    "op": 133,
+    "con": 393,
+    "plan": 0
+   },
+   {
+    "t": "WULF",
+    "op": 102,
+    "con": 737,
+    "plan": 1320
+   },
+   {
+    "t": "HUT",
+    "op": 0,
+    "con": 949,
+    "plan": 0
+   },
+   {
+    "t": "CIFR",
+    "op": 0,
+    "con": 493,
+    "plan": 270
+   },
+   {
+    "t": "IREN",
+    "op": 50,
+    "con": 530,
+    "plan": 530
+   },
+   {
+    "t": "KEEL",
+    "op": 0,
+    "con": 18,
+    "plan": 110
+   },
+   {
+    "t": "RIOT",
+    "op": 25,
+    "con": 216,
+    "plan": 150
+   },
+   {
+    "t": "BTDR",
+    "op": 2.5,
+    "con": 349.3,
+    "plan": 1143
+   },
+   {
+    "t": "WYFI",
+    "op": 50,
+    "con": 3,
+    "plan": 120
+   },
+   {
+    "t": "MARA",
+    "op": 0,
+    "con": 0,
+    "plan": 100
+   },
+   {
+    "t": "DOCN",
+    "op": 85,
+    "con": 50,
+    "plan": 20
+   }
+  ],
+  "tenants": [
+   {
+    "tenant": "CoreWeave",
+    "operator": "CORZ",
+    "mw": 590,
+    "note": "12-yr, >$10B",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "CoreWeave",
+    "operator": "GLXY",
+    "mw": 526,
+    "note": "15-yr, ~$13.5B; Ph I 133 MW delivered 7/06",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "CoreWeave",
+    "operator": "APLD",
+    "mw": 400,
+    "note": "15-yr, ~$11B",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Fluidstack",
+    "operator": "WULF",
+    "mw": 360,
+    "note": "Lake Mariner; $3.2B Google backstop (Abernathy JV sale to Fluidstack agreed 7/06)",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Anthropic",
+    "operator": "WULF",
+    "mw": 401,
+    "note": "Hawesville 20-yr ~$19B (7/06); 'IG-backed' — party unnamed",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Unnamed AI labs",
+    "operator": "DOCN",
+    "mw": null,
+    "note": "multiple nine-figure/yr inference commitments (Q2'26); names undisclosed",
+    "included": false,
+    "exclusion_reason": "undisclosed"
+   },
+   {
+    "tenant": "Fluidstack",
+    "operator": "CIFR",
+    "mw": 207,
+    "note": "Barber Lake yrs 1–10; Google ~$1.73B backstop; extended to 20 yrs 9/25/26 (yrs 11–20: unnamed leading AI lab, lease direct to the lab; >$9B total); Anthropic co-funded the 9/14/26 Colorado City water pledge with Cipher/Fluidstack — press describes it as a Barber Lake tenant",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Fluidstack",
+    "operator": "HUT",
+    "mw": 245,
+    "note": "River Bend; Google backstop; Anthropic end-user ('building the campus in Riverbend for them', Q2'26 call); tenant holds ROFO on the next ~1 GW of River Bend expansion",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Microsoft",
+    "operator": "NBIS",
+    "mw": 300,
+    "note": "$17.4-19.4B over 5 yr thru Oct-2031; Vineland NJ; 300 MW initial, expandable to 700 MW; ~$6.96B upfront.",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Microsoft",
+    "operator": "IREN",
+    "mw": 200,
+    "note": "$9.7B 5-yr GB300; Horizon 1 (50 MW) delivered Aug 2026; Horizons 2–4 (150 MW) targeted Dec qtr 2026",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Meta",
+    "operator": "NBIS",
+    "mw": 400,
+    "note": "$3B five-year (Nov-2025) + $12B dedicated five-year (Mar-2026; Vera Rubin, multiple locations, from early 2027; up-to-$27B incl. conditional take-up reported); MW not disclosed, ~300-700 MW est. · MW inferred",
+    "included": false,
+    "exclusion_reason": "inferred"
+   },
+   {
+    "tenant": "NVIDIA",
+    "operator": "IREN",
+    "mw": 60,
+    "note": "$3.54B + equity investor",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "NVIDIA",
+    "operator": "NBIS",
+    "mw": null,
+    "note": "$2B investor (circular)",
+    "included": false,
+    "exclusion_reason": "undisclosed"
+   },
+   {
+    "tenant": "Amazon (AWS)",
+    "operator": "CIFR",
+    "mw": 286,
+    "note": "Black Pearl + Stingray; IG; Black Pearl initial capacity live + rent commenced Aug 2026 (2 mo early); Stingray 1H 2027",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "AMD",
+    "operator": "RIOT",
+    "mw": 50,
+    "note": "Rockdale, $636M; initial 25 MW delivered Q2 2026",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "AMD",
+    "operator": "CORZ",
+    "mw": 380,
+    "note": "15-yr NNN direct leases at Pecos, Hunt, Muskogee (part of the >$14B, 530 MW five-site program); exclusive reservation on up to ~2 GW more at those sites",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Neocloud (undisclosed; AMD credit support)",
+    "operator": "CORZ",
+    "mw": 150,
+    "note": "15-yr modified gross at Auburn + Dalton Ph III; AMD full 15-yr credit support",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Frontier AI lab (Anthropic per press, unconfirmed)",
+    "operator": "RIOT",
+    "mw": 191,
+    "note": "Rockdale 20-yr ~$9.1B (up to $16.1B w/ ext.); initial 96 MW Dec 2027, full Jun 2028",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Volta (for a leading AI lab)",
+    "operator": "BTDR",
+    "mw": 121,
+    "note": "Tydal Norway 16-yr $4.7B; phased Q4 2026 – Q1 2027",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Nscale",
+    "operator": "WYFI",
+    "mw": 40,
+    "note": "NC-1, ~$865M",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Core42",
+    "operator": "WULF",
+    "mw": 60,
+    "note": "Lake Mariner",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Tier-one IG hyperscaler",
+    "operator": "APLD",
+    "mw": 810,
+    "note": "15-yr; DF1 (300) + PF3 (300) + DF2 (210), ~$20B base",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "IG hyperscaler (PF2)",
+    "operator": "APLD",
+    "mw": 200,
+    "note": "15-yr; Polaris Forge 2, Harwood ND",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "IG hyperscaler (Nvidia per WSJ/FT, unconfirmed)",
+    "operator": "HUT",
+    "mw": 704,
+    "note": "Beacon Point Ph1+Ph2; $19.6B campus base-term (Ph2 $9.8B Jul 2026); WSJ/Reuters 8/31/26: Nvidia holds the lease on ~350 MW in Nueces Co. used for Anthropic's $35B Lambda deal — no party has confirmed",
+    "included": true,
+    "exclusion_reason": null
+   },
+   {
+    "tenant": "Frontier AI lab (Anthropic per The Information, unconfirmed)",
+    "operator": "IREN",
+    "mw": null,
+    "note": "new multi-year AI Cloud contract (IREN-owned GPUs) disclosed Aug 2026; MW/value n/d",
+    "included": false,
+    "exclusion_reason": "undisclosed"
+   }
+  ],
+  "tenants_inferred_mw": 1,
+  "inferred_mw_excluded": 400
  }
 }

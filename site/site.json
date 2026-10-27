@@ -1,7 +1,7 @@
 {
  "name": "AI Infra Monitor",
  "prices": "keep",
- "as_of": "2026-10-26",
+ "as_of": "2026-10-27",
  "pages": [
   {
    "file": "neocloud-capacity-tracker.html",
@@ -21,7 +21,7 @@
    "file": "ai-demand-monitor.html",
    "title": "AI Demand Monitor",
    "data": "data/ai-demand-monitor.json",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "market_data": null
   },
   {
