@@ -11,6 +11,8 @@ company disclosures.**
 [MacroGauge](https://macrogauge-cloudten.vercel.app/datacenter) (data center cost indexes) ·
 [GPU Price Index](https://ewyluda.github.io/gpu-price-index/) (compute rental prices)
 
+<a href="https://ewyluda.github.io/ai-infra-monitor/assets/aim-tour.mp4"><img alt="Play the 90-second tour: a captioned walkthrough of the five dashboards, with original music" src="site/assets/aim-tour.jpg"></a>
+
 <img alt="AI Infra Monitor landing page, animated: the pointer moves across the dashboard cards, each with its headline figures, a preview chart and its as-of date, then the page scrolls to the sister sites and how the hub is built" src="docs/img/index.gif">
 
 ## The dashboards

@@ -82,15 +82,15 @@ Operational backlog for the public hub. Add items as they surface; check them of
     MacroGauge $13.5B, notebook capacity $18B). The Nebius $3.5B Citi bridge goes into the /rates
     note and NBIS `ndflag` (F3).
 
-- [ ] **Later: make a 90-second showcase video of the hub.** Model it on the Solution for Sandra
-  gala video (`Code & Projects/Solution for sandra/video/` in Google Drive): a storyboard table of
-  timed scenes and captions, a scripted browser capture (`capture.mjs`), original generated music
-  (`music.py`), and a `build.sh` that encodes 1920×1080, 30 fps H.264 + AAC. Captions carry the
-  message, no voice, scene cuts on the beat. Do this after the README GIFs. Embed the finished
-  video on the home page (`site/index.html`) if it can be done without weighing the page down.
-  *Added 2026-10-27.*
-
 ## Done
+
+- [x] **Made a 90-second tour video of the hub.** Captioned, no voice, with original generated music;
+  1920×1080, 30 fps H.264 + AAC, ~19 MB. It opens on the landing page, spends 12–14 s on each
+  dashboard (tooltips, filters, sorts and expanding notes), and ends on the sources and checks. Scene
+  changes land on the music's bar lines. The capture is scripted from a storyboard table and reruns with
+  one command against the built `site/`. It plays on the home page (`assets/aim-tour.mp4`, `preload="none"`,
+  so nothing downloads until play) in the edition with market prices, and the README links its poster.
+  *2026-10-27.*
 
 - [x] **Replaced the README screenshots with GIFs that scroll and use each page.** One GIF per page
   (`docs/img/<page>.gif`, 1.5–2.6 MB, 12–19 s at 1280×800) scrolls through its best content and
