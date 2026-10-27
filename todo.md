@@ -55,10 +55,6 @@ Operational backlog for the public hub. Add items as they surface; check them of
   - Once carried, retire the notebook's `neocloud-capacity.json` as a source or sync it from
     MacroGauge, and rename its `benchmark` role and ORCL's "hyperscaler benchmark" note.
 
-- [ ] **Match the pricing cadence.** MacroGauge reprices every weekday morning; the hub takes
-  MacroGauge's prices at export time. A scheduled export (hub plan, Phase 3 follow-up) keeps the
-  hub within a day. *Added 2026-10-26.*
-
 - [ ] **Resolve the MacroGauge overlap conflicts.** Listed in
   `docs/reviews/2026-10-27-macrogauge-overlap-audit.md` (IDs below). *Added 2026-10-27.*
   - **Done 2026-10-27 in MacroGauge [PR #142](https://github.com/ewyluda/macrogauge/pull/142)**
@@ -69,8 +65,8 @@ Operational backlog for the public hub. Add items as they surface; check them of
     Anthropic's S-1 (D1–D5; also Nscale $44.6B, Lambda $34.9B of $41.3B, AMD >$20B spend note); the
     Broadcom $125.2B is the 2026 lease alone, $161.2B all leases. IREN July contracts noted (D8),
     Meta–Nebius sized at the $12B dedicated (D10), Volta at 121 IT MW (D12).
-  - **Next export (after MacroGauge's 2026-10-28 publish):** picks up PR #142's WULF backlog 27 on
-    the capacity page. Re-sync the notebook ledger and demand monitor to that publish first.
+  - **Next export (after MacroGauge's 2026-10-28 publish):** the scheduled export should pick up
+    PR #142's WULF backlog 27 on the capacity page with no manual step; confirm it did.
   - **Lab register sweep since 10-01:** the S-1 restated existing rows only, so `labs_as_of` stays
     2026-10-01. Review lab deals announced since then (e.g. the 10/26 Broadcom-led Anthropic
     financing) before moving the date.
@@ -105,6 +101,13 @@ Operational backlog for the public hub. Add items as they surface; check them of
   *Added 2026-10-27.*
 
 ## Done
+
+- [x] **Matched the pricing cadence.** A scheduled export runs hourly from 09:15 to 22:15 ET and acts
+  only when MacroGauge has published something the hub doesn't show yet. It re-syncs the ledger
+  and demand monitor, rebuilds the site, runs every check CI runs, and pushes only if all of them
+  pass; any failure pushes nothing. The capacity page and the ledger's quotes follow MacroGauge
+  within the hour. The ETF atlas and layer index prices still refresh by hand. First unattended
+  publish expected after MacroGauge's 2026-10-28 run. *2026-10-27.*
 
 - [x] **Audited the other hub pages for overlap with MacroGauge.** The financing ledger and demand
   monitor were checked against MacroGauge's `capacity.json` and `rates.json`: 4 ledger conflicts
