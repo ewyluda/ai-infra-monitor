@@ -6,35 +6,31 @@
   {
    "file": "neocloud-capacity-tracker.html",
    "title": "AI Capacity Tracker",
-   "data": "data/capacity.json",
    "as_of": "2026-10-27",
-   "market_data": "FMP (via MacroGauge)"
+   "market_data": "FMP (via MacroGauge)",
+   "source_published_at": "2026-10-27T13:21:20Z"
   },
   {
    "file": "neocloud-financing-ledger.html",
    "title": "Neocloud Financing Ledger",
-   "data": "data/neocloud-financing-ledger.json",
    "as_of": "2026-10-25",
    "market_data": "FMP (via the capacity tracker)"
   },
   {
    "file": "ai-demand-monitor.html",
    "title": "AI Demand Monitor",
-   "data": "data/ai-demand-monitor.json",
    "as_of": "2026-10-27",
    "market_data": null
   },
   {
    "file": "ai-infrastructure-etf-atlas.html",
    "title": "AI Infrastructure ETF Atlas",
-   "data": "data/ai-infrastructure-etfs.json",
    "as_of": "2026-09-03",
    "market_data": "Nasdaq"
   },
   {
    "file": "ai-trade-layer-index.html",
    "title": "AI Trade Layer Index",
-   "data": "data/ai-trade-layer-index.json",
    "as_of": "2026-10-26",
    "market_data": "FMP"
   }
@@ -50,14 +46,10 @@
   "assets/brand.css",
   "assets/favicon.svg",
   "assets/og-image.png",
-  "data/ai-demand-monitor.json",
-  "data/ai-infrastructure-etfs.json",
-  "data/ai-trade-layer-index.json",
-  "data/capacity.json",
-  "data/neocloud-financing-ledger.json",
   "index.html",
   "neocloud-capacity-tracker.html",
   "neocloud-financing-ledger.html",
-  "site.json"
+  "site.json",
+  "terms.html"
  ]
 }

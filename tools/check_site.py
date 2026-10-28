@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Check the built site: every relative href/src resolves inside site/, and every data file is JSON.
+"""Check the built site: every relative href/src resolves inside site/, site.json is JSON, no data
+files are published (the site serves pages, not data), and every page carries the TDM reservation.
 
     python3 tools/check_site.py [SITE_DIR]
 
@@ -19,7 +20,10 @@ def main(site):
     errors = []
     pages = sorted(site.rglob('*.html'))
     for page in pages:
-        for url in LINK.findall(page.read_text(encoding='utf-8')):
+        text = page.read_text(encoding='utf-8')
+        if '<meta name="tdm-reservation" content="1"' not in text:
+            errors.append(f'{page.relative_to(site)}: no tdm-reservation meta')
+        for url in LINK.findall(text):
             parts = urlsplit(url)
             if parts.scheme or parts.netloc or url.startswith(('#', 'mailto:', 'data:')):
                 continue
@@ -28,17 +32,18 @@ def main(site):
                 errors.append(f'{page.relative_to(site)}: {url} leaves the site')
             elif not target.exists():
                 errors.append(f'{page.relative_to(site)}: {url} not found')
-    data = sorted(site.glob('data/*.json')) + [site / 'site.json']
-    for path in data:
-        try:
-            json.loads(path.read_text(encoding='utf-8'))
-        except (OSError, ValueError) as exc:
-            errors.append(f'{path.relative_to(site)}: {exc}')
+    for path in sorted(site.rglob('*.json')):
+        if path != site / 'site.json':
+            errors.append(f'{path.relative_to(site)}: data file published')
+    try:
+        json.loads((site / 'site.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError) as exc:
+        errors.append(f'site.json: {exc}')
     for line in errors:
         print(f'✗ {line}')
     if errors:
         return 1
-    print(f'✓ {len(pages)} pages, {len(data)} JSON files, all relative links resolve')
+    print(f'✓ {len(pages)} pages, all relative links resolve, no data files, TDM reservation on every page')
     return 0
 
 

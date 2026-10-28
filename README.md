@@ -5,7 +5,7 @@ financed, who is paying for it, and how to own it in listed markets. Compiled fr
 company disclosures.**
 
 [![CI](https://github.com/ewyluda/ai-infra-monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/ewyluda/ai-infra-monitor/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: all rights reserved](https://img.shields.io/badge/license-all%20rights%20reserved-lightgrey.svg)](LICENSE)
 
 **[Live site →](https://ewyluda.github.io/ai-infra-monitor/)** · Also by the author:
 [MacroGauge](https://macrogauge-cloudten.vercel.app/datacenter) (data center cost indexes) ·
@@ -19,13 +19,13 @@ company disclosures.**
 
 Five pages, one per side of the trade. Every figure carries its source and as-of date.
 
-| Dashboard | Side of the trade | The question it answers | Data |
-| --- | --- | --- | --- |
-| [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts? | [JSON](site/data/capacity.json) |
-| [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | What debt carries the build, and when is it due? | [JSON](site/data/neocloud-financing-ledger.json) |
-| [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Who is paying for the megawatts? | [JSON](site/data/ai-demand-monitor.json) |
-| [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Which fund owns which bottleneck? | [JSON](site/data/ai-infrastructure-etfs.json) |
-| [AI Trade Layer Index](https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html) | Market performance | Which layer of the AI trade has the market rewarded this year? | [JSON](site/data/ai-trade-layer-index.json) |
+| Dashboard | Side of the trade | The question it answers |
+| --- | --- | --- |
+| [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts? |
+| [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | What debt carries the build, and when is it due? |
+| [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Who is paying for the megawatts? |
+| [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Which fund owns which bottleneck? |
+| [AI Trade Layer Index](https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html) | Market performance | Which layer of the AI trade has the market rewarded this year? |
 
 ### AI Capacity Tracker
 
@@ -76,9 +76,9 @@ and opens each one to its constituents.
 ## Data sources
 
 - **Capacity:** [MacroGauge](https://macrogauge-cloudten.vercel.app/capacity)'s published capacity
-  dataset, curated from filings, with each figure's source and date in the JSON.
+  dataset, curated from filings, with each figure's source and date on the page.
 - **Financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings calls. Each
-  figure carries its source and date in the page and in the JSON.
+  figure carries its source and date on the page.
 - **ETF holdings:** each issuer's published holdings file.
 - **AI trade layers:** the author's grouping of 57 stocks into ten layers.
 - **Market prices:** equity quotes, daily closes and market caps from [Financial Modeling Prep](https://site.financialmodelingprep.com/);
@@ -99,7 +99,9 @@ export step builds this site from those sources:
    separation.
 3. Scans the result for private paths and terms and for broken links, and fails the build on
    any hit.
-4. Publishes each dashboard's JSON next to it under [`site/data/`](site/data/).
+4. Publishes pages, not data: no JSON downloads. Every page carries the copyright line, a link
+   to the [terms](https://ewyluda.github.io/ai-infra-monitor/terms.html) and the machine-readable
+   text-and-data-mining reservation (`tdm-reservation` meta tag).
 
 Pages are static HTML with the data embedded. There are no runtime fetches and no API keys in
 the site.
@@ -113,9 +115,9 @@ as-of date.
 CI runs on every push:
 
 ```bash
-python3 tools/check_site.py site                                  # relative links resolve, JSON parses
-python3 tools/check_demand.py                                    # embedded parity, financial calculations, source regression checks
-python3 tools/check_financing.py                                 # ledger parity, maturity wall and net-debt calculations, audit regressions
+python3 tools/check_site.py site                                  # relative links resolve, no data files, TDM reservation on every page
+python3 tools/check_demand.py                                    # financial calculations, capacity snapshot, source regression checks
+python3 tools/check_financing.py                                 # maturity wall and net-debt calculations, audit regressions
 npx --yes html-validate@11.16.2 --preset standard site/*.html    # HTML validates
 ```
 
@@ -127,6 +129,8 @@ python3 -m http.server 8765 --directory site
 
 ## License
 
-Code is [MIT](LICENSE). Figures are drawn from public filings, issuer disclosures and the market
-data vendors named above, and remain those publishers' information. This is research and analysis
-only, not investment advice.
+© 2026 Eric Wyluda. All rights reserved ([LICENSE](LICENSE)). Quote individual figures with a
+citation; scraping, bulk copying and AI training or retrieval are not permitted without written
+permission. The [terms of use](https://ewyluda.github.io/ai-infra-monitor/terms.html) govern the
+site. The underlying facts come from public filings, issuer disclosures and the market data vendors
+named above. This is research and analysis only, not investment advice.

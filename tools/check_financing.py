@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check financing-ledger data, embedded parity, calculations and the October 27 audit fixes.
+"""Check financing-ledger data, calculations and the October 27 audit fixes, from the pages' embedded data.
 
 Run with: python3 tools/check_financing.py
 Requires Node for executing the page's actual calculation functions; no network.
@@ -13,9 +13,10 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site'
-L = json.loads((SITE / 'data/neocloud-financing-ledger.json').read_text())
-C = json.loads((SITE / 'data/capacity.json').read_text())
 html = (SITE / 'neocloud-financing-ledger.html').read_text()
+L = json.loads(html.split('/*FIN-DATA-START*/')[1].split('/*FIN-DATA-END*/')[0])
+C = json.loads((SITE / 'neocloud-capacity-tracker.html').read_text()
+               .split('/*CAP-DATA-START*/')[1].split('/*CAP-DATA-END*/')[0])
 checks = 0
 
 
@@ -29,8 +30,6 @@ def equal(actual, expected, message, tol=1e-6):
     check(actual is not None and math.isclose(actual, expected, abs_tol=tol), f'{message}: {actual} != {expected}')
 
 
-embedded = json.loads(html.split('/*FIN-DATA-START*/')[1].split('/*FIN-DATA-END*/')[0])
-check(embedded == L, 'Embedded HTML data differs from standalone JSON')
 code = 'const LED = ' + json.dumps(L) + ';\n'
 code += html[html.index('/* ---------- base helpers'):html.index('/* ---------- end base helpers ---------- */')]
 code += '''
@@ -132,7 +131,7 @@ equal(row('CRWV', 'DDTL 2.0 Facility')['committed_m'] + row('CRWV', 'DDTL 2.1 Fa
 
 # F04: the comparison is bound to the published capacity snapshot.
 tr = L['tracker']
-check(tr['published_at'] == C['published_at'], 'Tracker snapshot is the published capacity.json')
+check(tr['published_at'] == C['published_at'], 'Tracker snapshot is the published capacity dataset')
 check(tr['quote_as_of'] == C['priced_date'], 'Tracker price date')
 cap = {c['t']: c for c in C['companies']}
 for t, v in tr['rows'].items():
@@ -152,7 +151,7 @@ manifest = json.loads((SITE / 'site.json').read_text())
 check(next(p['as_of'] for p in manifest['pages'] if p['file'] == 'neocloud-financing-ledger.html') == L['as_of'],
       'Financing manifest date')
 
-print(f'✓ {checks} financing checks: data parity, calculations, filed schedules and audit regressions')
+print(f'✓ {checks} financing checks: calculations, filed schedules and audit regressions')
 print(json.dumps({'debt_m': A['totals']['debt'], 'debt_balance_date_m': A['totals_bd']['debt'],
                   'due_by_end_next_year_m': A['near'], 'holder_puts_m': sum(p['amount_m'] for p in A['puts']),
                   'peak': A['peak'], 'available_m': sum(o['available'] for o in A['com'].values()),

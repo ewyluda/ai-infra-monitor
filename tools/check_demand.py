@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check demand data, embedded parity, arithmetic, bounds and capacity provenance.
+"""Check demand data, arithmetic, bounds and capacity provenance, read from the pages' embedded data.
 
 Run with: python3 tools/check_demand.py
 Requires Node for executing the page's actual calculation functions; no network.
@@ -12,10 +12,10 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site'
-D = json.loads((SITE / 'data/ai-demand-monitor.json').read_text())
-capacity_path = SITE / 'data/capacity.json'
-C = json.loads(capacity_path.read_text())
 html = (SITE / 'ai-demand-monitor.html').read_text()
+D = json.loads(html.split('/*AI-DEMAND-DATA-START*/')[1].split('/*AI-DEMAND-DATA-END*/')[0])
+C = json.loads((SITE / 'neocloud-capacity-tracker.html').read_text()
+               .split('/*CAP-DATA-START*/')[1].split('/*CAP-DATA-END*/')[0])
 checks = 0
 
 
@@ -31,9 +31,6 @@ def equal(actual, expected, message):
            math.isclose(actual, expected, abs_tol=1e-9)), message)
 
 
-embedded = json.loads(html.split('/*AI-DEMAND-DATA-START*/')[1]
-                     .split('/*AI-DEMAND-DATA-END*/')[0])
-check(embedded == D, 'Embedded HTML data differs from standalone JSON')
 code = 'const D = ' + json.dumps(D) + ';\n'
 code += html[html.index('const HYPER'):html.index('/* ---------- header ---------- */')]
 code += '''
@@ -121,9 +118,9 @@ equal(actual['bounds']['latest']['implied_per_q'],None,'No implied remaining spe
 
 # The published capacity input must reproduce the retained constituent snapshot.
 cc = D['capacity_crosscheck']
-check(cc['source'] == 'data/capacity.json','Capacity source link')
+check(cc['source'] == 'neocloud-capacity-tracker.html','Capacity source link')
 # The snapshot is bound by MacroGauge's publish time plus the row parity below; the notebook builds it
-# from MacroGauge's own file, whose bytes differ from the hub's scrubbed copy, so no byte hash is kept.
+# from MacroGauge's own file, whose bytes differ from the hub's scrubbed page data, so no byte hash is kept.
 check(cc['source_published_at'] == C['published_at'],'Capacity snapshot source changed; reconcile before publishing')
 check(cc['capacity_as_of'] == C['as_of_curated'],'Capacity curation date')
 selected = [r for r in C['tenants'] if r[1] in cc['deduped_tickers']]
@@ -171,7 +168,7 @@ check(any(r.get('transcript_src') for r in D['lab_commitments'] if r['date']=='2
 manifest = json.loads((SITE/'site.json').read_text())
 check(next(p['as_of'] for p in manifest['pages'] if p['file']=='ai-demand-monitor.html') == D['as_of'],'Demand manifest date')
 
-print(f'✓ {checks} demand checks: data parity, source fixtures, calculations, bounds and capacity snapshot')
+print(f'✓ {checks} demand checks: source fixtures, calculations, bounds and capacity snapshot')
 print(json.dumps({'ttm_b':actual['ttm'],'run_rate_b':actual['runRate'],'yoy':actual['yoy'],
                   'contracted_mw':cc['tenant_contracted_mw'],'run_rate_per_gw':actual['ratio'],
                   'latest_guides_raised':sum(g['move'] is not None and g['move']>0 for g in actual['latest']),
