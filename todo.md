@@ -27,7 +27,8 @@ Operational backlog for the public hub. Add items as they surface; check them of
     - CORZ operational 437 → **~485 MW** (Dalton Ph II +48 MW per a 10/13 company post): confirm
       in the Q3 10-Q (11/5).
     - NBIS: the $3.5B Citi 364-day secured bridge (signed 10/17, 6-K 10/22) and a net-debt
-      re-pull at Q3 (reported 10/27).
+      re-pull at Q3 (date not announced; likely 11/11 pre-market, the morning after CRWV's
+      11/10 after-close report, as in 2025).
     - GLXY at its Q3 re-pull (10/27): add the Helios II notes under the new convention.
   - **Still open, decisions:** finance leases for landlord and operator rows. Neoclouds count
     them, but IREN ($0.24B), DOCN (~$0.41B) and APLD ($0.05B) leave them out; settle it at the
