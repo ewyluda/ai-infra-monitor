@@ -1,7 +1,7 @@
 {
  "name": "AI Infra Monitor",
  "prices": "keep",
- "as_of": "2026-10-28",
+ "as_of": "2026-10-30",
  "pages": [
   {
    "file": "neocloud-capacity-tracker.html",
@@ -23,6 +23,12 @@
    "market_data": null
   },
   {
+   "file": "ai-cash-flow-monitor.html",
+   "title": "AI Cash Flow Monitor",
+   "as_of": "2026-10-30",
+   "market_data": null
+  },
+  {
    "file": "ai-infrastructure-etf-atlas.html",
    "title": "AI Infrastructure ETF Atlas",
    "as_of": "2026-09-03",
@@ -36,6 +42,7 @@
   }
  ],
  "files": [
+  "ai-cash-flow-monitor.html",
   "ai-demand-monitor.html",
   "ai-infrastructure-etf-atlas.html",
   "ai-trade-layer-index.html",

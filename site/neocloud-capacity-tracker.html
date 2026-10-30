@@ -249,7 +249,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 .cap-chart.has-hot .cap-mark:not(.is-hot) { fill-opacity: .22; }
 .cap-table tbody tr[data-t] td { transition: background-color 120ms ease; }
 .cap-table tbody tr.is-hot td { background: #F4F7FB; }
-@media (max-width: 640px) { .cap-table caption .cap-muted { display: none; } }
+@media (max-width: 640px) { .cap-table-cap .cap-muted { display: none; } }
 .cap-label { font-size: 12px; font-weight: 600; fill: var(--text); pointer-events: none; paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
 .cap-viz-note { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); max-width: 110ch; }
 .cap-muted { color: var(--muted); }
@@ -264,7 +264,11 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 .cap-tip p { margin: 8px 0 0; color: var(--muted); }
 
 .cap-table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
-.cap-table caption { text-align: left; font-size: 14px; font-weight: 600; padding: 0 0 8px; }
+/* Above the scroller, not a <caption>: a caption is as wide as the table, so a phone cut it off */
+.cap-table-cap { margin: 0; font-size: 14px; font-weight: 600; padding: 0 0 8px; }
+/* The table's collapsed border scrolls with it; sitting over it keeps scrolled text out of a 1px strip */
+.cap-table tr > :first-child { left: -1px; }
+.cap-group-lab { position: sticky; left: 12px; } /* a group row spans the table; its label stays in view */
 .cap-table th { text-align: left; font-weight: 500; font-size: 12.5px; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .cap-table td { padding: 9px 12px; border-bottom: 1px solid #EEF1F4; vertical-align: top; }
 .cap-table tr:last-child td { border-bottom: 0; }
@@ -368,10 +372,10 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
 /* hub overrides (axe): MacroGauge's .7 opacity on the counts falls below 4.5:1 */
 .cap-count { opacity: 1; }
 </style>
-<!-- © 2026 Eric Wyluda. All rights reserved. Terms: https://ewyluda.github.io/ai-infra-monitor/terms.html · AIM canary 242a3ced-c0e2-472b-8a07-06ca97b03cf8 --><meta name="tdm-reservation" content="1" /><meta name="tdm-policy" content="https://ewyluda.github.io/ai-infra-monitor/terms.html" /><meta name="robots" content="noai, noimageai" /><meta name="description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Capacity Tracker · AI Infra Monitor" /><meta property="og:description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style>#valChart{position:relative;padding-bottom:18px}#valChart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style>
+<!-- © 2026 Eric Wyluda. All rights reserved. Terms: https://ewyluda.github.io/ai-infra-monitor/terms.html · AIM canary 242a3ced-c0e2-472b-8a07-06ca97b03cf8 --><meta name="tdm-reservation" content="1" /><meta name="tdm-policy" content="https://ewyluda.github.io/ai-infra-monitor/terms.html" /><meta name="robots" content="noai, noimageai" /><meta name="description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><link rel="canonical" href="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" /><meta name="theme-color" content="#F6F7F9" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AI Infra Monitor" /><meta property="og:title" content="AI Capacity Tracker · AI Infra Monitor" /><meta property="og:description" content="Who has the AI megawatts: neoclouds, ex-miner landlords and hyperscalers, with operational, under-construction and planned critical-IT MW, value per megawatt, and the power deals behind them." /><meta property="og:url" content="https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html" /><meta property="og:image" content="https://ewyluda.github.io/ai-infra-monitor/assets/og-image.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="AI Infra Monitor: who is building the AI buildout, and how it is funded." /><meta name="twitter:card" content="summary_large_image" /><link rel="stylesheet" href="assets/brand.css" /><style>#valChart{position:relative;padding-bottom:18px}#valChart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style><style>:is(th,td):where(.cap-table tr > :first-child:not([colspan]), .power-deals-table tr > :first-child){position:sticky;left:0;z-index:1;background-color:var(--aim-card)}@supports (animation-timeline:scroll()){:where(.cap-table tr > :first-child:not([colspan]), .power-deals-table tr > :first-child){animation:aim-stick linear both;animation-timeline:scroll(nearest inline);animation-range:0 24px}}@keyframes aim-stick{to{box-shadow:6px 0 6px -4px rgba(23,33,43,.14)}}</style>
 </head>
 <body>
-<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html" aria-current="page">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html" aria-current="page">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-cash-flow-monitor.html">Cash flow</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
 <main class="page-shell research-page">
   <header class="research-intro">
     <div class="research-eyebrow">AI infrastructure · AI capacity tracker <span id="updated"></span></div>
@@ -401,7 +405,6 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
         <tbody id="pdRows"></tbody>
       </table>
     </div>
-    <p class="method" id="pdMethod"></p>
   </section>
 
   <section id="cap-method" class="page-method" aria-labelledby="cap-method-title">
@@ -416,6 +419,14 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: ui-san
       Hyperscaler net debt is funded-debt basis (most run net cash; finance leases and off-balance-sheet SPV debt
       excluded — see each row&apos;s note); neocloud net debt includes finance leases where disclosed.
     </p>
+    <p class="method priced-only">
+      <b>Valuation.</b> Weighted MW = operational + half of construction + a quarter of planned. GPU clouds and landlords are
+      priced as different businesses, so each type gets its own median. EV per MW is withheld for hyperscalers and private
+      builders (enterprise value isn&apos;t tied to AI megawatts), for companies whose EV prices a much larger business than
+      their AI megawatts, and for parent rows that repeat a subsidiary.
+    </p>
+    <p class="method" id="pdMethod"></p>
+    <p class="method" id="geoMethod"></p>
     <p class="method" id="methodSource"></p>
   </section>
 </main>
@@ -498,7 +509,7 @@ function renderHeader() {
     kpi('Under construction', `${gw(all.con)} GW`, 'the delivery question — pipeline ≠ revenue until energized') +
     (PRICED && ref.nvda_cap_b != null
       ? kpi('NVDA vs the field', `$${(ref.nvda_cap_b / 1000).toFixed(1)}T`, ref.cohort_ev_b != null
-          ? `Nvidia market cap vs $${(ref.cohort_ev_b / 1000).toFixed(2)}T combined EV of the ${evRows} rows with a published EV/MW (hyperscaler and private-builder EVs excluded, as on their rows)`
+          ? `Nvidia market cap vs $${(ref.cohort_ev_b / 1000).toFixed(2)}T combined EV of the ${evRows} rows priced per MW`
           : 'Nvidia market cap (cohort EV pending first repricing)')
       : '');
   $('asof').innerHTML = `MW data as of <b>${esc(DATA.as_of_curated)}</b>` +
@@ -507,6 +518,7 @@ function renderHeader() {
   $('methodSource').innerHTML = `This page renders <a href="https://macrogauge-cloudten.vercel.app/capacity">MacroGauge</a>&apos;s published capacity dataset as published ${esc(fmtDay(DATA.published_at, 'America/New_York'))}, so both sites show the same figures.` +
     (PRICED ? ` Market caps and prices are MacroGauge&apos;s Financial Modeling Prep quotes, priced <b>${esc(DATA.priced_date || '—')}</b>; enterprise value = market cap + net debt.` : ' This edition withholds market caps, enterprise values and every price-derived ratio.') +
     ' The dataset is MacroGauge&apos;s; its <a href="https://macrogauge.vercel.app/terms">terms</a> govern reuse.';
+  if (DATA.geo_note) $('geoMethod').innerHTML = `<b>Map.</b> ${esc(DATA.geo_note)}`;
   if (!PRICED) document.querySelectorAll('.priced-only').forEach(e => e.remove());
 }
 
@@ -530,7 +542,7 @@ function renderPowerDeals() {
     <td style="text-align:left" title="${esc(d.note ?? d.instrument)}">${esc(STATUS_LABEL[d.status] || d.status)}<span class="cell-sub">${esc(KIND_LABEL[d.kind] || d.kind)}</span></td>
     <td style="color:var(--muted)">${esc(d.announced)}</td>
     <td class="cell-prose" style="text-align:left;color:var(--muted)">${esc(d.start ?? '—')}</td></tr>`).join('');
-  $('pdMethod').innerHTML = `${esc(pd.basis)} ${esc(pd.mw_note)} &ldquo;Deal&rdquo; separates how firm a deal is (signed, pending a regulator&apos;s approval, or an MOU, LOI or option) from what it is: a power purchase agreement; utility supply, where the utility builds the plants under a service agreement or tariff; or a development or funding deal that carries rights to the energy. Each facility links to the release or filing it was read from; hover it for the quoted figure. Hand-curated as of ${esc(pd.as_of_curated)} and refreshed each earnings season.`;
+  $('pdMethod').innerHTML = `<b>Power deals.</b> ${esc(pd.basis)} ${esc(pd.mw_note)} &ldquo;Deal&rdquo; separates how firm a deal is (signed, pending a regulator&apos;s approval, or an MOU, LOI or option) from what it is: a power purchase agreement; utility supply, where the utility builds the plants under a service agreement or tariff; or a development or funding deal that carries rights to the energy. Each facility links to the release or filing it was read from. Hand-curated as of ${esc(pd.as_of_curated)} and refreshed each earnings season.`;
   $('power-deals').classList.remove('cap-hidden');
 }
 
@@ -754,18 +766,17 @@ function renderValuation(panel, rs) {
   </svg>`;
   const table = groups.map(g => {
     const grp = pts.filter(c => vgroupOf(c) === g).sort((a, b) => a.ev_per_mw - b.ev_per_mw);
-    return `<tbody><tr class="cap-table-group"><th scope="colgroup" colspan="6"><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(VGROUP[g].label)}<span class="cap-muted"> · ${grp.length} · median ${fmtM(medianOf(grp.map(c => c.ev_per_mw)))} per MW</span></th></tr>
+    return `<tbody><tr class="cap-table-group"><th scope="colgroup" colspan="6"><span class="cap-group-lab"><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(VGROUP[g].label)}<span class="cap-muted"> · ${grp.length} · median ${fmtM(medianOf(grp.map(c => c.ev_per_mw)))} per MW</span></span></th></tr>
       ${grp.map(c => `<tr data-t="${esc(c.t)}"><td><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i> ${esc(c.n)} <span class="cap-muted">${esc(c.t)}</span></td><td class="cap-muted">${esc(VGROUP[g].short)}</td><td class="num">${fmtM(c.ev_per_mw)}${c.stale ? '*' : ''}</td><td class="num">${c.pct_energized}%</td><td class="num">${fmtMW(c.wmw)}</td><td class="num">${c.coverage != null ? c.coverage + '×' : '—'}</td></tr>`).join('')}</tbody>`;
   }).join('');
-  const noted = excluded.filter(c => c.ev_note);
   panel.innerHTML = `<div class="cap-viz">
-    <div class="cap-viz-head"><div><h2>What the market pays per megawatt, against how much is already live</h2>
-      <p>Each dot is a company: enterprise value per weighted MW (log scale) against the share of its capacity that is energized. Dot area is weighted MW. Dashed lines are each business type&apos;s median, since GPU clouds and landlords are priced as different businesses.</p></div>
-      <ul class="cap-key">${groups.map(g => `<li><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i>${esc(VGROUP[g].label)}</li>`).join('')}</ul></div>
+    <div class="cap-viz-head"><div><h2>What the market pays per megawatt, against how much is already live</h2></div>
+      <ul class="cap-key">${groups.map(g => `<li><i class="cap-dot cap-dot-${g}" aria-hidden="true"></i>${esc(VGROUP[g].label)}</li>`).join('')}<li>Dot area = weighted MW</li></ul></div>
     <div class="dashboard-panel cap-chart" id="valChart">${svg}</div>
-    <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Cheapest per megawatt first, within each business type<span class="cap-muted"> · select a column to re-sort</span></caption>
-      <thead><tr><th scope="col">Company</th><th scope="col">Type</th><th scope="col" class="num">EV per MW</th><th scope="col" class="num">Energized</th><th scope="col" class="num">Weighted MW</th><th scope="col" class="num">Backlog ÷ EV</th></tr></thead>${table}</table></div>
-    <p class="cap-viz-note">Weighted MW = operational + half of construction + a quarter of planned. Valuations are MacroGauge&apos;s, priced ${esc(DATA.priced_date || '—')}.${excluded.length ? ` Not plotted: ${excluded.map(c => esc(c.t)).join(', ')} — EV per MW is withheld for hyperscalers and private builders (enterprise value isn&apos;t tied to AI megawatts)${noted.length ? `, for companies whose EV prices a much larger business than their AI megawatts (${noted.map(c => esc(c.t)).join(', ')})` : ''}${excluded.some(c => c.dupe === 'parent') ? ', and parent rows that repeat a subsidiary' : ''}.` : ''}</p>
+    <div><p class="cap-table-cap" id="capValTitle">Cheapest per megawatt first, within each business type</p>
+    <div class="capacity-site-table" tabindex="0"><table class="cap-table" aria-labelledby="capValTitle">
+      <thead><tr><th scope="col">Company</th><th scope="col">Type</th><th scope="col" class="num">EV per MW</th><th scope="col" class="num">Energized</th><th scope="col" class="num">Weighted MW</th><th scope="col" class="num">Backlog ÷ EV</th></tr></thead>${table}</table></div></div>
+    <p class="cap-viz-note">Priced ${esc(DATA.priced_date || '—')}.${excluded.length ? ` Not plotted: ${excluded.map(c => esc(c.t)).join(', ')} (see <a href="#cap-method">How it&apos;s built</a>).` : ''}</p>
   </div>`;
   const hot = t => {
     $('valChart').classList.toggle('has-hot', !!t);
@@ -815,13 +826,14 @@ function renderDemand(panel, rs) {
       return `<g class="cap-node" role="img" tabindex="0" data-tip="p${k}" aria-label="${esc(names.get(n.key) || n.key)}: ${fmtMW(n.total || null)} contracted"><rect x="${XR}" y="${offR + n.y}" width="${BAR}" height="${Math.max(n.h, 2)}" rx="2" class="cap-node-bar"/><rect x="${XR}" y="${cy - 16}" width="290" height="32" fill="transparent"/><text x="${XR + BAR + 8}" y="${cy - 2}" class="cap-node-name">${esc(short(names.get(n.key) || n.key, 30))}</text><text x="${XR + BAR + 8}" y="${cy + 13}" class="cap-node-sub">${esc(n.key)} · ${n.total > 0 ? fmtMW(n.total) : 'MW undisclosed'}</text></g>`; }).join('')}
   </svg>`;
   panel.innerHTML = `<div class="cap-viz">
-    <div class="cap-viz-head"><div><h2>Who has signed for whose capacity</h2><p>Disclosed leases and compute contracts, from the buyer on the left to the provider on the right. Ribbon width follows committed critical-IT MW.</p></div>
+    <div class="cap-viz-head"><div><h2>Who has signed for whose capacity</h2></div>
       <ul class="cap-key"><li><i class="cap-ribbon-key" aria-hidden="true"></i>MW disclosed</li><li><i class="cap-ribbon-key cap-ribbon-key-inf" aria-hidden="true"></i>MW inferred from deal value</li><li><i class="cap-ribbon-key cap-ribbon-key-nd" aria-hidden="true"></i>MW undisclosed</li></ul></div>
     <div class="dashboard-panel cap-chart" id="demandChart"><div class="cap-scroll" tabindex="0">${svg}</div></div>
-    <div class="capacity-site-table" tabindex="0"><table class="cap-table"><caption>Every disclosed deal, largest first</caption>
+    <div><p class="cap-table-cap" id="capDealsTitle">Every disclosed deal, largest first</p>
+    <div class="capacity-site-table" tabindex="0"><table class="cap-table" aria-labelledby="capDealsTitle">
       <thead><tr><th scope="col">Buyer</th><th scope="col">Provider</th><th scope="col" class="num">MW</th><th scope="col">Terms</th></tr></thead>
-      <tbody>${[...edges].sort((a, b) => (b.mw ?? -1) - (a.mw ?? -1)).map(e => `<tr><td>${esc(e.tenant)}</td><td>${esc(names.get(e.prov) || e.prov)} <span class="cap-muted">${esc(e.prov)}</span></td><td class="num">${e.mw != null ? e.mw.toLocaleString('en-US') + (inferred(e.terms) ? '*' : '') : 'n/d'}</td><td class="cap-terms">${esc(e.terms)}</td></tr>`).join('')}</tbody></table></div>
-    <p class="cap-viz-note">Disclosed deals only. * MW inferred from deal value, not stated by either party. Hyperscalers&apos; self-built capacity isn&apos;t a deal and doesn&apos;t appear here.</p>
+      <tbody>${[...edges].sort((a, b) => (b.mw ?? -1) - (a.mw ?? -1)).map(e => `<tr><td>${esc(e.tenant)}</td><td>${esc(names.get(e.prov) || e.prov)} <span class="cap-muted">${esc(e.prov)}</span></td><td class="num">${e.mw != null ? e.mw.toLocaleString('en-US') + (inferred(e.terms) ? '*' : '') : 'n/d'}</td><td class="cap-terms">${esc(e.terms)}</td></tr>`).join('')}</tbody></table></div></div>
+    <p class="cap-viz-note">Disclosed deals only; self-built capacity isn&apos;t shown. * MW inferred from deal value.</p>
   </div>`;
   const chart = $('demandChart');
   const nodeTip = (n, side) => `<strong>${esc(side === 'p' ? names.get(n.key) || n.key : n.key)}</strong><span>${n.total > 0 ? `${fmtMW(n.total)} disclosed` : 'MW undisclosed'} across ${deals(n)}</span><ul>${n.edges.map(e => `<li>${esc(side === 't' ? names.get(e.prov) || e.prov : e.tenant)} — ${fmtMW(e.mw)}</li>`).join('')}</ul>`;
@@ -887,7 +899,7 @@ function renderTimeline(panel, rs) {
       <div><dt>Biggest quarter</dt><dd>${qLabel(peak.q)} <small>+${fmtMW(peak.add_mw)}</small></dd></div>
       <div><dt>Construction sites with a date</dt><dd>${nSites}</dd></div>
     </dl>
-    <div class="cap-viz-head"><div><h2>Critical-IT capacity scheduled to energize, by quarter</h2><p>Construction-stage sites with a disclosed first-power date. Undated sites are left out, so this understates the pipeline, and slippage is common.</p></div></div>
+    <div class="cap-viz-head"><div><h2>Critical-IT capacity scheduled to energize, by quarter</h2><p>Dated sites only, so this understates the pipeline.</p></div></div>
     <div class="dashboard-panel cap-chart" id="tlChart"><div class="cap-scroll" tabindex="0">${svg}</div></div>
     <ol class="cap-quarters">${Object.entries(tl.milestones).map(([q, items]) => `<li id="cap-q-${q}"><div class="cap-quarter-head"><strong>${qLabel(q)}</strong><span>+${fmtMW(items.reduce((s, m) => s + m[2], 0))}</span><small>${items.length} site${items.length > 1 ? 's' : ''}</small></div>
       <table class="cap-quarter-sites"><tbody>${items.slice().sort((a, b) => b[2] - a[2]).map(([t, site, mw]) => `<tr><td class="cap-ticker">${esc(t)}</td><td>${esc(site)}</td><td class="num">${fmtMW(mw)}</td><td class="cap-minibar-cell" aria-hidden="true"><i class="cap-minibar" style="width:${mw / maxSite * 100}%"></i></td></tr>`).join('')}</tbody></table></li>`).join('')}</ol>
@@ -921,7 +933,7 @@ function renderGeo(panel, rs) {
     ${[...here].sort((a, b) => (b.mw ?? -1) - (a.mw ?? -1)).map(s => { const [cx, cy] = proj(p, s.lng, s.lat), nd = s.mw == null, hollow = nd || s.st === 's', k = all.push(s) - 1;
       return `<circle cx="${cx}" cy="${cy}" r="${nd ? 4.5 : R(s.mw)}" class="cap-site cap-site-${esc(s.st)}${hollow ? ' is-hollow' : ''}${s.approx ? ' is-approx' : ''}" role="img" tabindex="0" data-tip="${k}" aria-label="${esc(s.site)}, ${esc(names.get(s.t) || s.t)}: ${fmtMW(s.mw)}, ${STATUS[s.st] || s.st}"/>`; }).join('')}</svg>`;
   panel.innerHTML = `<div class="cap-viz" id="geoWrap">
-    <div class="cap-viz-head"><div><h2>Where the AI campuses are</h2><p>Campus-level sites sized by critical-IT MW. Positions are town or county centroids, not parcels.</p></div>
+    <div class="cap-viz-head"><div><h2>Where the AI campuses are</h2></div>
       <ul class="cap-key">${['o', 'c', 'p', 's'].map(st => `<li><i class="cap-site-key cap-site-${st}${st === 's' ? ' is-hollow' : ''}" aria-hidden="true"></i>${STATUS[st]}</li>`).join('')}
         <li><i class="cap-site-key is-approx-key" aria-hidden="true"></i>Approximate location</li>
         <li class="cap-size-item">${[100, 500, 1500].map(mw => { const d = R(mw) * 2; return `<span><svg width="${d + 2}" height="${d + 2}" aria-hidden="true" class="cap-size-key"><circle cx="${d / 2 + 1}" cy="${d / 2 + 1}" r="${d / 2}"/></svg>${fmtMW(mw)}</span>`; }).join('')}</li></ul></div>
@@ -932,7 +944,6 @@ function renderGeo(panel, rs) {
     </div>
     ${elsewhere.length ? `<section class="cap-elsewhere" aria-label="Sites not on the map"><h3 class="cap-h">Not on the map <small>${elsewhere.length}</small></h3><div class="capacity-site-table" tabindex="0"><table class="cap-table"><thead><tr><th scope="col">Site</th><th scope="col">Company</th><th scope="col" class="num">MW</th><th scope="col">Status</th><th scope="col">Why it isn&apos;t mapped</th></tr></thead>
       <tbody>${elsewhere.map(s => `<tr><td>${esc(s.site)}</td><td>${esc(names.get(s.t) || s.t)}</td><td class="num">${s.mw != null ? Math.round(s.mw).toLocaleString('en-US') : 'n/d'}</td><td><span class="cap-status cap-status-${esc(s.st)}">${esc(STATUS[s.st] || s.st)}</span></td><td class="cap-muted">${esc(s.why)}</td></tr>`).join('')}</tbody></table></div></section>` : ''}
-    <p class="cap-viz-note">${esc(DATA.geo_note)}</p>
   </div>`;
   wireTips($('geoWrap'), k => { const s = all[+k]; return s && `<strong>${esc(s.site)}</strong><span>${esc(names.get(s.t) || s.t)} · ${STATUS[s.st] || s.st}</span><dl><dt>Critical IT</dt><dd>${fmtMW(s.mw)}</dd>${s.when ? `<dt>Timing</dt><dd>${esc(s.when)}</dd>` : ''}</dl>${s.approx ? '<p>Location is approximate (state or country level).</p>' : ''}`; });
 }

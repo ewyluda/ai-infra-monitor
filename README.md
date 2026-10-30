@@ -17,13 +17,14 @@ company disclosures.**
 
 ## The dashboards
 
-Five pages, one per side of the trade. Every figure carries its source and as-of date.
+Six pages, one per side of the trade. Every figure carries its source and as-of date.
 
 | Dashboard | Side of the trade | The question it answers |
 | --- | --- | --- |
 | [AI Capacity Tracker](https://ewyluda.github.io/ai-infra-monitor/neocloud-capacity-tracker.html) | Supply | Who has the AI megawatts? |
 | [Neocloud Financing Ledger](https://ewyluda.github.io/ai-infra-monitor/neocloud-financing-ledger.html) | Capital stack | What debt carries the build, and when is it due? |
 | [AI Demand Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-demand-monitor.html) | Demand | Who is paying for the megawatts? |
+| [AI Cash Flow Monitor](https://ewyluda.github.io/ai-infra-monitor/ai-cash-flow-monitor.html) | Cash flow | Who keeps the cash: the Mag 7 or the chip makers? |
 | [AI Infrastructure ETF Atlas](https://ewyluda.github.io/ai-infra-monitor/ai-infrastructure-etf-atlas.html) | Listed exposure | Which fund owns which bottleneck? |
 | [AI Trade Layer Index](https://ewyluda.github.io/ai-infra-monitor/ai-trade-layer-index.html) | Market performance | Which layer of the AI trade has the market rewarded this year? |
 
@@ -55,6 +56,14 @@ marked as secondary.
 
 <img alt="AI Demand Monitor, animated: the headline and cohort tiles; hovering Amazon in the legend picks out its bars in the quarterly capex chart; a spend-against-guide tooltip; the quarterly table switches to each company's headline measure; the Anthropic tile filters the lab register, a note expands and the register sorts by size" src="docs/img/ai-demand-monitor.gif">
 
+### AI Cash Flow Monitor
+
+Trailing-twelve-month free cash flow (operating cash flow less capex) for the Mag 7 and twelve AI
+chip makers, stacked by company in each group on one scale, with capex as a share of operating
+cash flow. Fiscal quarters are placed in the calendar quarter where most of them fall, TSMC and
+ASML convert at the Federal Reserve's quarterly-average rate, and a group's quarter counts only once
+every member has reported it.
+
 ### AI Infrastructure ETF Atlas
 
 Six listed routes into the physical buildout, from power delivery and the grid to photonics,
@@ -79,6 +88,9 @@ and opens each one to its constituents.
   dataset, curated from filings, with each figure's source and date on the page.
 - **Financing and demand:** 10-Ks, 10-Qs, 8-Ks, investor presentations and earnings calls. Each
   figure carries its source and date on the page.
+- **Cash flow:** each company's quarterly cash-flow statement as filed (10-Q/10-K, or 6-K/20-F for
+  TSMC, ASML and Arm), via Financial Modeling Prep; exchange rates from the Federal Reserve's H.10
+  release via FRED. Rows the feed got wrong are corrected from the filing and listed on the page.
 - **ETF holdings:** each issuer's published holdings file.
 - **AI trade layers:** the author's grouping of 57 stocks into ten layers.
 - **Market prices:** equity quotes, daily closes and market caps from [Financial Modeling Prep](https://site.financialmodelingprep.com/);
@@ -107,8 +119,8 @@ Pages are static HTML with the data embedded. There are no runtime fetches and n
 the site.
 
 **Refresh cadence:** capacity cohorts, financing events and demand items are curated by hand
-after each filing or print. Quotes are refreshed with each export, and every page shows its
-as-of date.
+after each filing or print. Cash flows are pulled after each earnings season. Quotes are refreshed
+with each export, and every page shows its as-of date.
 
 ## Checks
 
@@ -118,6 +130,7 @@ CI runs on every push:
 python3 tools/check_site.py site                                  # relative links resolve, no data files, TDM reservation on every page
 python3 tools/check_demand.py                                    # financial calculations, capacity snapshot, source regression checks
 python3 tools/check_financing.py                                 # maturity wall and net-debt calculations, audit regressions
+python3 tools/check_cash_flow.py                                 # free-cash-flow calculations, capex reconciled to the demand monitor
 npx --yes html-validate@11.16.2 --preset standard site/*.html    # HTML validates
 ```
 

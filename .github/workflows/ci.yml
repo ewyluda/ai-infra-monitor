@@ -23,5 +23,7 @@ jobs:
         run: python3 tools/check_demand.py
       - name: Financing data and calculations
         run: python3 tools/check_financing.py
+      - name: Cash flow data and calculations
+        run: python3 tools/check_cash_flow.py
       - name: HTML validates
         run: npx --yes html-validate@11.16.2 --preset standard site/*.html

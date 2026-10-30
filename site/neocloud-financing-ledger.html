@@ -169,16 +169,41 @@ td{border-bottom-style:solid}
 .ledger td.coupon .aim-more,.ledger td.collat .aim-more{font-size:11.5px;margin-top:1px}
 .ledger th:first-child{white-space:nowrap}
 .det a{color:#2763C4;text-decoration:underline;text-underline-offset:2px} /* 4.41:1 was below AA and links in text need a non-color cue; the old gradient card hid both from axe */
-</style><style>#heroWall{position:relative;padding-bottom:18px}#heroWall::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style>
+/* Phones: 13 columns don't fit, so each instrument becomes a card and its heads a row of sort buttons. The cells
+   flow in column order after issuer, type and instrument; amounts, maturity, conversion price and as-of carry their
+   column head inline (the kit's data-aim-label); coupon, collateral and source read without one. Empty cells drop out. */
+@media (max-width:639px){
+  .ledger,.ledger thead,.ledger tbody,.ledger tr,.ledger th,.ledger td{display:block}
+  .ledger thead tr{display:flex;flex-wrap:wrap;gap:0 14px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+  .ledger thead tr::before{content:"Sort by";flex-basis:100%;font:600 11px/1.6 var(--aim-sans);color:var(--muted)}
+  .ledger th{position:static;padding:0;border:0;background:none;font-size:11px}
+  .ledger th .aim-sort{display:inline-flex;flex-direction:row;align-items:center;gap:3px;padding:7px 0;white-space:nowrap}
+  .ledger th .aim-sort-ind{margin-left:0}
+  .ledger tbody{padding:12px 0;border-bottom:1px solid var(--border)}
+  .ledger tbody:hover td{background:none}
+  .ledger tr:not(.notes){display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+  .ledger td,.ledger tr.has-notes td{position:static;min-width:0;padding:0;border:0;text-align:left;background:none}
+  .ledger td.instr,.ledger td.coupon,.ledger td.collat{min-width:0}
+  .ledger td:first-child,.ledger td:nth-child(3){order:-2}
+  .ledger td:nth-child(3){margin-left:auto}
+  .ledger td.instr{order:-1;flex-basis:100%}
+  .ledger td.collat{flex-basis:100%}
+  .ledger td:empty{display:none}
+  .ledger tr:not(.notes) td:last-child .det{display:inline;margin-left:6px}
+  .ledger tr:not(.notes) td:is(:nth-child(4),:nth-child(5),:nth-child(6),:nth-child(7),:nth-child(9),:nth-child(10),.asof)::before{
+    content:attr(data-aim-label);margin-right:5px;font:500 11px var(--aim-sans);color:var(--muted)}
+  .ledger tr.notes td:first-child{display:none}
+  .ledger tr.notes td{padding:8px 0 0}
+  .ledger tr.notes .det.aim-clamp:not(.aim-open){width:calc(100% - 84px)}
+}
+</style><style>#heroWall{position:relative;padding-bottom:18px}#heroWall::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style><style>:is(th,td):where(#view table > * > tr > :first-child:not([colspan])){position:sticky;left:0;z-index:1;background-color:var(--aim-card)}@supports (animation-timeline:scroll()){:where(#view table > * > tr > :first-child:not([colspan])){animation:aim-stick linear both;animation-timeline:scroll(nearest inline);animation-range:0 24px}}@keyframes aim-stick{to{box-shadow:6px 0 6px -4px rgba(23,33,43,.14)}}</style>
 </head>
 <body>
-<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html" aria-current="page">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header><main class="aim-content">
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html" aria-current="page">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-cash-flow-monitor.html">Cash flow</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header><main class="aim-content">
 <div class="wrap">
   <div class="eyebrow">AI Infra Monitor · Neocloud financing ledger</div>
   <h1 id="headline">Neocloud Financing Ledger</h1>
   <p class="lede">One row per instrument across the levered AI-infrastructure cohort — <b>what is owed, to whom, when, and on what terms</b>.
-    Cohort maturity wall, drawn vs committed, convert moneyness against today's price, and each issuer's net debt reconciled to the
-    <a href="neocloud-capacity-tracker.html">capacity tracker</a>'s net-debt field (<code>nd</code>) (disagreements are flagged, never overwritten).
     Research as of <b id="asOf">—</b>; quotes as of <b id="quoteAsOfLede">—</b>. Research note, not investment advice; no positions, no P&amp;L.</p>
 
   <div class="kpis" id="statbar"></div>
@@ -540,6 +565,6 @@ pf.addEventListener('click',flip);pf.addEventListener('keydown',e=>{if(e.key==='
 
 statBar();setView('ledger');
 </script>
-</main><footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div><div>© 2026 Eric Wyluda. All rights reserved. Quote with a citation; no scraping, bulk copying or AI training. <a href="terms.html">Terms of use</a></div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#view table:not(.ledger)"}], "tips": "#heroWall rect, #view svg rect, #view svg circle, .meter span[title]", "clamp": [{"sel": ".ledger tr.notes .det", "lines": 1, "all": "#yearChip"}, {"sel": ".ledger td.collat .det, .ledger td.coupon .cpn", "lines": 2, "all": "#yearChip"}]}</script><script src="assets/aim.js" defer></script>
+</main><footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div><div>© 2026 Eric Wyluda. All rights reserved. Quote with a citation; no scraping, bulk copying or AI training. <a href="terms.html">Terms of use</a></div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#view table:not(.ledger)"}], "tips": "#heroWall rect, #view svg rect, #view svg circle, .meter span[title]", "label": ".ledger", "clamp": [{"sel": ".ledger tr.notes .det", "lines": 1, "all": "#yearChip"}, {"sel": ".ledger td.collat .det, .ledger td.coupon .cpn", "lines": 2, "all": "#yearChip"}]}</script><script src="assets/aim.js" defer></script>
 </body>
 </html>

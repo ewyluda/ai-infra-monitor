@@ -107,26 +107,23 @@ tr.layer td{transition:background-color .12s var(--aim-ease)}
 tr.layer:hover td{background:var(--aim-row-hover)}
 .lname .sw{width:10px;height:10px;border-radius:50%}
 tr.members td{background:#F9FAFB}
-.members th{border-bottom:0}
+.members th{border-bottom:0;background:#F9FAFB} /* opaque like its row: the sticky Ticker head covers what scrolls under it */
 .members td{border-bottom:0}
 .tag{font:10.5px var(--aim-sans)}
 .lname{white-space:nowrap}
-</style><style>#chart{position:relative;padding-bottom:18px}#chart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style>
+</style><style>#chart{position:relative;padding-bottom:18px}#chart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style><style>:is(th,td):where(#board > * > tr > :nth-child(2), #board .members table > * > tr > :first-child){position:sticky;left:0;z-index:1;background-color:var(--aim-card)}@supports (animation-timeline:scroll()){:where(#board > * > tr > :nth-child(2), #board .members table > * > tr > :first-child){animation:aim-stick linear both;animation-timeline:scroll(nearest inline);animation-range:0 24px}}@keyframes aim-stick{to{box-shadow:6px 0 6px -4px rgba(23,33,43,.14)}}</style>
 </head>
 <body>
-<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html" aria-current="page">Layers</a></nav></div></header><main class="aim-content">
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-cash-flow-monitor.html">Cash flow</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html" aria-current="page">Layers</a></nav></div></header><main class="aim-content">
 <div class="wrap">
   <div class="crumb"><a href="index.html">AI Infra Monitor</a> · AI trade layers · YTD</div>
   <h1>How each layer of the AI trade has traded in 2026</h1>
-  <p class="lede">Ten layers of the AI buildout, from accelerators and chip equipment to the hyperscalers, neoclouds
-    and the data and software layer, each tracked as an <b>equal-weighted</b> and a <b>market-cap-weighted</b> index
-    and indexed to <b>100 at the 2025 year-end close</b>, so every line reads as year-to-date. SPY and QQQ sit on the
-    same chart for relative performance. Price returns as of <b id="asOf">—</b>.</p>
+  <p class="lede">Ten layers of the AI buildout, each tracked as an <b>equal-weighted</b> and a <b>market-cap-weighted</b> index
+    against SPY and QQQ. Price returns as of <b id="asOf">—</b>.</p>
   <div class="stats" id="stats"></div>
 
   <section class="card" aria-labelledby="chartTitle">
     <h2 id="chartTitle">Year-to-date, indexed to the 2025 year-end close</h2>
-    <p class="sub">Hover for every series on a date; click a legend chip to hide or show a line; hover a chip to isolate it.</p>
     <div class="controls">
       <div class="seg" role="group" aria-label="Weighting">
         <button type="button" data-w="ew" aria-pressed="true">Equal weight</button>
@@ -145,7 +142,7 @@ tr.members td{background:#F9FAFB}
 
   <section class="card" aria-labelledby="tableTitle">
     <h2 id="tableTitle">Layer scoreboard</h2>
-    <p class="sub">Ranked by the selected weighting. Relative columns are percentage points versus each benchmark's YTD price return. Click a layer for its constituents.</p>
+    <p class="sub">Relative columns are percentage points versus each benchmark's YTD price return.</p>
     <div class="scroll" tabindex="0" role="region" aria-label="Layer scoreboard table"><table id="board"></table></div>
   </section>
 

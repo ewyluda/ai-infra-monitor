@@ -9,7 +9,9 @@
    config.tips: selector for elements whose title (attribute or SVG <title>) shows in the shared tooltip.
    config.clamp: [{sel: long-text elements shown at a few lines, lines: N, all: element an Expand-all
    toggle follows; specs naming the same element share one toggle}]: nothing is removed; Show more
-   appears only where the text overflows. */
+   appears only where the text overflows.
+   config.label: selector for tables whose body cells take their column's head as data-aim-label, for a
+   page style that stacks each row's cells (rows with a spanning cell are not records and are skipped). */
 (() => {
   const cfg = JSON.parse(document.getElementById('aim-config')?.textContent || '{}');
   const NULLS = new Set(['', '—', '–', '-', 'n/a', 'na', 'n.a.', 'none']);
@@ -161,8 +163,18 @@
     });
   }
 
+  /* ---------- label: each body cell carries its column's head, for a stacked phone layout ---------- */
+  function label(table) {
+    const heads = headCells(table).map(th => th.textContent.replace(/[▲▼]/g, '').trim());
+    for (const body of table.tBodies) for (const row of body.rows) {
+      if ([...row.cells].some(cell => cell.colSpan > 1)) continue;
+      [...row.cells].forEach((cell, c) => { if (heads[c] && cell.dataset.aimLabel !== heads[c]) cell.dataset.aimLabel = heads[c]; });
+    }
+  }
+
   function scan() {
     clampScan();
+    if (cfg.label) document.querySelectorAll(cfg.label).forEach(label);
     (cfg.sort || []).forEach((spec, i) => document.querySelectorAll(spec.table).forEach(table => {
       const fresh = units(table, spec).flat().some(u => !u[0].dataset.aimI);
       const bare = headCells(table).some((th, c) => !(spec.skip || []).includes(c) && th.colSpan === 1 && th.textContent.trim() && !th.querySelector('.aim-sort'));

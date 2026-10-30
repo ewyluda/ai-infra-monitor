@@ -284,10 +284,10 @@ td{border-right:0;font-size:13px}
 /* links that read as buttons */
 .view-holdings,.fund-source{font:600 12px var(--aim-sans);letter-spacing:0;text-transform:none;color:var(--aim-sky);border-bottom-color:#B5C9EA}
 .risk b{font:600 11px var(--aim-sans);letter-spacing:.04em}
-</style><style>#chartWrap{position:relative;padding-bottom:18px}#chartWrap::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style>
+</style><style>#chartWrap{position:relative;padding-bottom:18px}#chartWrap::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style><style>:is(th,td):where(#compare table > * > tr > :first-child, .holdings-table > * > tr > :nth-child(2)){position:sticky;left:0;z-index:1;background-color:var(--aim-card)}@supports (animation-timeline:scroll()){:where(#compare table > * > tr > :first-child, .holdings-table > * > tr > :nth-child(2)){animation:aim-stick linear both;animation-timeline:scroll(nearest inline);animation-range:0 24px}}@keyframes aim-stick{to{box-shadow:6px 0 6px -4px rgba(23,33,43,.14)}}</style>
 </head>
 <body>
-<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-infrastructure-etf-atlas.html" aria-current="page">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html">Demand</a><a href="ai-cash-flow-monitor.html">Cash flow</a><a href="ai-infrastructure-etf-atlas.html" aria-current="page">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header>
 <div class="topbar"><div class="topbar-inner"><a class="home-link" href="index.html">AI Infra Monitor</a><span><strong>Atlas 01</strong> · AI infrastructure fund map</span></div></div>
 
 <div class="shell">
@@ -312,7 +312,6 @@ td{border-right:0;font-size:13px}
     <section class="section" id="performance">
       <div class="section-head">
         <div><div class="eyebrow">01 / Performance</div><h2>One starting line. Six paths.</h2></div>
-        <p class="section-intro">By default every series starts at 0% on <span id="commonStartIntro">the first close all six funds share</span>, so the returns compare like for like. Full 2026 rebases each fund at its first 2026 close: AIPO, GRID and DTCR from January, DRAM, LYTE and NCLD from their launches. Click a ticker to isolate a path.</p>
       </div>
       <div class="chart-shell">
         <div class="chart-toolbar">
@@ -345,7 +344,7 @@ td{border-right:0;font-size:13px}
     <section class="section" id="stack">
       <div class="section-head">
         <div><div class="eyebrow">03 / Exposure map</div><h2>From electrons to rent.</h2></div>
-        <p class="section-intro">The cleanest comparison is by economic sleeve. The sequence is not a literal supply-chain order; it shows what scarce resource or asset class each fund monetizes.</p>
+        <p class="section-intro">Not a literal supply-chain order: it shows what scarce resource or asset class each fund monetizes.</p>
       </div>
       <ol class="stack-map" id="stackMap"></ol>
       <p class="stack-note" id="stackNote"></p>
@@ -354,7 +353,6 @@ td{border-right:0;font-size:13px}
     <section class="section" id="funds">
       <div class="section-head">
         <div><div class="eyebrow">04 / Fund sleeves</div><h2>Each fund can break from the AI story.</h2></div>
-        <p class="section-intro">Each card pairs the mandate with fees, structure, launch date, leading exposures and the risk most likely to make the ticker behave differently from the AI narrative.</p>
       </div>
       <div class="fund-grid" id="fundGrid"></div>
     </section>
@@ -362,7 +360,6 @@ td{border-right:0;font-size:13px}
     <section class="section" id="holdings">
       <div class="section-head">
         <div><div class="eyebrow">05 / Holdings</div><h2 id="holdingsHeadline">See the names behind each sleeve.</h2></div>
-        <p class="section-intro">Switch funds to inspect up to the top 20 issuer-reported security positions, ranked by portfolio weight. When a concentrated fund owns fewer than 20 distinct securities, the table shows its entire reported security portfolio.</p>
       </div>
       <div class="holdings-browser">
         <div class="holdings-tabs" id="holdingsTabs" role="group" aria-label="Select a fund’s holdings"></div>
@@ -404,6 +401,7 @@ td{border-right:0;font-size:13px}
             <li>The default chart view rebases all six to 0% at the first close they share. The full-2026 view rebases each series at its first available 2026 close, so 2026 launches show since-inception price change.</li>
             <li>Distributions, taxes, bid/ask spreads and trading costs are excluded. Issuer-reported total returns will differ.</li>
             <li>Holdings change. Every exposure list carries its own as-of date and should be refreshed before making a trade.</li>
+            <li>Holdings tables show up to the top 20 issuer-reported security positions by portfolio weight; a fund with fewer than 20 distinct securities shows its entire reported portfolio.</li>
             <li>Cash, currencies and money-market funds are excluded. Roundhill rows sharing the same security identifier are consolidated; the displayed weights are summed.</li>
           </ul>
         </div>
@@ -560,7 +558,7 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
   const sparkValues = funds.flatMap(f => views.common.series[f.ticker].map(p => p.value)), sparkLo = Math.min(0, ...sparkValues), sparkHi = Math.max(0, ...sparkValues);
   const sparkY = v => (27 - (v - sparkLo) / (sparkHi - sparkLo) * 26).toFixed(1);
   funds.forEach(f => { const pts = views.common.series[f.ticker]; document.getElementById(`trend-${f.ticker}`).innerHTML = `<svg viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="100" y1="${sparkY(0)}" y2="${sparkY(0)}"/><polyline points="${pts.map((p,i) => `${(i / (pts.length - 1) * 100).toFixed(1)},${sparkY(p.value)}`).join(' ')}"/></svg>`; });
-  document.getElementById('stackNote').textContent = `Lines share one scale: price change since ${fmtDate(commonStart)}, the first close all six share. Each node links to its fund card.`;
+  document.getElementById('stackNote').textContent = `Price change since ${fmtDate(commonStart)}, one scale for all six.`;
 
   function chartBounds(){
     const values = funds.filter(f => active.has(f.ticker)).flatMap(f => seriesByTicker[f.ticker].map(p => p.value));
@@ -619,7 +617,6 @@ window.AI_INFRA_ETF_DATA={"schema_version":1,"title":"AI Infrastructure ETF Atla
     document.getElementById('chartSubtitle').textContent=view.subtitle;renderLegend();updateButtons();
   }
   windowToggle.addEventListener('click',e=>{const btn=e.target.closest('[data-view]');if(btn)setView(views[btn.dataset.view])});
-  document.getElementById('commonStartIntro').textContent=fmtDate(commonStart);
   document.getElementById('accessibleReturns').innerHTML=funds.map(f=>`<tr><td>${f.ticker}</td><td>${fmtPct(f.common_return_pct)}</td><td>${f.performance_label}</td><td>${fmtPct(f.performance_pct)}</td></tr>`).join('');
   function updateButtons(){
     document.querySelectorAll('[data-ticker]').forEach(el=>{const on=active.has(el.dataset.ticker);el.classList.toggle('off',!on);if(el.classList.contains('legend-item'))el.setAttribute('aria-pressed',String(on))});draw();

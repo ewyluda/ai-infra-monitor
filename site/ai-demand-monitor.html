@@ -132,6 +132,8 @@ h3{font-size:18px;font-weight:600;letter-spacing:-.015em}
 .ctl-lab{font:500 11px var(--aim-sans);letter-spacing:.04em;color:var(--muted)}
 td .d{font-size:11px}
 tr.group td{font:600 11px var(--aim-sans);letter-spacing:.08em;color:var(--muted);background:#F9FAFB}
+tr.group .grp-lab{position:sticky;left:10px} /* the label stays in view, at the cell's own padding, when the table scrolls */
+@media (max-width:720px){tr.group .grp-lab{left:7px}}
 .badge{font:600 10px var(--aim-sans);letter-spacing:.04em}
 .tk{font-weight:650}
 .tip{background:#fff;border-color:var(--border);border-radius:6px;box-shadow:var(--aim-shadow);padding:10px 12px;font-size:13px;color:var(--ink)}
@@ -142,34 +144,26 @@ tr.group td{font:600 11px var(--aim-sans);letter-spacing:.08em;color:var(--muted
 #labTable .nt{max-width:380px}
 .aim-all{margin:4px 8px 10px 0}
 #labTable td:first-child{white-space:nowrap}
-</style><style>#capexChart{position:relative;padding-bottom:18px}#capexChart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style>
+</style><style>#capexChart{position:relative;padding-bottom:18px}#capexChart::after{content:"AI Infra Monitor · ewyluda.github.io/ai-infra-monitor";position:absolute;right:10px;bottom:3px;font:600 10.5px/1 var(--aim-sans);color:var(--aim-muted);opacity:.8;pointer-events:none}</style><style>:is(th,td):where(#capexTable tr > :first-child:not([colspan]), #guideTable tr > :first-child, #contractedTable tr > :first-child, #labTable tr > :nth-child(2)){position:sticky;left:0;z-index:1;background-color:var(--aim-card)}@supports (animation-timeline:scroll()){:where(#capexTable tr > :first-child:not([colspan]), #guideTable tr > :first-child, #contractedTable tr > :first-child, #labTable tr > :nth-child(2)){animation:aim-stick linear both;animation-timeline:scroll(nearest inline);animation-range:0 24px}}@keyframes aim-stick{to{box-shadow:6px 0 6px -4px rgba(23,33,43,.14)}}</style>
 </head>
 <body>
-<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html" aria-current="page">Demand</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header><main class="aim-content">
+<header class="aim-bar"><div class="aim-bar-in"><a class="aim-brand" href="index.html"><span class="aim-mark">AIM</span><span>AI Infra Monitor</span></a><nav class="aim-nav" aria-label="Dashboards"><a href="neocloud-capacity-tracker.html">Capacity</a><a href="neocloud-financing-ledger.html">Financing</a><a href="ai-demand-monitor.html" aria-current="page">Demand</a><a href="ai-cash-flow-monitor.html">Cash flow</a><a href="ai-infrastructure-etf-atlas.html">ETF Atlas</a><a href="ai-trade-layer-index.html">Layers</a></nav></div></header><main class="aim-content">
 <div class="wrap">
   <div class="eyebrow">AI Infra Monitor · demand side</div>
   <h1 id="headline">Hyperscaler capex, contracted backlog, AI-lab commitments</h1>
-  <p class="lede"><b>Who is paying for the megawatts?</b> The <a href="neocloud-capacity-tracker.html">capacity tracker</a> counts sellable AI megawatts on the supply side. This page watches the
-    <b>demand that fills them</b>: what the five big buyers spend and guide, what the sellers have under contract, and what the frontier labs have committed to.
-    Capex rows as of <b id="capexAsOf">—</b>, contracted rows as of <b id="contractedAsOf">—</b>, lab register through <b id="labsAsOf">—</b>.
-    Every figure carries its disclosure date and source; <span class="badge sec">secondary</span> marks a size supported only by press reports. Research, not P&amp;L.</p>
+  <p class="lede"><b>Who is paying for the megawatts?</b> What the five big buyers spend and guide, what the sellers have under contract, and what the frontier labs have committed to.
+    Capex as of <b id="capexAsOf">—</b> · contracted as of <b id="contractedAsOf">—</b> · labs through <b id="labsAsOf">—</b> · <span class="badge sec">secondary</span> = size from press reports only.</p>
 
   <div class="statbar" id="statbar"></div>
 
   <h2>1 · Hyperscaler capex — reported vs guided</h2>
-  <p class="sub">Cash paid for property and equipment from each 10-Q/10-K (FMP cash-flow statement), one row per reported quarter since Q1 2025 plus the Q4 2024 base.
-    Each company's headline measure differs (Microsoft adds finance leases, Meta adds finance-lease principal, Amazon nets incentives, Oracle nets prepayments) — the
-    <b>basis toggle</b> shows those alongside. q/q and trailing-4Q are computed from the company's own series. CoreWeave and Nebius are shown as buyer context and excluded from cohort totals.</p>
 
   <div class="card">
     <div class="legend" id="chartLegend"></div>
     <div class="chart" id="capexChart"></div>
-    <p class="note">Stacked bars: quarterly cash capex, $B, by calendar quarter of the period end (Oracle's Feb/May/Aug/Nov quarters are placed in the calendar quarter they end in). Bar height is the five-company total; a faded bar is a quarter not all five have reported yet, so its height is not a cohort total. Hover a segment for the quarter's guide text.</p>
   </div>
 
-  <h3>Spend so far against the full-year guide</h3>
-  <p class="sub">Each company's latest stated full-year guide, against what it has spent so far in that year on the measure it guides on (its headline measure, so Microsoft and Meta include leases and the bars will not match the cash bars above).
-    The tick is where an even quarterly pace would be. The second line is what the rest of the year averages if the company lands on its midpoint — arithmetic on the company's own guide, not a forecast. One $ scale; rows are never added up.</p>
+  <h3>Spend so far against the full-year guide, on each company's headline measure</h3>
   <div class="card">
     <div class="legend"><span class="it"><span class="sw" style="background:var(--muted)"></span>spent to date, $B</span><span class="it"><span class="sw" style="background:var(--muted);opacity:.3"></span>guided full-year range</span><span class="it"><span class="sw" style="width:2px;height:14px;border-radius:0;background:var(--ink)"></span>even quarterly pace</span></div>
     <div id="guideProgress"></div>
@@ -185,25 +179,21 @@ tr.group td{font:600 11px var(--aim-sans);letter-spacing:.08em;color:var(--muted
       <button type="button" aria-pressed="false" data-basis="lease_principal">Finance-lease principal repaid</button>
     </div>
     <div class="scrollx" tabindex="0"><table id="capexTable"></table></div>
-    <p class="note">Hover a cell for the period end, disclosure date, call date and source notes; hover a company for its measurement basis. Historical comparisons can come from later filings. In headline mode each company row names the measure it shows. Blank = no value captured on that basis, not zero.</p>
+    <p class="note">Blank = not captured on that basis, not zero.</p>
     <div id="capexDefs"></div>
   </div>
 
-  <h3>Guide revision series — full-year capex guide as stated on each call</h3>
-  <p class="sub">Midpoint of the range given on each call, in call order. <b>Revision</b> and <b>vs actual</b> use stated full-year guides only: <code>~</code> marks an implied or carried figure shown in the path but not counted, <code>&gt;</code> a guide stated as an open-ended floor. Floors have no midpoint; exact comparisons involving a floor are shown as a dash.
-    Each company guides on its own basis (shown under the ticker), so rows are compared within a company, never added up. Guides without a dollar figure are listed in the quotes below. <span class="badge sec">secondary</span> marks a guide verified only through press coverage.</p>
+  <h3>Guide revisions — full-year capex guide midpoint, call by call</h3>
+  <p class="sub"><code>~</code> implied or carried, not counted · <code>&gt;</code> open-ended floor, no midpoint</p>
   <div class="card"><div class="scrollx" tabindex="0"><table id="guideTable"></table></div></div>
   <div id="guideQuotes"></div>
 
   <h2>2 · Contracted demand — RPO, backlog and the lab register</h2>
-  <p class="sub">Each seller's own metric, named verbatim: Microsoft commercial RPO and Oracle RPO (from the calls above), CoreWeave revenue backlog, Nebius RPO, IREN accounting RPO (then RPO + lease value),
-    Applied Digital / Core Scientific / Galaxy / TeraWulf lifetime contracted lease revenue. <b>These are not one comparable series</b> — perimeters change (IREN 2026Q2, TeraWulf each quarter) and lifetime contract revenue is not a remaining balance.
-    <span class="badge cf">carry</span> = an earlier disclosure carried forward, no new measurement.</p>
+  <p class="sub">Each seller's own metric, so <b>not one comparable series</b> · <span class="badge cf">carry</span> = an earlier figure carried forward</p>
   <div class="card"><div class="scrollx" tabindex="0"><table id="contractedTable"></table></div><div id="contractedDefs"></div></div>
 
   <h3>AI-lab compute commitments and funding — dated register</h3>
-  <p class="sub">Announcements by OpenAI, Anthropic, xAI and Meta (as a buyer of external compute): counterparty, type, size as disclosed, term and source. Programs, LOIs, guarantees, funding rounds and cumulative updates overlap —
-    <b>the sizes are deliberately not summed</b>, and the line under each $ figure says what it measures. Primary means the size comes from a company, lab or SEC source; secondary rows link the press report. Filter by lab or sourcing.</p>
+  <p class="sub">Sizes are <b>not summed</b>: programs, LOIs, guarantees and funding rounds overlap</p>
   <div class="card">
     <span class="ctl-lab">Lab</span><div class="seg" id="labSeg"><button type="button" class="on" aria-pressed="true" data-lab="all">All</button><button type="button" aria-pressed="false" data-lab="OpenAI">OpenAI</button><button type="button" aria-pressed="false" data-lab="Anthropic">Anthropic</button><button type="button" aria-pressed="false" data-lab="xAI">xAI</button><button type="button" aria-pressed="false" data-lab="Meta">Meta</button></div>
     <span class="ctl-lab">Sourcing</span><div class="seg" id="srcSeg"><button type="button" class="on" aria-pressed="true" data-src="all">All</button><button type="button" aria-pressed="false" data-src="primary">Primary only</button><button type="button" aria-pressed="false" data-src="secondary">Secondary only</button></div>
@@ -213,7 +203,26 @@ tr.group td{font:600 11px var(--aim-sans);letter-spacing:.08em;color:var(--muted
 
   <h2>3 · Cross-check — buyer spend vs contracted neocloud megawatts</h2>
   <div class="callout" id="crosscheck"></div>
-  <p class="note">The denominator uses the selected operators' tenant rows from the <a href="neocloud-capacity-tracker.html">published capacity dataset</a>, excluding explicitly inferred MW and rows without MW. CoreWeave's tenant overlap, the ORCL/SPCX benchmarks, BTBT's parent row and the AKAM context row are excluded. The constituent snapshot and exclusions are retained in the demand dataset. The numerator is the five hyperscalers' latest reported quarter annualised. This is a comparison of disclosures for scale; it is not a capacity price, a share-of-spend measure or a forecast.</p>
+
+  <h2>How it's measured</h2>
+  <p class="sub"><b>Capex.</b> Cash paid for property and equipment from each 10-Q/10-K (FMP cash-flow statement), one row per reported quarter since Q1 2025 plus the Q4 2024 base,
+    placed in the calendar quarter its period ends (so Oracle's Feb/May/Aug/Nov quarters land in the quarter they end in). Each company's headline measure differs (Microsoft adds finance leases,
+    Meta adds finance-lease principal, Amazon nets incentives, Oracle nets prepayments); the basis toggle shows those alongside. q/q and trailing-4Q are computed from the company's own series.
+    CoreWeave and Nebius are buyer context, outside cohort totals. Historical comparisons can come from later filings.</p>
+  <p class="sub"><b>Guides.</b> Progress compares each company's latest stated full-year guide with what it has spent so far that year on the measure it guides on, so Microsoft and Meta include leases
+    and will not match the cash bars. The tick is an even quarterly pace; the rest-of-year average is arithmetic on the company's own midpoint, not a forecast. Revisions use the midpoint of the
+    range given on each call; <b>revision</b> and <b>vs actual</b> count stated full-year guides only, and comparisons involving a floor show as a dash. Each company guides on its own basis, so
+    rows are compared within a company, never added up. Guides without a dollar figure are in the quotes; <span class="badge sec">secondary</span> marks one verified only through press coverage.</p>
+  <p class="sub"><b>Contracted demand.</b> Each seller's metric is named verbatim: Microsoft commercial RPO and Oracle RPO, CoreWeave revenue backlog, Nebius RPO, IREN accounting RPO
+    (then RPO + lease value), and Applied Digital / Core Scientific / Galaxy / TeraWulf lifetime contracted lease revenue. Perimeters change (IREN 2026Q2, TeraWulf each quarter), and lifetime
+    contract revenue is not a remaining balance.</p>
+  <p class="sub"><b>Lab register.</b> Announcements by OpenAI, Anthropic, xAI and Meta (as a buyer of external compute), with counterparty, type, size as disclosed, term and source; the line under
+    each $ figure says what it measures. Primary means the size comes from a company, lab or SEC source; secondary rows link the press report.</p>
+  <p class="sub"><b>Cross-check.</b> The denominator uses the selected operators' tenant rows from the <a href="neocloud-capacity-tracker.html">published capacity dataset</a>, excluding explicitly inferred MW
+    and rows without MW. CoreWeave's tenant overlap, the ORCL/SPCX benchmarks, BTBT's parent row and the AKAM context row are excluded. The numerator is the five hyperscalers' latest reported
+    quarter annualised. This is a comparison of disclosures for scale; it is not a capacity price, a share-of-spend measure or a forecast. Nor is it a link between the two: hyperscaler
+    payments to neoclouds are mostly service fees or leases, which sit outside cash capex; most capex is self-built capacity and chips; and the tenant MW includes non-hyperscaler tenants
+    (Fluidstack, AMD, AI labs).</p>
 
   <footer>
     Dataset <code id="asOfFoot">—</code> · capex, backlog and commitments come from company filings, earnings calls and releases.
@@ -295,7 +304,7 @@ $("capexAsOf").textContent=D.capex_as_of; $("contractedAsOf").textContent=D.cont
   const items=[
     ["gold",fmt(cohortTtm(),0),"Cohort trailing-4Q capex $B","five hyperscalers, latest four quarters each (cash P&E)"],
     ["",fmt(cohortRunRate(),0),"Cohort run-rate $B/yr",`latest quarter ×4, period-ends ${periodEndSpan()}`],
-    ["",`${raised} of ${lg.length}`,"Latest stated guide raised",lg.map(g=>`${g.t} ${g.fy} ${guideText(g,true)} (${g.move==null?g.move_note:snum(g.move)})`).join(" · ")+" — not summed: bases differ"],
+    ["",`${raised} of ${lg.length}`,"Latest stated guide raised",lg.filter(g=>g.move!=null&&g.move>0).map(g=>g.t).join(", ")||"none raised"],
     ["",cc.tenant_contracted_mw!=null?Math.round(cc.tenant_contracted_mw).toLocaleString():"—","Neocloud contracted MW (de-duped)",`tracker tenant MW, inferred estimates excluded; published ${(cc.source_published_at||"—").slice(0,10)}`],
     ["gold",ratio!=null?fmt(ratio,0):"—","$B run-rate per contracted GW","scale context from two disclosures — not a forecast"],
   ];
@@ -325,7 +334,7 @@ $("capexAsOf").textContent=D.capex_as_of; $("contractedAsOf").textContent=D.cont
     box.innerHTML=g+`</svg><div class="tip" id="tip"></div>`;
   }
   draw(); new ResizeObserver(draw).observe(box);
-  $("chartLegend").innerHTML=cos.map(c=>`<span class="it" data-t="${c.t}"><span class="sw" style="background:${COLOR[c.t]}"></span>${c.t} <span style="color:var(--faint)">${esc(c.name)}</span></span>`).join("")+`<span class="it" style="color:var(--faint)">labels = cohort total, $B</span>`;
+  $("chartLegend").innerHTML=cos.map(c=>`<span class="it" data-t="${c.t}"><span class="sw" style="background:${COLOR[c.t]}"></span>${c.t} <span style="color:var(--faint)">${esc(c.name)}</span></span>`).join("")+`<span class="it" style="color:var(--faint)">labels = cohort total, $B · faded = not all five reported yet</span>`;
   const pick=t=>{ box.classList.toggle("picking",!!t); box.querySelectorAll(".bar").forEach(b=>b.classList.toggle("picked",b.dataset.t===t)); };
   $("chartLegend").addEventListener("mouseover",e=>{ const it=e.target.closest("[data-t]"); pick(it?it.dataset.t:null); });
   $("chartLegend").addEventListener("mouseleave",()=>pick(null));
@@ -365,7 +374,7 @@ function renderCapexTable(){
   const qs=[...new Set(D.capex.companies.flatMap(c=>c.quarters.map(r=>r.q)))].sort();
   let h=`<thead><tr><th class="l">Company</th>${qs.map(q=>`<th>${q}</th>`).join("")}<th>Trailing 4Q</th><th>Run-rate</th></tr></thead><tbody>`;
   const groups=[["Hyperscalers (cohort)",c=>c.cohort==="hyperscaler"],["Neocloud buyers (context, excluded from cohort)",c=>c.cohort==="neocloud_buyer"]];
-  for(const [label,fn] of groups){ h+=`<tr class="group"><td colspan="${qs.length+3}">${label}</td></tr>`;
+  for(const [label,fn] of groups){ h+=`<tr class="group"><td colspan="${qs.length+3}"><span class="grp-lab">${label}</span></td></tr>`;
     for(const c of D.capex.companies.filter(fn)){ const byQ=Object.fromEntries(c.quarters.map(r=>[r.q,r])); const qoq=Object.fromEntries(qoqSeries(c).map(([q,v,d])=>[q,d]));
       h+=`<tr><td title="${esc(c.capex_basis)}" style="white-space:normal;min-width:180px;max-width:260px"><span class="dot" style="background:${COLOR[c.t]}"></span><span class="tk">${c.t}</span> <span style="color:var(--faint)">${esc(c.name)} · FY ${esc(c.fy_end)}</span>${BASIS==="headline"&&c.headline?`<span class="d">${esc(c.headline.label)}</span>`:""}</td>`;
       for(const q of qs){ const r=byQ[q]; if(!r){h+=`<td></td>`;continue;} const v=cellValue(c,r);
@@ -423,10 +432,9 @@ $("srcSeg").addEventListener("click",e=>{const b=e.target.closest("button"); if(
 (function cross(){
   const cc=D.capacity_crosscheck||{}; const rr=cohortRunRate(); const ratio=capexPerContractedGw();
   if(!cc.tenant_contracted_mw){ $("crosscheck").innerHTML="Capacity snapshot not yet synced — run <code>the refresh script sync</code>."; return; }
-  $("crosscheck").innerHTML=`Hyperscaler cohort run-rate <b>$${fmt(rr,0)}B/yr</b> (latest quarter ×4) against <b>${Math.round(cc.tenant_contracted_mw).toLocaleString()} MW</b> of de-duplicated contracted neocloud capacity from the tracker’s tenant rows
-    (${cc.tenants_counted} rows included; ${cc.tenants_undisclosed_mw} rows with MW undisclosed and ${cc.tenants_inferred_mw} inferred row totaling ${num(cc.inferred_mw_excluded,0)} MW excluded; <a href="${esc(cc.source)}">capacity snapshot</a> published ${esc(cc.source_published_at.slice(0,10))}, curated ${esc(cc.capacity_as_of)}) → <b>$${fmt(ratio,0)}B of annual reported buyer capex per contracted neocloud GW</b>.
-    De-duped tracker totals: operational ${Math.round(cc.op_mw).toLocaleString()} MW · under construction ${Math.round(cc.con_mw).toLocaleString()} MW · planned ${Math.round(cc.plan_mw).toLocaleString()} MW.
-    <span style="color:var(--muted)">Scale context, not a link between the two: hyperscaler payments to neoclouds are mostly service fees or leases, which sit outside cash capex; most capex is self-built capacity and chips; and the tenant MW includes non-hyperscaler tenants (Fluidstack, AMD, AI labs). Not a forecast.</span>`;
+  $("crosscheck").innerHTML=`Hyperscaler cohort run-rate <b>$${fmt(rr,0)}B/yr</b> (latest quarter ×4) against <b>${Math.round(cc.tenant_contracted_mw).toLocaleString()} MW</b> of contracted neocloud capacity
+    (<a href="${esc(cc.source)}">capacity snapshot</a> published ${esc(cc.source_published_at.slice(0,10))}, curated ${esc(cc.capacity_as_of)}) → <b>$${fmt(ratio,0)}B of annual reported buyer capex per contracted neocloud GW</b>.
+    <span style="color:var(--muted)">Scale context, not a link between the two; not a forecast.</span>`;
 })();
 </script>
 </main><footer class="aim-foot"><div class="aim-foot-in"><div><b>AI Infra Monitor</b> · built by <a href="https://github.com/ewyluda">Eric Wyluda</a> · <a href="https://github.com/ewyluda/ai-infra-monitor">source</a></div><div>Also by the author: <a href="https://macrogauge-cloudten.vercel.app/datacenter">MacroGauge</a> (data center cost indexes) · <a href="https://ewyluda.github.io/gpu-price-index/">GPU Price Index</a> (compute rental prices)</div><div>Research and analysis only, not investment advice. Market prices: FMP (equities) and Nasdaq (ETF history), shown with their quote dates.</div><div>© 2026 Eric Wyluda. All rights reserved. Quote with a citation; no scraping, bulk copying or AI training. <a href="terms.html">Terms of use</a></div></div></footer><script type="application/json" id="aim-config">{"sort": [{"table": "#capexTable", "group": "tr.group"}, {"table": "#labTable", "skip": [7, 8]}], "tips": "#capexTable [title], #contractedTable [title], #guideTable [title], .gp-track[title]", "clamp": [{"sel": "#labTable .nt", "lines": 2, "all": "#srcSeg"}]}</script><script src="assets/aim.js" defer></script>
