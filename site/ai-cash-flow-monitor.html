@@ -183,8 +183,9 @@ const bands=g=>{ const top=g.tickers.filter(t=>COLOR[t]); const rest=g.tickers.f
       `TTM through ${qLabel(lc.q)}, a year earlier ${share(lc.prior?lc.prior.capex/lc.prior.ocf:null)}`):''; }).join('');
 })();
 
-(function fcfChart(){
-  const W=560,H=300,M={l:46,r:8,t:10,b:26};
+// Both charts draw at their on-screen width (one viewBox unit per pixel), so axis text stays legible on a phone.
+function fcfChart(){
+  const W=Math.round(parseFloat(getComputedStyle($('fcfChart')).gridTemplateColumns))||560,H=300,M={l:46,r:8,t:10,b:26};
   const qs=quarterRange();
   const series=Object.fromEntries(D.groups.map(g=>[g.id,groupSeries(g)]));
   // stacked values per group, band and quarter; positives stack up from zero and negatives down
@@ -203,15 +204,15 @@ const bands=g=>{ const top=g.tickers.filter(t=>COLOR[t]); const rest=g.tickers.f
       return stacks[g.id][i].filter(x=>x.v).map(x=>`<rect x="${(M.l+i*bw+bw*.14).toFixed(1)}" y="${Y(Math.max(x.y0,x.y1)).toFixed(1)}" width="${(bw*.72).toFixed(1)}" height="${Math.max(Math.abs(Y(x.y0)-Y(x.y1))-.6,.4).toFixed(1)}" fill="${x.b.color}"${fade}><title>${esc(x.b.label)} · ${qLabel(q)} · TTM ${fB(x.v)}${s.reported<s.n?` · ${s.reported} of ${s.n} reported`:''}</title></rect>`).join(''); }).join('');
     const xl=qs.map((q,i)=>q[5]==='1'?`<text x="${M.l+i*bw+bw/2}" y="${H-8}" text-anchor="middle">${q.slice(0,4)}</text>`:'').join('');
     const legend=bands(g).map(b=>`<span><i class="sw" style="background:${b.color}"></i>${esc(b.label)}</span>`).join('')+
-      (series[g.id].some(s=>s.reported<s.n)?`<span class="muted">faded = still reporting</span>`:'');
+      (series[g.id].some(s=>s.reported<s.n)?`<span class="muted">faded = still reporting: ${series[g.id].filter(s=>s.reported<s.n).map(s=>`${qLabel(s.q)} has ${s.reported} of ${s.n}`).join(', ')}</span>`:'');  // a partial bar is short because members are missing
     return `<div class="panel"><h3>${esc(g.name)} <span class="muted">· ${g.tickers.length}</span></h3><div class="legend">${legend}</div>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(g.name)} trailing-twelve-month free cash flow by quarter, stacked by company">
       <g class="grid axis">${ticks}</g><g>${bars}</g><g class="axis">${xl}</g></svg></div>`;
   }).join('');
-})();
+}
 
-(function shareChart(){
-  const W=1140,H=240,M={l:46,r:90,t:10,b:26};
+function shareChart(){
+  const W=$('shareChart').clientWidth||1140,H=240,M={l:46,r:90,t:10,b:26};
   const lines=D.groups.map(g=>({g,pts:groupSeries(g).filter(s=>s.reported===s.n).map(s=>[s.q,s.capex/s.ocf])}));
   const qs=quarterRange(), hi=Math.ceil(Math.max(...lines.flatMap(l=>l.pts.map(p=>p[1])))*10+.5)/10;
   const X=q=>M.l+(qIndex(q)-qIndex(qs[0]))/(qs.length-1)*(W-M.l-M.r), Y=v=>M.t+(hi-v)/hi*(H-M.t-M.b);
@@ -222,7 +223,9 @@ const bands=g=>{ const top=g.tickers.filter(t=>COLOR[t]); const rest=g.tickers.f
     `<text class="endlab" x="${X(pts[pts.length-1][0])+8}" y="${Y(pts[pts.length-1][1])+4}" fill="${SHARE[g.id]}">${esc(g.name)} ${share(pts[pts.length-1][1])}</text>`:'').join('');
   $('shareLegend').innerHTML=D.groups.map(g=>`<span><i class="sw line" style="background:${SHARE[g.id]}"></i>${esc(g.name)}</span>`).join('');
   $('shareChart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Capex as a share of operating cash flow by quarter, Mag 7 and semis"><g class="grid axis">${ticks}</g>${paths}<g class="axis">${xl}</g></svg>`;
-})();
+}
+function charts(){ fcfChart(); shareChart(); }
+charts(); addEventListener('resize',charts);
 
 (function coTable(){
   const head=`<thead><tr><th>Company</th><th>Latest quarter</th><th class="num">Operating cash flow</th><th class="num">Capex</th><th class="num">Free cash flow</th><th class="num">FCF y/y</th><th class="num">Capex ÷ operating cash</th></tr></thead>`;

@@ -130,8 +130,8 @@ tr.members td{background:#F9FAFB}
         <button type="button" data-w="cw" aria-pressed="false">Market-cap weight</button>
       </div>
       <div class="seg" role="group" aria-label="Scale">
-        <button type="button" data-s="lin" aria-pressed="true">Linear</button>
-        <button type="button" data-s="log" aria-pressed="false">Log scale</button>
+        <button type="button" data-s="lin" aria-pressed="false">Linear</button>
+        <button type="button" data-s="log" aria-pressed="true">Log scale</button>
       </div>
       <button type="button" class="linkbtn" id="showAll">Show all</button>
       <button type="button" class="linkbtn" id="benchOnly">Benchmarks only</button>
@@ -198,7 +198,7 @@ const pp=v=>v==null?'—':(v>=0?'+':'')+(v*100).toFixed(1)+' pp';
 const tone=v=>v==null?'':(v>=0?'up':'down');
 const fmtDate=iso=>new Date(iso+'T00:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'});
 
-let weight='ew', scale='lin', hidden=new Set(), focus=null, openRow=null;
+let weight='ew', scale='log', hidden=new Set(), focus=null, openRow=null;
 const n=(D.dates||[]).length;
 let cursor=Math.max(0,n-1);  // the date the keyboard crosshair sits on
 const groups=(D.groups||[]).map((g,i)=>({...g, color:PALETTE[i%PALETTE.length]}));
@@ -243,7 +243,7 @@ function renderChart(){
   host.querySelectorAll('svg,.empty').forEach(e=>e.remove());
   if(!n){ host.insertAdjacentHTML('beforeend','<div class="empty">No price history in this edition.</div>'); return; }
   const W=Math.max(320,Math.round(host.clientWidth)), narrow=W<700;
-  const H=narrow?340:460, m={l:46,r:narrow?12:206,t:14,b:30}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const H=narrow?340:460, m={l:46,r:narrow?12:240,t:14,b:30}, iw=W-m.l-m.r, ih=H-m.t-m.b;
   const vis=seriesList().filter(s=>!hidden.has(s.key));
   // tv: index level -> plotted value (percent change on linear, log of the level on log scale)
   const tv=v=>scale==='log'?Math.log(v):v-100;
@@ -274,10 +274,9 @@ function renderChart(){
   for(let i=1;i<labs.length;i++) if(labs[i].y-labs[i-1].y<13) labs[i].y=labs[i-1].y+13;
   const over=labs.length?labs[labs.length-1].y-(m.t+ih+4):0; if(over>0) labs.forEach(l=>l.y-=over);
   for(const l of (narrow?[]:labs)){
-    const name=l.s.label.length>22?l.s.label.slice(0,21)+'…':l.s.label;
     const dim=focus&&focus!==l.s.key?' dim':'';
     g+=`<line class="endlab${dim}" x1="${m.l+iw+6}" x2="${m.l+iw+18}" y1="${l.y}" y2="${l.y}" stroke="${l.s.color}" stroke-width="2.5"${l.s.dash?` stroke-dasharray="${l.s.dash}"`:''}/>`+
-       `<text class="endlab${dim}" x="${m.l+iw+22}" y="${l.y+4}" fill="#17212B"><tspan class="p">${(l.v>=0?'+':'')+l.v.toFixed(1)}%</tspan> ${esc(name)}</text>`;
+       `<text class="endlab${dim}" x="${m.l+iw+22}" y="${l.y+4}" fill="#17212B"><tspan class="p">${(l.v>=0?'+':'')+l.v.toFixed(1)}%</tspan> ${esc(l.s.label)}</text>`;
   }
   g+=`<line class="xhair" id="xhair" x1="0" x2="0" y1="${m.t}" y2="${m.t+ih}" visibility="hidden"/>`;
   host.insertAdjacentHTML('beforeend',`<svg viewBox="0 0 ${W} ${H}" role="img" tabindex="0" aria-label="Year-to-date index of each AI trade layer and of SPY and QQQ, indexed to 100 at the 2025 year-end close. Left and right arrow keys step through the dates.">${g}<rect id="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`);

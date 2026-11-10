@@ -876,7 +876,7 @@ function buildTimeline(rs) {
 function renderTimeline(panel, rs) {
   // Unfiltered cohorts render the published timeline; a search rebuilds it from the rows' events.
   const tl = state.q.trim() ? buildTimeline(rs) : ((DATA.timeline || {})[state.cohort] || buildTimeline(rs));
-  const W = 1000, H = 300, M = { l: 64, r: 16, t: 26, b: 36 }, BAR = 30, STEPS = [100, 250, 500, 1000, 2000, 2500, 5000, 10000];
+  const W = 1000, H = 300, M = { l: 64, r: 16, t: 26, b: 48 }, BAR = 30, STEPS = [100, 250, 500, 1000, 2000, 2500, 5000, 10000];
   const pts = tl.points, dated = pts.filter(p => p.add_mw > 0);
   if (!dated.length) { panel.innerHTML = '<p class="cap-empty">No dated construction sites in this cohort. Undated sites are left off the timeline rather than guessed.</p>'; return; }
   const added = dated.reduce((s, p) => s + p.add_mw, 0), peak = dated.reduce((a, b) => b.add_mw > a.add_mw ? b : a);
@@ -889,7 +889,7 @@ function renderTimeline(panel, rs) {
   const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" style="min-width:640px" aria-label="MW energizing per quarter: ${dated.map(p => `${qLabel(p.q)} ${fmtMW(p.add_mw)}`).join(', ')}.">
     ${Array.from({ length: Math.round(ymax / step) + 1 }, (_, i) => i * step).map(v => `<g><line x1="${M.l}" y1="${Y(v)}" x2="${W - M.r}" y2="${Y(v)}" class="${v === 0 ? 'cap-axis' : 'cap-grid'}"/><text x="${M.l - 8}" y="${Y(v) + 4}" text-anchor="end" class="cap-tick">${v === 0 ? '0' : fmtMW(v)}</text></g>`).join('')}
     ${pts.map((p, i) => `<g>${p.add_mw > 0 ? `<path data-q="${p.q}" d="${column(X(i) - BAR / 2, Y(p.add_mw), BAR, Y(0))}" class="cap-col"/>${p.add_mw >= maxAdd * 0.15 ? `<text x="${X(i)}" y="${Y(p.add_mw) - 7}" text-anchor="middle" class="cap-col-value">${fmtMW(p.add_mw)}</text>` : ''}` : ''}
-      <text x="${X(i)}" y="${H - M.b + 20}" text-anchor="middle" class="cap-tick" data-ql="${p.q}">${qLabel(p.q)}</text>
+      <text x="${X(i)}" y="${H - M.b + 18}" text-anchor="middle" class="cap-tick" data-ql="${p.q}">${p.q.slice(4)}${i === 0 || p.q.endsWith('Q1') ? `<tspan x="${X(i)}" dy="15">${p.q.slice(0, 4)}</tspan>` : ''}</text>
       <rect x="${X(i) - slot / 2}" y="${M.t}" width="${slot}" height="${H - M.t - M.b}" fill="transparent" ${p.add_mw > 0 ? `role="img" tabindex="0" data-tip="${p.q}" aria-label="${qLabel(p.q)}: ${fmtMW(p.add_mw)}"` : ''}/></g>`).join('')}
   </svg>`;
   panel.innerHTML = `<div class="cap-viz">

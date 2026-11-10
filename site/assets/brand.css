@@ -48,10 +48,8 @@
 .aim-kicker { color: var(--aim-muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; }
 .aim-main h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; letter-spacing: -.02em; margin: 0 0 14px; }
 .aim-lede { color: var(--aim-muted); max-width: 760px; font-size: 17px; margin: 0 0 30px; }
-.aim-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
-.aim-grid > .aim-card { grid-column: span 2; }
-.aim-grid > .aim-card:nth-child(n+4) { grid-column: span 3; }
-@media (max-width: 1079px) { .aim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .aim-grid > .aim-card, .aim-grid > .aim-card:nth-child(n+4) { grid-column: span 1; } .aim-grid > .aim-card:last-child { grid-column: 1 / -1; } }
+.aim-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 1079px) { .aim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 639px) { .aim-grid { grid-template-columns: minmax(0, 1fr); } }
 .aim-card { display: flex; flex-direction: column; gap: 8px; background: var(--aim-card); border: 1px solid var(--aim-border); border-radius: 11px; padding: 18px; color: inherit; text-decoration: none;
   transition: border-color .15s var(--aim-ease), box-shadow .2s var(--aim-ease); }

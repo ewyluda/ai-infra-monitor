@@ -77,6 +77,9 @@
   /* ledger table: headers and tags wrap and long tokens (URLs) in notes break, so all 13 columns fit the card;
      each instrument is a tbody whose notes run on a full-width row under its columns */
   .ledger th{white-space:normal}.ledger th,.ledger td{padding-left:6px;padding-right:6px}
+  /* While the ledger fits its card (.fits, set by pinHeads) the wrapper stops scrolling sideways, so the column heads can pin under the controls. */
+  @media (min-width:640px){.ledger-wrap.fits{overflow-x:visible!important}
+    .ledger-wrap.fits thead th{position:sticky;top:var(--ctl-h,0px);z-index:2;background:var(--bg);box-shadow:inset 0 -1px 0 var(--border)}}
   .ledger .det{overflow-wrap:anywhere}.ledger .chip{display:inline-block;white-space:normal}
   .ledger .instr{min-width:180px}.ledger .coupon{min-width:120px}.ledger .collat{min-width:170px}.ledger .asof{white-space:nowrap}
   .ledger tr.has-notes td{border-bottom:0;padding-bottom:2px}.ledger tr.notes td{padding-top:0}.ledger tr.notes .det{max-width:none}
@@ -458,6 +461,10 @@ function setLegend(v){
   else if(v==='money')L.innerHTML=`<span class="it"><span class="st ITM">ITM</span> price ≥ maturity break-even</span><span class="it"><span class="st near">near</span> within 20% below</span><span class="it"><span class="st OTM">OTM</span> &gt;20% below</span>`;
   else L.innerHTML='';
 }
+// A wrapper that scrolls sideways cannot hold a sticky head, so the heads pin only while the table fits; --ctl-h is the controls' height as they wrap.
+function pinHeads(){const w=document.querySelector('.ledger-wrap');if(!w)return;w.classList.remove('fits');w.classList.toggle('fits',w.scrollWidth<=w.clientWidth);
+  document.documentElement.style.setProperty('--ctl-h',document.getElementById('controls').offsetHeight+'px');}
+addEventListener('resize',pinHeads);
 function render(){const V=document.getElementById('view');({ledger:renderLedger,wall:renderWall,commit:renderCommit,money:renderMoney,recon:renderRecon})[view](V);}
 
 function renderLedger(V){
@@ -481,7 +488,8 @@ function renderLedger(V){
     ${note?`<tr class="notes"><td></td><td colspan="${cols.length-1}"><div class="det">${note}</div></td></tr>`:''}</tbody>`;}).join('');
   const tot=totals(rows,proForma);
   V.innerHTML=`<div class="card"><div class="sub">${rows.length} instruments · $${fB(tot.debt)}B financial debt in view${proForma?'':' at the balance date'} · ${rows.filter(r=>r.provenance==='secondary').length} secondary-only${year?` · final maturity in ${year}. The wall's ${year} bar differs: it places amortization in the year it is due`:''}</div>
-    <div style="overflow-x:auto" tabindex="0"><table class="ledger"><thead><tr>${th}</tr></thead>${tr}</table></div></div>`;
+    <div class="ledger-wrap" style="overflow-x:auto" tabindex="0"><table class="ledger"><thead><tr>${th}</tr></thead>${tr}</table></div></div>`;
+  pinHeads();
   V.querySelectorAll('th').forEach(h=>h.addEventListener('click',()=>{const k=h.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=h.classList.contains('num')?-1:1;}render();}));  // amounts: largest first
 }
 
