@@ -1,19 +1,19 @@
 {
  "name": "AI Infra Monitor",
  "prices": "keep",
- "as_of": "2026-11-06",
+ "as_of": "2026-11-16",
  "pages": [
   {
    "file": "neocloud-capacity-tracker.html",
    "title": "AI Capacity Tracker",
-   "as_of": "2026-11-06",
+   "as_of": "2026-11-16",
    "market_data": "FMP (via MacroGauge)",
-   "source_published_at": "2026-11-12T13:49:06Z"
+   "source_published_at": "2026-11-18T13:49:12Z"
   },
   {
    "file": "neocloud-financing-ledger.html",
    "title": "Neocloud Financing Ledger",
-   "as_of": "2026-10-25",
+   "as_of": "2026-11-12",
    "market_data": "FMP (via the capacity tracker)"
   },
   {
