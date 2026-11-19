@@ -92,18 +92,20 @@ check(row('CORZ', '7.75% Senior Secured Notes').get('schedule') == [['2029', 189
       'CORZ secured-note schedule')
 
 # F05: one reporting basis per view.
-equal(A['totals_bd']['debt'], 92548.343, 'Balance-date financial debt', 1e-3)
+equal(A['totals_bd']['debt'], 116504.017, 'Balance-date financial debt (September 30 roll)', 1e-3)
 
 # F06: a partial selection does not inject an issuer's whole ladder.
-equal(wall_total(A['magnetar']), 189.0, 'Magnetar search wall')
+equal(wall_total(A['magnetar']), 195.0, 'Magnetar search wall')
 check(set(A['magnetar']) == {'2029'}, 'Magnetar sits at its own maturity only')
 
 # F07 / F09: WhiteFiber repayments and non-revolving availability; Riot letters of credit.
-equal(row('WYFI', 'B. Riley Facility')['drawn_m'], 0.0, 'B. Riley note repaid 2026-08-24')
-equal(row('WYFI', 'Delayed Draw Term Loan')['drawn_m'], 30.0, 'Bit Digital DDTL after the 2026-09-23 repayment')
-check(row('WYFI', 'Delayed Draw Term Loan')['available_m'] <= 20.0, 'Non-revolving DDTL availability')
+check(not [r for r in rows if r['t'] == 'WYFI' and 'B. Riley' in r['name']], 'B. Riley note repaid 2026-08-24, before the balance date')
+ddtl = row('WYFI', 'Delayed Draw Term Loan')
+equal(ddtl['drawn_bd_m'], 30.0, 'Bit Digital DDTL at 2026-09-30, after the 2026-09-23 repayment')
+equal(ddtl['drawn_m'], 100.0, 'Bit Digital DDTL pro forma, after the 2026-10-27 $70M advance')
+check((ddtl['available_m'] or 0) <= ddtl['committed_m'] - ddtl['drawn_m'] + 1e-9, 'Non-revolving DDTL availability')
 equal(row('RIOT', '$50 Million Revolving')['available_m'], 0.557, 'Riot revolver after letters of credit')
-check(sum(o['available'] for o in A['com'].values()) <= 15390.667 + 1e-6, 'Available undrawn bound')
+check(sum(o['available'] for o in A['com'].values()) <= 10966.467 + 1e-6, 'Available undrawn bound')
 
 # F08: Bitdeer September asset-loan balance; bitcoin loan stays at its last valued balance.
 equal(row('BTDR', 'BIT Assets Collateralized Loan')['drawn_m'], 423.3, 'Bitdeer asset loan at 2026-09-29')
@@ -111,11 +113,11 @@ equal(row('BTDR', 'BIT Bitcoin Loan')['drawn_m'], 144.6, 'Bitdeer bitcoin loan a
 
 # F10 / F11 / F01: cash scopes and bridges.
 recon = {r['t']: r for r in A['recon']}
-equal(recon['BTBT']['pf_nd'], 172.501, 'Bit Digital parent net debt on parent cash', 1e-3)
-equal(cos['CIFR']['cash_m'], 831.829, 'Cipher unrestricted cash')
+equal(recon['BTBT']['pf_nd'], 245.074, 'Bit Digital parent net debt on parent cash', 1e-3)
+equal(cos['CIFR']['cash_m'], 656.0, 'Cipher unrestricted cash')
 check('net cash by' not in cos['CIFR']['reconciliation_note'], 'Cipher narrative does not double-count restricted cash')
 bridge = {(t, p['amount_m']) for t in ('BTDR', 'GLXY', 'MARA') for p in cos[t]['pro_forma_cash']}
-check({('BTDR', 58.0), ('GLXY', -25.4), ('MARA', -100.0)} <= bridge, 'Disclosed post-quarter cash movements')
+check({('BTDR', 58.0), ('GLXY', -55.6), ('MARA', 1100.0), ('MARA', -750.0)} <= bridge, 'Disclosed post-quarter cash movements')
 
 # F12: no maturity is guessed from text that names more than one year.
 for r in rows:
@@ -142,7 +144,7 @@ check(not row('CRWV', 'Operating lease liabilities')['nd_include'], 'CoreWeave n
 
 # L01 / L02 / L03: puts, accretion and settlement beside the wall.
 equal(sum(p['amount_m'] for p in A['puts']), 989.1, 'Holder puts exercisable through 2027 (stored rounding)', 1e-6)
-equal(A['accretion'], 2302.295, 'Accretion above stored principal', 1e-3)
+equal(A['accretion'], 2301.25, 'Accretion above stored principal', 1e-3)
 settle = {m['name']: m['settlement'] for m in A['moneyness'] if m['t'] == 'WULF'}
 check(settle['2.75% convertible senior notes due 2030'] == settle['1.00% convertible senior notes due 2031'] == 'cash principal',
       'TeraWulf cash-principal settlement')
